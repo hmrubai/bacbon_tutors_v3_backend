@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Traits\HelperTrait;
 use App\Models\Menu;
 use App\Models\User;
+use App\Models\OtpCodeVerification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -36,6 +37,26 @@ class AuthService
         } catch (\Throwable $th) {
             throw $th;
         }
+    }
+
+    public function sendOtp($request)
+    {
+        $user = User::where('username', $request->email_or_username)->first();
+        if (!$user) {
+            throw new \Exception('User not found');
+        }
+
+        $otp = mt_rand(1000, 9999);
+        OtpCodeVerification::create([
+            'user_id' => $user->id,
+            'otp_code' => $otp,
+            'expired_at' => now()->addMinutes(5),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        return true;
+
+        //$this->sendSms($request->number, "Your OTP is: ". $otp);
     }
 
     public function login($request)

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 // Open Routes
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+Route::post('send-otp', [AuthController::class, 'sendOtp'])->middleware('throttle:5,1');
 
 // Protected Routes
 Route::group(['middleware' => ['auth:api']], function () {
