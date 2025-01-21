@@ -1,4 +1,6 @@
-## Laravel 11 API Starter Kit with JWT Auth, Role, Permission & User Management
+## BacBon Tutors Backend V3
+
+BacBon Tutors Backend Application is built with Laravel, providing robust and scalable solutions for managing home tuition services. It streamlines operations, enhances student-teacher interactions, and supports efficient data handling to ensure a seamless tutoring experience.
 
 ## Features
 - JWT Authentication
@@ -24,16 +26,8 @@
 11. Swagger API Documentation: `http://localhost:8000/swagger/documentation`
 
 
+## Contributor
 
-## About Me
-- **Foysal Ahmmad Arfin**
-- **Software Engineer (PHP, Python, Laravel, Django)**
-- **Email:af.arfinfoysal@gmail.com**
+- **[Hosne Mobarak Rubai](https://github.com/hmrubai/)**
+- **[Foysal Ahmmad Arfin](https://github.com/arfin-foysal/)**
 
-
-## Follow Me on Social Media 
-- **[Linkedin](https://www.linkedin.com/in/arfinfoysal/)**
-- **[Github](https://github.com/arfin-foysal/)**
-
-
-## ========Thank You========
