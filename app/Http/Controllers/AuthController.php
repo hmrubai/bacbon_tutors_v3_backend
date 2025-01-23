@@ -23,6 +23,15 @@ class AuthController extends Controller
 
     }
 
+    public function checkUser(LoginRequest $request){
+        try {
+            $data = $this->authService->checkUser($request);
+            return $this->successResponse($data, 'OTP sent successfully', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->errorResponse([], $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     // Register API - POST
 
     public function register(RegistrationRequest $request)

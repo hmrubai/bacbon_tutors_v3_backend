@@ -22,18 +22,19 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email_or_username' => [
-                'required',
-                function ($attribute, $value, $fail) {
-                    $isEmail = filter_var($value, FILTER_VALIDATE_EMAIL);
-                    $column = $isEmail ? 'email' : 'username';
+            // 'email_or_username' => [
+            //     'required',
+            //     function ($attribute, $value, $fail) {
+            //         $isEmail = filter_var($value, FILTER_VALIDATE_EMAIL);
+            //         $column = $isEmail ? 'email' : 'username';
 
-                    if (! \App\Models\User::where($column, $value)->exists()) {
-                        $fail("The provided $column does not exist.");
-                    }
-                },
-            ],
-            'password' => 'required',
+            //         if (! \App\Models\User::where($column, $value)->exists()) {
+            //             $fail("The provided $column does not exist.");
+            //         }
+            //     },
+            // ],
+            'email_or_username' => 'required',
+            'user_type' => 'required',
         ];
     }
 }

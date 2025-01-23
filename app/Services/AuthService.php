@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Traits\HelperTrait;
 use App\Models\Menu;
 use App\Models\User;
+use Illuminate\Http\Response;
 use App\Models\OtpCodeVerification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -16,6 +17,60 @@ class AuthService
     public function __construct()
     {
         //
+    }
+
+    public function checkUser($request)
+    {
+        $user = User::where(function ($query) use ($request) {
+                $query->where('email', $request->email_or_username)
+                ->orWhere('username', $request->email_or_username);
+            })
+            ->where('user_type', $request->user_type)
+            ->first();
+
+        $request_type = $this->identifyInputType($request->email_or_username); 
+        
+        if (!$user) {
+            if($request_type == 'email'){
+                $user = User::create([
+                    'email' => $request->email_or_username,
+                    'user_type' => $request->user_type ?? "Student",
+                    'is_active' => 1,
+                ]);
+            }elseif($request_type == 'phone'){  
+                $user = User::create([
+                    'username' => $request->email_or_username,
+                    'primary_number' => $request->email_or_username,
+                    'user_type' => $request->user_type ?? "Student",
+                    'is_active' => 1,
+                ]);
+            }else{
+                throw new \Exception('Enter Valid Phone/Email!');
+            }
+        }
+
+        $otp = mt_rand(1000, 9999);
+        OtpCodeVerification::create([
+            'user_id' => $user->id,
+            'otp_code' => $otp,
+            'expired_at' => now()->addMinutes(5),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        return true;
+
+        //$this->sendSms($request->number, "Your OTP is: ". $otp);
+    }
+
+    public function identifyInputType($email_or_phone)
+    {
+        if (filter_var($email_or_phone, FILTER_VALIDATE_EMAIL)) {
+            return "email";
+        } elseif (preg_match('/^[0-9]{10,15}$/', $email_or_phone)) {
+            return "phone";
+        } else {
+            return "unknown";
+        }
     }
 
     public function register($request)
