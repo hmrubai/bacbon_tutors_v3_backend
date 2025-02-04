@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Route;
 // })->middleware('auth:sanctum');
 
 // Open Routes
-Route::post('register', [AuthController::class, 'register']);
-Route::post('check-user', [AuthController::class, 'checkUser']);
-Route::post('login', [AuthController::class, 'login']);
+// Route::post('register', [AuthController::class, 'register']);
+Route::post('verify-login', [AuthController::class, 'checkOrCreateUser']);
+// Route::post('login', [AuthController::class, 'login']);
 Route::post('send-otp', [AuthController::class, 'sendOtp'])->middleware('throttle:5,1');
 
 // Protected Routes

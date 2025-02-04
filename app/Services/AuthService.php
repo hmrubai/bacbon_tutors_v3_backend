@@ -62,6 +62,24 @@ class AuthService
         //$this->sendSms($request->number, "Your OTP is: ". $otp);
     }
 
+    public function verifyOtpForLogin($request){
+        $user = User::where(function ($query) use ($request) {
+            $query->where('email', $request->email_or_username)
+            ->orWhere('username', $request->email_or_username);
+        })
+        ->where('user_type', $request->user_type)
+        ->first();
+        
+        if (!$user) {
+            throw new \Exception('User not found.');
+        }
+
+        $verification = OtpCodeVerification::where('user_id', $user->id)->where('otp_code', $request->verification_code)->first();
+        if (!$verification) {
+            throw new \Exception('Invalid OTP');
+        }
+    }
+
     public function identifyInputType($email_or_phone)
     {
         if (filter_var($email_or_phone, FILTER_VALIDATE_EMAIL)) {

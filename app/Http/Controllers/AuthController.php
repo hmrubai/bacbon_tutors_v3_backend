@@ -23,10 +23,19 @@ class AuthController extends Controller
 
     }
 
-    public function checkUser(LoginRequest $request){
+    public function checkOrCreateUser(LoginRequest $request){
         try {
             $data = $this->authService->checkUser($request);
             return $this->successResponse($data, 'OTP sent successfully', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->errorResponse([], $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function verifyAndLogin(LoginRequest $request){
+        try {
+            $data = $this->authService->verifyOtpForLogin($request);
+            return $this->successResponse($data, 'User logged in successfully', Response::HTTP_OK);
         } catch (\Throwable $th) {
             return $this->errorResponse([], $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
