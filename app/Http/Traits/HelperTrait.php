@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
+
+use App\Mail\GeneralEmail;
+use Illuminate\Support\Facades\Mail;
 
 trait HelperTrait
 {
@@ -127,13 +132,6 @@ trait HelperTrait
         }
     }
 
-    /**
-     * Create an Unauthorize JSON response.
-     *
-     * @param  $fullRequest  (provide full request Ex: $request)
-     * @param  $fileName  (provide file name Ex: $request->image)
-     * @param  $destination  (provide destination folder name Ex:'images')
-     */
     protected function fileUpload($request, $fileName, $destination)
     {
         if ($request->hasFile($fileName)) {
@@ -169,6 +167,7 @@ trait HelperTrait
 
         return null;
     }
+
     protected function ftpFileUpload($fullRequest, $fileName, $destination)
     {
         if ($fullRequest->hasFile($fileName)) {
@@ -184,27 +183,11 @@ trait HelperTrait
     
             return "ftp/{$file_url}";
         }
-    
         return null;
     }
     
     
     // Upload and Replace file
-
-    /**
-     * Create an Unauthorize JSON response.
-     *
-     * @param  $fullRequest  (provide full request Ex: $request)
-     * @param  $fileName  (provide file name Ex: $request->image)
-     * @param  $destination  (provide destination folder name Ex:'images')
-     * @param  string  $oldFile  (provide old file name if you want to delete old file Ex: $userData->old_image)
-     */
-
-    /**
-     * Create an Unauthorize JSON response.
-     *
-     * @param  $file  (provide file name Ex: $request->image)
-     */
     protected function fileUploadAndUpdate($request, $fileName, $destination, $oldFile = null)
     {
         if ($request->hasFile($fileName)) {
@@ -282,7 +265,6 @@ trait HelperTrait
     }
 
     // Delete File
-
     protected function deleteFile($file)
     {
         $filePath = public_path('uploads/'.trim($file, '/'));
@@ -315,6 +297,23 @@ trait HelperTrait
             Storage::delete($file_path);
         }
 
+        return true;
+    }
+
+    public function sendSms($phone, $message)
+    {
+        try {
+            $url = "https://api.mobireach.com.bd/SendTextMessage?Username=bacbon1&Password=BBSft@2024&From=8801877715110&To=". $phone. "&Message=" . $message;
+            return $response = Http::get($url);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function sendEmail($details, $email = null)
+    {
+        Mail::to($email)->send(new GeneralEmail($details));
         return true;
     }
 }
