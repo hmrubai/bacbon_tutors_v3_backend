@@ -42,7 +42,7 @@ class AuthService
                     'user_type' => $user_type ?? "Student",
                     'is_active' => 1,
                 ]);
-                $mail_body = ['subject' => "Verification Code", 'title' => "Verification Code", 'body' => $message];
+                $mail_body = ['name' => $user->name ?? "Concern", 'subject' => "Verification Code", 'title' => "Verification Code", 'body' => $message];
                 $this->sendEmail($mail_body, $request->email_or_username);
             }elseif($request_type == 'phone'){  
                 $user = User::create([
@@ -61,7 +61,7 @@ class AuthService
                 if($user->email!= $request->email_or_username){
                     throw new \Exception('Invalid Email!');
                 }else{
-                    $mail_body = ['subject' => "Verification Code", 'title' => "Verification Code", 'body' => $message];
+                    $mail_body = ['name' => $user->name ?? "Concern", 'subject' => "Verification Code", 'title' => "Verification Code", 'body' => $message];
                     $this->sendEmail($mail_body, $request->email_or_username);
                 }
             }elseif($request_type == 'phone'){  
