@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
-use App\Http\Traits\HelperTrait;
+use Carbon\Carbon;
 use App\Models\Menu;
 use App\Models\User;
 use Illuminate\Http\Response;
+use App\Http\Traits\HelperTrait;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\OtpCodeVerification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -95,10 +97,42 @@ class AuthService
             throw new \Exception('User not found.');
         }
 
-        $verification = OtpCodeVerification::where('user_id', $user->id)->where('otp_code', $request->verification_code)->first();
-        if (!$verification) {
-            throw new \Exception('Invalid OTP');
+        // Ensure user_type matches
+        if ($user->user_type !== $request->user_type) {
+            return response()->json(['message' => 'User type mismatch'], 400);
         }
+
+        $otpRecord = OtpCodeVerification::where('otp_code', $request->verification_code)->where('user_id', $user->id)
+            ->where('expired_at', '>', Carbon::now()->utc())
+            ->latest()->first();
+
+        if (!$otpRecord) {
+            return response()->json(['message' => 'Invalid or expired OTP'], 400);
+        }
+
+        // Generate JWT token
+        $token = Auth::guard('api')->login($user);
+        // Delete OTP after successful login
+        $otpRecord->delete();
+
+        $user = User::where('id', $user->id)->first();
+        $role = $user->roles()->first()->name ?? null;
+        $permissions = $user->getAllPermissions()->pluck('name');
+        $extraPermissions = $user->getDirectPermissions()->pluck('name');
+        $rolePermissions = $user->getPermissionsViaRoles()->pluck('name');
+        $expiresIn = auth()->factory()->getTTL() * 60;
+
+        return [
+            'token_type' => 'bearer',
+            'token' => $token,
+            'expires_in' => $expiresIn,
+            'role' => $role,
+            'permissions' => $permissions,
+            'role_permissions' => $rolePermissions,
+            'extra_permissions' => $extraPermissions,
+            'user' => auth()->user(),
+        ];
+
     }
 
     public function identifyInputType($email_or_phone)
@@ -171,7 +205,6 @@ class AuthService
                 throw new \Exception('Invalid credentials');
             }
 
-
             $user = User::where('id', auth()->id())->first();
             $role = $user->roles()->first()->name ?? null;
             $permissions = $user->getAllPermissions()->pluck('name');
@@ -188,7 +221,6 @@ class AuthService
                 'role_permissions' => $rolePermissions,
                 'extra_permissions' => $extraPermissions,
                 'user' => auth()->user(),
-
             ];
         } catch (\Throwable $th) {
             throw $th;
