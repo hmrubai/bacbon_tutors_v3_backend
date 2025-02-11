@@ -210,7 +210,7 @@ class AuthService
             $permissions = $user->getAllPermissions()->pluck('name');
             $extraPermissions = $user->getDirectPermissions()->pluck('name');
             $rolePermissions = $user->getPermissionsViaRoles()->pluck('name');
-            $expiresIn = auth()->factory()->getTTL() * 60;
+            $expiresIn = auth()->factory()->getTTL() * 30 * 24 * 60;
 
             return [
                 'token_type' => 'bearer',

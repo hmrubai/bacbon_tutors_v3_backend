@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 // Open Routes
 // Route::post('register', [AuthController::class, 'register']);
 Route::post('verify-login', [AuthController::class, 'checkOrCreateUser']);
-// Route::post('login', [AuthController::class, 'login']);
+Route::post('login', [AuthController::class, 'login']);
 
 Route::post('verify-otp', [AuthController::class, 'verifyAndLogin']);
 
