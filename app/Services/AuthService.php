@@ -189,9 +189,9 @@ class AuthService
 
     public function login($request)
     {
-        try {
-
-            $credentials = ['email' => $request->email_or_username, 'password' => $request->password];
+        try 
+        {
+            $credentials = ['email' => $request->email_or_username, 'password' => $request->password, 'user_type' => $request->user_type];
             $token = Auth::guard('api')->attempt($credentials);
 
             // Attempt with username if email fails
