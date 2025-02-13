@@ -3,6 +3,7 @@
 use App\Http\Controllers\TutorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\SubMenuController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BrandController;
@@ -37,6 +38,12 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('store-education-histories', [TutorController::class, 'storeEducationByUser']);
         Route::post('update-education-histories/{id}', [TutorController::class, 'update']);
     });
+
+    Route::get('division-list', [LocationController::class, 'divisionList']);
+    Route::get('district-list-by-id/{division_id}', [LocationController::class, 'districtListByID']);
+    Route::get('upazila-list-by-id/{district_id}', [LocationController::class, 'upazilaListByID']);
+    Route::get('area-list-by-id/{upazila_id}', [LocationController::class, 'unionListByID']);
+    
 
     Route::apiResource('categories', CategoryController::class);
 });
