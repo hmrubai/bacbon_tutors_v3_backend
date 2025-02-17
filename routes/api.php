@@ -9,7 +9,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BrandController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\EmployeeTypeController; // Include the EmployeeTypeController
+use App\Http\Controllers\EmployeeTypeController;
+use App\Http\Controllers\TutorWorkExperienceController;
 
 // Protected Routes
 Route::group(['middleware' => ['auth:api',]], function () {
@@ -31,6 +32,14 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('all-tutor-education-histories', [TutorController::class, 'index']);
         Route::get('tutor-education-histories', [TutorController::class, 'tutorEducationForAdmin']);
         Route::post('update-education-histories/{id}', [TutorController::class, 'update']);
+
+        // Work Experience
+        Route::get('tutor-work-experiences', [TutorWorkExperienceController::class, 'experienceList']);
+        Route::post('add-tutor-experience', [TutorWorkExperienceController::class, 'addExperience']);
+        Route::get('tutor-work-experience/{id}', [TutorWorkExperienceController::class, 'show']);
+        Route::post('update-tutor-work-experience/{id}', [TutorWorkExperienceController::class, 'update']);
+        Route::delete('delete-tutor-work-experience/{id}', [TutorWorkExperienceController::class, 'destroy']);
+
     });
 
     // Tutor Profile for the Tutor
