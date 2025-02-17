@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BrandController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EmployeeTypeController; // Include the EmployeeTypeController
 
 // Protected Routes
 Route::group(['middleware' => ['auth:api',]], function () {
@@ -44,6 +45,11 @@ Route::group(['middleware' => ['auth:api',]], function () {
     Route::get('upazila-list-by-id/{district_id}', [LocationController::class, 'upazilaListByID']);
     Route::get('area-list-by-id/{upazila_id}', [LocationController::class, 'unionListByID']);
     
+    //Employment Type
+    Route::get('all-employment-types', [EmployeeTypeController::class, 'employeeList']);
+    Route::post('add-employment-type', [EmployeeTypeController::class, 'addEmployee']);
+    Route::post('update-employment-type/{id}', [EmployeeTypeController::class, 'updateEmployeeType']);
+    Route::delete('delete-employment-type/{id}', [EmployeeTypeController::class, 'destroy']);
 
     Route::apiResource('categories', CategoryController::class);
 });
