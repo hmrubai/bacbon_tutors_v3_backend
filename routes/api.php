@@ -13,6 +13,7 @@ use App\Http\Controllers\EmployeeTypeController;
 use App\Http\Controllers\TutorWorkExperienceController;
 use App\Http\Controllers\MediumController;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\SubjectController;
 
 // Protected Routes
 Route::group(['middleware' => ['auth:api',]], function () {
@@ -56,6 +57,14 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('update-grade/{id}', [GradeController::class, 'update']);
         Route::get('grades/medium/{mediumId}', [GradeController::class, 'getGradesByMediumId']);
         Route::delete('delete-grade/{id}', [GradeController::class, 'destroy']);
+
+        //Subject
+        Route::get('all-subjects', [SubjectController::class, 'index']);
+        Route::post('add-subject', [SubjectController::class, 'store']);
+        Route::get('subject/{id}', [SubjectController::class, 'show']);
+        Route::post('update-subject/{id}', [SubjectController::class, 'update']);
+        Route::get('subjects/medium/{mediumId}', [SubjectController::class, 'getSubjectsByMediumId']);
+        Route::delete('delete-subject/{id}', [SubjectController::class, 'destroy']);
 
     });
 
