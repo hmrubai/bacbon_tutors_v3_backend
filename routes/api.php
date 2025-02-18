@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeTypeController;
 use App\Http\Controllers\TutorWorkExperienceController;
+use App\Http\Controllers\MediumController;
 
 // Protected Routes
 Route::group(['middleware' => ['auth:api',]], function () {
@@ -19,7 +20,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::apiResource('menus', MenuController::class);
         Route::apiResource('sub-menus', SubMenuController::class);
     });
-    
+
     // Tutor Profile
     // Route::group(['middleware' => ['role:system-admin,super-admin,admin']], function () {
     //     Route::apiResource('tutor-education-histories', TutorController::class);
@@ -28,7 +29,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
     //Route::apiResource('tutor-education-histories', TutorController::class);
 
     // Tutor Profile for the Administrator
-    Route::group(['prefix' => 'admin'], function(){
+    Route::group(['prefix' => 'admin'], function () {
         Route::get('all-tutor-education-histories', [TutorController::class, 'index']);
         Route::get('tutor-education-histories', [TutorController::class, 'tutorEducationForAdmin']);
         Route::post('update-education-histories/{id}', [TutorController::class, 'update']);
@@ -40,10 +41,17 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('update-tutor-work-experience/{id}', [TutorWorkExperienceController::class, 'update']);
         Route::delete('delete-tutor-work-experience/{id}', [TutorWorkExperienceController::class, 'destroy']);
 
+        //Medium
+        Route::get('all-mediums', [MediumController::class, 'index']);
+        Route::post('add-medium', [MediumController::class, 'store']);
+        Route::get('medium/{id}', [MediumController::class, 'show']);
+        Route::post('update-medium/{id}', [MediumController::class, 'update']);
+        Route::delete('delete-medium/{id}', [MediumController::class, 'destroy']);
+
     });
 
     // Tutor Profile for the Tutor
-    Route::group(['prefix' => 'tutor'], function(){
+    Route::group(['prefix' => 'tutor'], function () {
         Route::get('education-histories', [TutorController::class, 'getTutorEducationHistory']);
         Route::post('store-education-histories', [TutorController::class, 'storeEducationByUser']);
         Route::post('update-education-histories/{id}', [TutorController::class, 'update']);
@@ -60,7 +68,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
     Route::get('district-list-by-id/{division_id}', [LocationController::class, 'districtListByID']);
     Route::get('upazila-list-by-id/{district_id}', [LocationController::class, 'upazilaListByID']);
     Route::get('area-list-by-id/{upazila_id}', [LocationController::class, 'unionListByID']);
-    
+
     //Employment Type
     Route::get('all-employment-types', [EmployeeTypeController::class, 'employeeList']);
     Route::post('add-employment-type', [EmployeeTypeController::class, 'addEmployee']);
