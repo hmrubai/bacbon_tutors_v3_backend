@@ -49,7 +49,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('update-education-histories/{id}', [TutorController::class, 'update']);
 
         // Work Experience
-        Route::get('tutor-work-experiences', [TutorWorkExperienceController::class, 'experienceList']);
+        Route::get('tutor-work-experiences', [TutorWorkExperienceController::class, 'getWorkExperiencesByTutor']);
         Route::post('add-tutor-experience', [TutorWorkExperienceController::class, 'storeExperienceByUser']);
         Route::get('tutor-work-experience/{id}', [TutorWorkExperienceController::class, 'show']);
         Route::post('update-tutor-work-experience/{id}', [TutorWorkExperienceController::class, 'update']);
