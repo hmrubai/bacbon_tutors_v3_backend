@@ -82,6 +82,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
     Route::group(['prefix' => 'tutor'], function () {
         Route::get('education-histories', [TutorController::class, 'getTutorEducationHistory']);
         Route::post('store-education-histories', [TutorController::class, 'storeEducationByUser']);
+        Route::post('store-education-histories-by-admin', [TutorController::class, 'storeEducationByAdmin']);
         Route::post('update-education-histories/{id}', [TutorController::class, 'update']);
 
         // Work Experience
