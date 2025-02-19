@@ -18,4 +18,10 @@ class TutorWorkExperience extends Model
         'start_date',
         'end_date',
     ];
+
+      // Relationship to Medium
+      public function employment()
+      {
+          return $this->belongsTo(\App\Models\EmployeeType::class, 'employment_type');
+      }
 }

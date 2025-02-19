@@ -9,19 +9,30 @@ class TutorWorkExperienceService
 {
     use HelperTrait;
 
+    // public function getAll()
+    // {
+    //     return TutorWorkExperience::all();
+    // }
+    // Get all records with related medium, grade, and subject data
     public function getAll()
     {
-        return TutorWorkExperience::all();
+        return TutorWorkExperience::with(['employment'])->get();
     }
 
     // Get work experiences for a specific tutor (by user_id)
+    // public function getByTutorId($userId)
+    // {
+    //     return TutorWorkExperience::where('user_id', $userId)
+    //         ->orderBy('start_date', 'desc')
+    //         ->get();
+    // }
     public function getByTutorId($userId)
     {
-        return TutorWorkExperience::where('user_id', $userId)
+        return TutorWorkExperience::with(['employment'])
+            ->where('user_id', $userId)
             ->orderBy('start_date', 'desc')
             ->get();
     }
-
     public function create($data)
     {
         return TutorWorkExperience::create([
@@ -35,9 +46,13 @@ class TutorWorkExperienceService
         ]);
     }
 
+    // public function getById($id)
+    // {
+    //     return TutorWorkExperience::findOrFail($id);
+    // }
     public function getById($id)
     {
-        return TutorWorkExperience::findOrFail($id);
+        return TutorWorkExperience::with(['employment'])->findOrFail($id);
     }
 
     public function update($id, $data)
