@@ -9,7 +9,7 @@ class SubjectExpertise extends Model
 {
     use HasFactory;
 
-    // Explicitly specify the table name (to avoid Eloquent pluralization issues)
+    // Explicitly specify the table name
     protected $table = 'subject_expertise';
 
     protected $fillable = [
@@ -20,4 +20,22 @@ class SubjectExpertise extends Model
         'remarks',
         'status',
     ];
+
+    // Relationship to Medium
+    public function medium()
+    {
+        return $this->belongsTo(\App\Models\Medium::class, 'medium_id');
+    }
+
+    // Relationship to Grade
+    public function grade()
+    {
+        return $this->belongsTo(\App\Models\Grade::class, 'grade_id');
+    }
+
+    // Relationship to Subject
+    public function subject()
+    {
+        return $this->belongsTo(\App\Models\Subject::class, 'subject_id');
+    }
 }

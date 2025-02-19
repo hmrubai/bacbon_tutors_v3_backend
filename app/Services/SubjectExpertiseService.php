@@ -9,15 +9,18 @@ class SubjectExpertiseService
 {
     use HelperTrait;
 
+    // Get all records with related medium, grade, and subject data
     public function getAll()
     {
-        return SubjectExpertise::all();
+        return SubjectExpertise::with(['medium', 'grade', 'subject'])->get();
     }
 
-    // Get subject expertise records for a specific tutor (by user_id)
+    // Get subject expertise records for a specific tutor (by user_id) with relationships
     public function getByTutorId($userId)
     {
-        return SubjectExpertise::where('user_id', $userId)->get();
+        return SubjectExpertise::with(['medium', 'grade', 'subject'])
+            ->where('user_id', $userId)
+            ->get();
     }
 
     public function create($data)
@@ -26,16 +29,15 @@ class SubjectExpertiseService
             'medium_id'  => $data['medium_id'],
             'grade_id'   => $data['grade_id'],
             'subject_id' => $data['subject_id'],
-            'user_id'    => $data['user_id'],  // For tutors, this will be set from Auth; for admins, passed in request.
+            'user_id'    => $data['user_id'],
             'remarks'    => $data['remarks'] ?? null,
-            // If 'status' is not provided, default to true.
             'status'     => isset($data['status']) ? $data['status'] : true,
         ]);
     }
 
     public function getById($id)
     {
-        return SubjectExpertise::findOrFail($id);
+        return SubjectExpertise::with(['medium', 'grade', 'subject'])->findOrFail($id);
     }
 
     public function update($id, $data)

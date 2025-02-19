@@ -69,6 +69,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
 
         //Subject Expertise
         Route::get('subject-expertise', [SubjectExpertiseController::class, 'expertiseList']);
+        Route::get('subject-expertise/{user_id}', [SubjectExpertiseController::class, 'expertiseListByUser']);
         Route::post('add-subject-expertise', [SubjectExpertiseController::class, 'addExpertise']);
         Route::get('subject-expertise/{id}', [SubjectExpertiseController::class, 'show']);
         Route::post('update-subject-expertise/{id}', [SubjectExpertiseController::class, 'update']);
@@ -92,6 +93,8 @@ Route::group(['middleware' => ['auth:api',]], function () {
         //Subject Expertise
         Route::get('tutor-subject-expertise', [SubjectExpertiseController::class, 'getExpertiseByTutor']);
         Route::post('add-subject-expertise', [SubjectExpertiseController::class, 'storeExpertiseByUser']);
+        Route::post('update-subject-expertise/{id}', [SubjectExpertiseController::class, 'update']);
+        Route::delete('delete-subject-expertise/{id}', [SubjectExpertiseController::class, 'destroy']);
     });
 
     Route::get('division-list', [LocationController::class, 'divisionList']);
