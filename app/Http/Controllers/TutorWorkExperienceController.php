@@ -31,6 +31,25 @@ class TutorWorkExperienceController extends Controller
         }
     }
 
+        // List all work experiences by user id (for admins, for example)
+
+
+    public function getWorkExperiencesByUserId($user_id)
+    {
+        try {
+            $data = $this->workExpService->getByTutorId($user_id);
+
+            if ($data->isEmpty()) {
+                return $this->errorResponse('No work experience found for this user.', 'Not Found', Response::HTTP_NOT_FOUND);
+            }
+
+            return $this->successResponse($data, 'Tutor work experiences retrieved successfully!', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
     // Get work experiences for the logged-in tutor
     public function getWorkExperiencesByTutor(Request $request)
     {
