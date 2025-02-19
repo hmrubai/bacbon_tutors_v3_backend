@@ -14,6 +14,7 @@ use App\Http\Controllers\TutorWorkExperienceController;
 use App\Http\Controllers\MediumController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\SubjectExpertiseController;
 
 // Protected Routes
 Route::group(['middleware' => ['auth:api',]], function () {
@@ -66,6 +67,13 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('subjects/medium/{mediumId}', [SubjectController::class, 'getSubjectsByMediumId']);
         Route::delete('delete-subject/{id}', [SubjectController::class, 'destroy']);
 
+        //Subject Expertise
+        Route::get('subject-expertise', [SubjectExpertiseController::class, 'expertiseList']);
+        Route::post('add-subject-expertise', [SubjectExpertiseController::class, 'addExpertise']);
+        Route::get('subject-expertise/{id}', [SubjectExpertiseController::class, 'show']);
+        Route::post('update-subject-expertise/{id}', [SubjectExpertiseController::class, 'update']);
+        Route::delete('delete-subject-expertise/{id}', [SubjectExpertiseController::class, 'destroy']);
+
     });
 
     // Tutor Profile for the Tutor
@@ -80,6 +88,10 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('tutor-work-experience/{id}', [TutorWorkExperienceController::class, 'show']);
         Route::post('update-tutor-work-experience/{id}', [TutorWorkExperienceController::class, 'update']);
         Route::delete('delete-tutor-work-experience/{id}', [TutorWorkExperienceController::class, 'destroy']);
+
+        //Subject Expertise
+        Route::get('tutor-subject-expertise', [SubjectExpertiseController::class, 'getExpertiseByTutor']);
+        Route::post('add-subject-expertise', [SubjectExpertiseController::class, 'storeExpertiseByUser']);
     });
 
     Route::get('division-list', [LocationController::class, 'divisionList']);
