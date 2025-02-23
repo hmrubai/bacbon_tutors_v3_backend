@@ -50,9 +50,7 @@ class AuthController extends Controller
 
             return $this->successResponse($user, 'User registered successfully', Response::HTTP_CREATED);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), '
-            something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
-
+            return $this->errorResponse($th->getMessage(), 'something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
     }
