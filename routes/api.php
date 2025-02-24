@@ -15,6 +15,8 @@ use App\Http\Controllers\MediumController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubjectExpertiseController;
+use App\Http\Controllers\ReferenceController;
+
 
 // Protected Routes
 Route::group(['middleware' => ['auth:api',]], function () {
@@ -76,6 +78,10 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('update-subject-expertise/{id}', [SubjectExpertiseController::class, 'update']);
         Route::delete('delete-subject-expertise/{id}', [SubjectExpertiseController::class, 'destroy']);
 
+        //Reference 
+        Route::get('all-references', [ReferenceController::class, 'referenceList']);
+        Route::get('references/{user_id}', [ReferenceController::class, 'referenceListByUser']);
+
     });
 
     // Tutor Profile for the Tutor
@@ -97,6 +103,14 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('add-subject-expertise', [SubjectExpertiseController::class, 'storeExpertiseByUser']);
         Route::post('update-subject-expertise/{id}', [SubjectExpertiseController::class, 'update']);
         Route::delete('delete-subject-expertise/{id}', [SubjectExpertiseController::class, 'destroy']);
+
+        //reference
+
+        Route::get('tutor-references', [ReferenceController::class, 'index']);
+        Route::post('add-reference', [ReferenceController::class, 'store']);
+        Route::get('reference/{id}', [ReferenceController::class, 'show']);
+        Route::post('update-reference/{id}', [ReferenceController::class, 'update']);
+        Route::delete('delete-reference/{id}', [ReferenceController::class, 'destroy']);
     });
 
     Route::get('division-list', [LocationController::class, 'divisionList']);
