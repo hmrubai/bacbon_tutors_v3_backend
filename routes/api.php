@@ -17,6 +17,7 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubjectExpertiseController;
 use App\Http\Controllers\ReferenceController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\UserInformationController;
 
 
 // Protected Routes
@@ -121,6 +122,10 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('add-address', [AddressController::class, 'store']);
         Route::get('address', [AddressController::class, 'show']);
         Route::post('update-address', [AddressController::class, 'update']);
+
+        //Basic Information
+        Route::get('user-information', [UserInformationController::class, 'show']);
+        Route::post('user-information', [UserInformationController::class, 'update']);
     });
 
     Route::get('division-list', [LocationController::class, 'divisionList']);
