@@ -18,6 +18,7 @@ use App\Http\Controllers\SubjectExpertiseController;
 use App\Http\Controllers\ReferenceController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\UserInformationController;
+use App\Http\Controllers\DocumentController;
 
 
 // Protected Routes
@@ -87,6 +88,11 @@ Route::group(['middleware' => ['auth:api',]], function () {
         //Address
         Route::get('address/{user_id}', [AddressController::class, 'showByUser']);
 
+        //Document approval 
+        Route::post('documents/{id}', [DocumentController::class, 'adminUpdateApproval']);
+        Route::delete('documents/{id}', [DocumentController::class, 'destroy']);
+        Route::get('documents/{user_id}', [DocumentController::class, 'listByUserId']);
+
 
     });
 
@@ -126,6 +132,15 @@ Route::group(['middleware' => ['auth:api',]], function () {
         //Basic Information
         Route::get('user-information', [UserInformationController::class, 'show']);
         Route::post('user-information', [UserInformationController::class, 'update']);
+
+        //Document
+        // User endpoints:
+        Route::get('documents', [DocumentController::class, 'index']);
+        Route::post('documents', [DocumentController::class, 'store']);
+        Route::get('documents/{id}', [DocumentController::class, 'show']);
+        Route::post('documents/{id}', [DocumentController::class, 'update']);
+        Route::delete('documents/{id}', [DocumentController::class, 'destroy']);
+
     });
 
     Route::get('division-list', [LocationController::class, 'divisionList']);
