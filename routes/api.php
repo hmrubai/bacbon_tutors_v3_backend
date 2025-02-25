@@ -16,6 +16,7 @@ use App\Http\Controllers\GradeController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubjectExpertiseController;
 use App\Http\Controllers\ReferenceController;
+use App\Http\Controllers\AddressController;
 
 
 // Protected Routes
@@ -82,6 +83,10 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('all-references', [ReferenceController::class, 'referenceList']);
         Route::get('references/{user_id}', [ReferenceController::class, 'referenceListByUser']);
 
+        //Address
+        Route::get('address/{user_id}', [AddressController::class, 'showByUser']);
+
+
     });
 
     // Tutor Profile for the Tutor
@@ -111,6 +116,11 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('reference/{id}', [ReferenceController::class, 'show']);
         Route::post('update-reference/{id}', [ReferenceController::class, 'update']);
         Route::delete('delete-reference/{id}', [ReferenceController::class, 'destroy']);
+
+        //Address
+        Route::post('add-address', [AddressController::class, 'store']);
+        Route::get('address', [AddressController::class, 'show']);
+        Route::post('update-address', [AddressController::class, 'update']);
     });
 
     Route::get('division-list', [LocationController::class, 'divisionList']);
