@@ -19,6 +19,7 @@ use App\Http\Controllers\ReferenceController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\UserInformationController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\TutionAreaController;
 
 
 // Protected Routes
@@ -93,6 +94,9 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::delete('documents/{id}', [DocumentController::class, 'destroy']);
         Route::get('documents/{user_id}', [DocumentController::class, 'listByUserId']);
 
+        //tution area
+        Route::get('tution-areas/{user_id}', [TutionAreaController::class, 'listByUser']);
+
 
     });
 
@@ -134,12 +138,17 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('user-information', [UserInformationController::class, 'update']);
 
         //Document
-        // User endpoints:
         Route::get('documents', [DocumentController::class, 'index']);
         Route::post('documents', [DocumentController::class, 'store']);
         Route::get('documents/{id}', [DocumentController::class, 'show']);
         Route::post('documents/{id}', [DocumentController::class, 'update']);
         Route::delete('documents/{id}', [DocumentController::class, 'destroy']);
+
+        //Tution Area
+        Route::get('tution-areas', [TutionAreaController::class, 'index']);
+        Route::post('tution-areas', [TutionAreaController::class, 'store']);
+        Route::post('tution-areas/{id}', [TutionAreaController::class, 'update']);
+        Route::delete('tution-areas/{id}', [TutionAreaController::class, 'destroy']);
 
     });
 
