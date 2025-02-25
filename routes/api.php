@@ -20,6 +20,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\UserInformationController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\TutionAreaController;
+use App\Http\Controllers\TutorScheduleController;
 
 
 // Protected Routes
@@ -97,6 +98,9 @@ Route::group(['middleware' => ['auth:api',]], function () {
         //tution area
         Route::get('tution-areas/{user_id}', [TutionAreaController::class, 'listByUser']);
 
+        //Tutor schedule
+        Route::get('tutor-schedules/{user_id}', [TutorScheduleController::class, 'listByUser']);
+
 
     });
 
@@ -149,6 +153,13 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('tution-areas', [TutionAreaController::class, 'store']);
         Route::post('tution-areas/{id}', [TutionAreaController::class, 'update']);
         Route::delete('tution-areas/{id}', [TutionAreaController::class, 'destroy']);
+
+        //Tutor Schedule
+        Route::get('tutor-schedules', [TutorScheduleController::class, 'index']);
+        Route::post('tutor-schedules', [TutorScheduleController::class, 'store']);
+        Route::get('tutor-schedules/{id}', [TutorScheduleController::class, 'show']);
+        Route::post('tutor-schedules/{id}', [TutorScheduleController::class, 'update']);
+        Route::delete('tutor-schedules/{id}', [TutorScheduleController::class, 'destroy']);
 
     });
 
