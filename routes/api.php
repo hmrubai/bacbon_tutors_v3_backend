@@ -15,6 +15,13 @@ use App\Http\Controllers\MediumController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubjectExpertiseController;
+use App\Http\Controllers\ReferenceController;
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\UserInformationController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\TutionAreaController;
+use App\Http\Controllers\TutorScheduleController;
+
 
 // Protected Routes
 Route::group(['middleware' => ['auth:api',]], function () {
@@ -76,6 +83,25 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('update-subject-expertise/{id}', [SubjectExpertiseController::class, 'update']);
         Route::delete('delete-subject-expertise/{id}', [SubjectExpertiseController::class, 'destroy']);
 
+        //Reference 
+        Route::get('all-references', [ReferenceController::class, 'referenceList']);
+        Route::get('references/{user_id}', [ReferenceController::class, 'referenceListByUser']);
+
+        //Address
+        Route::get('address/{user_id}', [AddressController::class, 'showByUser']);
+
+        //Document approval 
+        Route::post('documents/{id}', [DocumentController::class, 'adminUpdateApproval']);
+        Route::delete('documents/{id}', [DocumentController::class, 'destroy']);
+        Route::get('documents/{user_id}', [DocumentController::class, 'listByUserId']);
+
+        //tution area
+        Route::get('tution-areas/{user_id}', [TutionAreaController::class, 'listByUser']);
+
+        //Tutor schedule
+        Route::get('tutor-schedules/{user_id}', [TutorScheduleController::class, 'listByUser']);
+
+
     });
 
     // Tutor Profile for the Tutor
@@ -97,6 +123,44 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('add-subject-expertise', [SubjectExpertiseController::class, 'storeExpertiseByUser']);
         Route::post('update-subject-expertise/{id}', [SubjectExpertiseController::class, 'update']);
         Route::delete('delete-subject-expertise/{id}', [SubjectExpertiseController::class, 'destroy']);
+
+        //reference
+
+        Route::get('tutor-references', [ReferenceController::class, 'index']);
+        Route::post('add-reference', [ReferenceController::class, 'store']);
+        Route::get('reference/{id}', [ReferenceController::class, 'show']);
+        Route::post('update-reference/{id}', [ReferenceController::class, 'update']);
+        Route::delete('delete-reference/{id}', [ReferenceController::class, 'destroy']);
+
+        //Address
+        Route::post('add-address', [AddressController::class, 'store']);
+        Route::get('address', [AddressController::class, 'show']);
+        Route::post('update-address', [AddressController::class, 'update']);
+
+        //Basic Information
+        Route::get('user-information', [UserInformationController::class, 'show']);
+        Route::post('user-information', [UserInformationController::class, 'update']);
+
+        //Document
+        Route::get('documents', [DocumentController::class, 'index']);
+        Route::post('documents', [DocumentController::class, 'store']);
+        Route::get('documents/{id}', [DocumentController::class, 'show']);
+        Route::post('documents/{id}', [DocumentController::class, 'update']);
+        Route::delete('documents/{id}', [DocumentController::class, 'destroy']);
+
+        //Tution Area
+        Route::get('tution-areas', [TutionAreaController::class, 'index']);
+        Route::post('tution-areas', [TutionAreaController::class, 'store']);
+        Route::post('tution-areas/{id}', [TutionAreaController::class, 'update']);
+        Route::delete('tution-areas/{id}', [TutionAreaController::class, 'destroy']);
+
+        //Tutor Schedule
+        Route::get('tutor-schedules', [TutorScheduleController::class, 'index']);
+        Route::post('tutor-schedules', [TutorScheduleController::class, 'store']);
+        Route::get('tutor-schedules/{id}', [TutorScheduleController::class, 'show']);
+        Route::post('tutor-schedules/{id}', [TutorScheduleController::class, 'update']);
+        Route::delete('tutor-schedules/{id}', [TutorScheduleController::class, 'destroy']);
+
     });
 
     Route::get('division-list', [LocationController::class, 'divisionList']);

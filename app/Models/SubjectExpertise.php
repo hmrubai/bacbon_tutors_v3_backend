@@ -21,6 +21,10 @@ class SubjectExpertise extends Model
         'status',
     ];
 
+    protected $casts = [
+        'status' => 'boolean',
+    ];
+
     // Relationship to Medium
     public function medium()
     {

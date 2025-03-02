@@ -18,6 +18,9 @@ class TutorWorkExperience extends Model
         'start_date',
         'end_date',
     ];
+    protected $casts = [
+        'currently_working' => 'boolean',
+    ];
 
       // Relationship to Medium
       public function employment()
