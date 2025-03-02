@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Models\UserInformation;
 use App\Http\Traits\HelperTrait;
 use Illuminate\Http\Request;
@@ -13,11 +14,25 @@ class UserInformationService
     /**
      * Retrieve the current user's information.
      */
-    public function show(int $userId): UserInformation
+    public function show(int $userId)
+    {
+        return User::with(
+            'subjectExpertise.medium',
+            'subjectExpertise.grade',
+            'subjectExpertise.subject',
+            'workExperiences',
+            'references',
+            'address',
+            'documents',
+            'tutionAreas',
+            'tutorSchedules',
+        )->findOrFail($userId);
+    }
+
+    public function showUser(int $userId): UserInformation
     {
         return UserInformation::findOrFail($userId);
     }
-
     /**
      * Update the current user's information.
      */
