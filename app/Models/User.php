@@ -16,11 +16,6 @@ class User extends Authenticatable implements JWTSubject
     use HasFactory, HasRoles, Notifiable,SoftDeletes;
     use OrganizationScopedTrait;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -71,21 +66,11 @@ class User extends Authenticatable implements JWTSubject
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -109,21 +94,12 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
-    /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
-     */
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
     }
 
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
     public function getJWTCustomClaims()
     {
         return [];
@@ -137,42 +113,30 @@ class User extends Authenticatable implements JWTSubject
     public function workExperiences()
     {
         return $this->hasMany(TutorWorkExperience::class);
-
     }
 
-    // Relation for References
     public function references()
     {
         return $this->hasMany(Reference::class);
     }
 
-    // Relation for Address (assuming one-to-one)
     public function address()
     {
         return $this->hasOne(Address::class);
     }
 
-    // Relation for Documents
     public function documents()
     {
         return $this->hasMany(Document::class);
     }
 
-    // Relation for Tution Areas
     public function tutionAreas()
     {
         return $this->hasMany(TutionArea::class);
     }
 
-    // Relation for Tutor Schedules
     public function tutorSchedules()
     {
         return $this->hasMany(TutorSchedule::class);
     }
-
-    // // Example: Relation for Grade (if the user has a grade via the 'class_id' column)
-    // public function grade()
-    // {
-    //     return $this->belongsTo(Grade::class, 'class_id');
-    // }
 }
