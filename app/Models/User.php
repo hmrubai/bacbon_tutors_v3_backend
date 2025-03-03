@@ -129,5 +129,50 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function subjectExpertise()
+    {
+        return $this->hasMany(SubjectExpertise::class);
+    }
 
+    public function workExperiences()
+    {
+        return $this->hasMany(TutorWorkExperience::class);
+
+    }
+
+    // Relation for References
+    public function references()
+    {
+        return $this->hasMany(Reference::class);
+    }
+
+    // Relation for Address (assuming one-to-one)
+    public function address()
+    {
+        return $this->hasOne(Address::class);
+    }
+
+    // Relation for Documents
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
+
+    // Relation for Tution Areas
+    public function tutionAreas()
+    {
+        return $this->hasMany(TutionArea::class);
+    }
+
+    // Relation for Tutor Schedules
+    public function tutorSchedules()
+    {
+        return $this->hasMany(TutorSchedule::class);
+    }
+
+    // // Example: Relation for Grade (if the user has a grade via the 'class_id' column)
+    // public function grade()
+    // {
+    //     return $this->belongsTo(Grade::class, 'class_id');
+    // }
 }
