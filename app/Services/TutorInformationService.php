@@ -50,7 +50,14 @@ class TutorInformationService
     public function update($id, $data)
     {
         $history = TutorEducationHistory::findOrFail($id);
-        $history->update($data);
+        $history->update([
+            'title' => $data['title'],
+            'institute' => $data['institute'],
+            'discipline' => $data['discipline'] ?? null,
+            'passing_year' => $data['passing_year'] ?? 0,
+            'sequence' => $data['sequence'] ?? 0,
+            'is_active' => $data['is_active'] ?? true,
+        ]);
         return $history;
     }
 
