@@ -11,7 +11,7 @@ class UserInformationService
 {
     use HelperTrait;
 
-    public function showUser(int $userId): UserInformation
+    public function showUser(int $userId): User
     {
         return User::with(
             'subjectExpertise.medium',
