@@ -100,10 +100,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
 
         //Tutor schedule
         Route::get('tutor-schedules/{user_id}', [TutorScheduleController::class, 'listByUser']);
-
         Route::get('user-profile/{userId}', [UserInformationController::class, 'getCompleteUserProfile']);
-
-
     });
 
     // Tutor Profile for the Tutor
@@ -145,7 +142,9 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('update-address', [AddressController::class, 'update']);
 
         //Basic Information
+
         Route::get('user-information', [UserInformationController::class, 'showUser']);
+        Route::get('user-information', [UserInformationController::class, 'show']);
         Route::post('user-information', [UserInformationController::class, 'update']);
 
         //Document
