@@ -309,11 +309,11 @@ class AuthService
         }
     }
 
-    public function setPassword($user, $newPassword)
+    public function setPassword($user, $name = null, $newPassword)
     {
         try {
             $user->password = Hash::make($newPassword);
-            // $user->name = $request->name;
+            $user->name = $name;
             $user->is_password_set = true;
             $user->save();
             return true;

@@ -70,7 +70,6 @@ class TutorWorkExperienceController extends Controller
     public function storeExperienceByUser(TutorWorkExperienceRequest $request)
     {
         $data = $request->validated();
-        // Automatically attach the authenticated tutor's user ID
         $data['user_id'] = Auth::id();
         try {
             $resource = $this->workExpService->create($data);

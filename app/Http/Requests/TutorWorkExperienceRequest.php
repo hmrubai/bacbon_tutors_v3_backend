@@ -16,12 +16,12 @@ class TutorWorkExperienceRequest extends FormRequest
     {
         return [
             // For tutors, user_id might be auto-populated.
-            'user_id'         => 'nullable|integer',
+            // 'user_id'         => 'nullable|integer',
             'employment_type' => 'required|integer',  // Must be provided (employee type id)
             'designation'     => 'required|string',
             'company_name'    => 'required|string',
             'currently_working'=> 'required|boolean',
-            'start_date'      => 'required|date',
+            'start_date'      => 'required',
             'end_date'        => 'nullable|date',
         ];
     }
