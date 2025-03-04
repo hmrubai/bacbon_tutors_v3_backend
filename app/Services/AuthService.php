@@ -10,6 +10,7 @@ use App\Http\Traits\HelperTrait;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\OtpCodeVerification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class AuthService
@@ -260,8 +261,6 @@ class AuthService
             throw $th;
         }
     }
-
-
     public function changePassword($request)
     {
 
@@ -274,7 +273,6 @@ class AuthService
             throw $th;
         }
     }
-
 
     public function details()
     {
@@ -310,4 +308,18 @@ class AuthService
             throw $th;
         }
     }
+
+    public function setPassword($user, $newPassword)
+    {
+        try {
+            $user->password = Hash::make($newPassword);
+            // $user->name = $request->name;
+            $user->is_password_set = true;
+            $user->save();
+            return true;
+        }catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
 }
