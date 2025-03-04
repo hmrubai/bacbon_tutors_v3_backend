@@ -150,7 +150,7 @@ class AuthController extends Controller
         $user = Auth::user();
 
         try {
-            $data = $this->authService->setPassword($user, $request->new_password);
+            $data = $this->authService->setPassword($user, $request->name, $request->new_password);
             return $this->successResponse($data, 'Password has been updated successfully', Response::HTTP_OK);
         } catch (\Throwable $th) {
             return $this->errorResponse([], $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
