@@ -64,6 +64,7 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at',
         'created_by',
         'password',
+        'is_password_set',
     ];
 
     protected $hidden = [
@@ -82,6 +83,7 @@ class User extends Authenticatable implements JWTSubject
             'is_account_verified' => 'boolean',
             'is_foreigner' => 'boolean',
             'is_bacbon_certified' => 'boolean',
+            'is_password_set' => 'boolean',
             'class_id' => 'integer',
             'present_division_id' => 'integer',
             'present_district_id' => 'integer',
