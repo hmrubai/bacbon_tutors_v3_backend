@@ -11,14 +11,7 @@ class UserInformationService
 {
     use HelperTrait;
 
-<<<<<<< HEAD
-    /**
-     * Retrieve the current user's information.
-     */
-    public function show(int $userId)
-=======
     public function showUser(int $userId): User
->>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
     {
         return User::with(
             'subjectExpertise.medium',
@@ -33,21 +26,11 @@ class UserInformationService
         )->findOrFail($userId);
     }
 
-<<<<<<< HEAD
-    public function showUser(int $userId): UserInformation
-    {
-        return UserInformation::findOrFail($userId);
-    }
-    /**
-     * Update the current user's information.
-     */
-=======
     public function show(int $userId): UserInformation
     {
         return UserInformation::findOrFail($userId);
     }
 
->>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
     public function update(Request $request, int $userId): UserInformation
     {
         $userInfo = UserInformation::findOrFail($userId);

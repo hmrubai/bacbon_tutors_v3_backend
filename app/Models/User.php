@@ -115,62 +115,30 @@ class User extends Authenticatable implements JWTSubject
     public function workExperiences()
     {
         return $this->hasMany(TutorWorkExperience::class);
-<<<<<<< HEAD
-
     }
 
-    // Relation for References
-=======
-    }
-
->>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
     public function references()
     {
         return $this->hasMany(Reference::class);
     }
 
-<<<<<<< HEAD
-    // Relation for Address (assuming one-to-one)
-=======
->>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
     public function address()
     {
         return $this->hasOne(Address::class);
     }
 
-<<<<<<< HEAD
-    // Relation for Documents
-=======
->>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
     public function documents()
     {
         return $this->hasMany(Document::class);
     }
 
-<<<<<<< HEAD
-    // Relation for Tution Areas
-=======
->>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
     public function tutionAreas()
     {
         return $this->hasMany(TutionArea::class);
     }
 
-<<<<<<< HEAD
-    // Relation for Tutor Schedules
-=======
->>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
     public function tutorSchedules()
     {
         return $this->hasMany(TutorSchedule::class);
     }
-<<<<<<< HEAD
-
-    // // Example: Relation for Grade (if the user has a grade via the 'class_id' column)
-    // public function grade()
-    // {
-    //     return $this->belongsTo(Grade::class, 'class_id');
-    // }
-=======
->>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
 }

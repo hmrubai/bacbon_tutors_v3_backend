@@ -19,10 +19,7 @@ class UserInformationController extends Controller
     {
         $this->userInfoService = $service;
     }
-<<<<<<< HEAD
-=======
   
->>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
     public function getCompleteUserProfile(Request $request, $userId)
     {
         try {
@@ -33,13 +30,6 @@ class UserInformationController extends Controller
             return $this->errorResponse($th->getMessage(), 'Failed to retrieve user profile', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-<<<<<<< HEAD
-    /**
-     * Show the current user's information.
-     */
-=======
-
->>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
     public function showUser(Request $request)
     {
         try {
