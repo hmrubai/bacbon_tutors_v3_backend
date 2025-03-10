@@ -9,7 +9,12 @@ use Illuminate\Support\Facades\Route;
 
 // Open Routes
 // Route::post('register', [AuthController::class, 'register']);
+Route::post('check-user-verification', [AuthController::class, 'checkUserVarification']);
+Route::post('forget-password', [AuthController::class, 'forgetPassword']);
+
 Route::post('verify-login', [AuthController::class, 'checkOrCreateUser']);
+Route::post('check-user', [AuthController::class, 'checkOrCreateUser']);
+
 Route::post('login', [AuthController::class, 'login']);
 
 Route::post('verify-otp', [AuthController::class, 'verifyAndLogin']);

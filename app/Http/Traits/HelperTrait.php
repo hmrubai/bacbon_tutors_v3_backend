@@ -17,21 +17,23 @@ use Illuminate\Support\Facades\Mail;
 
 trait HelperTrait
 {
-    protected function successResponse($data, $message, $statusCode = 200): JsonResponse
+    protected function successResponse($data, $message, $statusCode = 200, $status = true): JsonResponse
     {
         $array = [
             'data' => $data,
             'message' => $message,
+            'status' => $status,
         ];
 
         return response()->json($array, $statusCode);
     }
 
-    protected function errorResponse($error, $message, $statusCode): JsonResponse
+    protected function errorResponse($error, $message, $statusCode = 500, $status = false): JsonResponse
     {
         $array = [
             'errors' => $error,
             'message' => $message,
+            'status' => $status
         ];
 
         return response()->json($array, $statusCode);

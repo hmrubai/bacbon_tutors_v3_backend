@@ -25,11 +25,11 @@ class AddressController extends Controller
         try {
             $address = $this->addressService->getByUserId($user_id);
             if (!$address) {
-                return $this->errorResponse("Address not found", "No address found for the given user ID", Response::HTTP_NOT_FOUND);
+                return $this->errorResponse("Address not found", "No address found for the given user ID", Response::HTTP_NOT_FOUND, false);
             }
-            return $this->successResponse($address, "Address retrieved successfully for user ID: {$user_id}", Response::HTTP_OK);
+            return $this->successResponse($address, "Address retrieved successfully for user ID: {$user_id}", Response::HTTP_OK, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), "Failed to retrieve address", Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse($th->getMessage(), "Failed to retrieve address", Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
 
@@ -40,16 +40,16 @@ class AddressController extends Controller
         // Check if an address already exists for this user
         $existing = $this->addressService->getByUserId($userId);
         if ($existing) {
-            return $this->errorResponse("Address already exists", "Address already exists. Use update to modify it.", Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->errorResponse("Address already exists", "Address already exists. Use update to modify it.", Response::HTTP_UNPROCESSABLE_ENTITY, false);
         }
         $data = $request->validated();
         $data['user_id'] = $userId;
 
         try {
             $address = $this->addressService->create($data);
-            return $this->successResponse($address, "Address created successfully!", Response::HTTP_CREATED);
+            return $this->successResponse($address, "Address created successfully!", Response::HTTP_CREATED, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), "Failed to create address", Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse($th->getMessage(), "Failed to create address", Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
 
@@ -59,9 +59,9 @@ class AddressController extends Controller
         $userId = Auth::id();
         $address = $this->addressService->getByUserId($userId);
         if (!$address) {
-            return $this->errorResponse("Address not found", "No address found for the user", Response::HTTP_NOT_FOUND);
+            return $this->errorResponse("Address not found", "No address found for the user", Response::HTTP_NOT_FOUND, false);
         }
-        return $this->successResponse($address, "Address retrieved successfully!", Response::HTTP_OK);
+        return $this->successResponse($address, "Address retrieved successfully!", Response::HTTP_OK, true);
     }
 
     // Update the address for the logged-in tutor
@@ -70,14 +70,14 @@ class AddressController extends Controller
         $userId = Auth::id();
         $address = $this->addressService->getByUserId($userId);
         if (!$address) {
-            return $this->errorResponse("Address not found", "No address exists to update. Create one first.", Response::HTTP_NOT_FOUND);
+            return $this->errorResponse("Address not found", "No address exists to update. Create one first.", Response::HTTP_NOT_FOUND, false);
         }
         $data = $request->validated();
         try {
             $updated = $this->addressService->update($userId, $data);
-            return $this->successResponse($updated, "Address updated successfully!", Response::HTTP_OK);
+            return $this->successResponse($updated, "Address updated successfully!", Response::HTTP_OK, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), "Failed to update address", Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse($th->getMessage(), "Failed to update address", Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
 }
