@@ -26,9 +26,9 @@ class EmployeeTypeController extends Controller
     {
         try {
             $employeeTypes = $this->employeeTypeService->getAll();
-            return $this->successResponse($employeeTypes, 'Employment Types retrieved successfully!', Response::HTTP_OK);
+            return $this->successResponse($employeeTypes, 'Employment Types retrieved successfully!', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Failed to retrieve Employment Types', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse($th->getMessage(), 'Failed to retrieve Employment Types', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
 
@@ -41,9 +41,9 @@ class EmployeeTypeController extends Controller
 
         try {
             $employeeType = $this->employeeTypeService->create($data);
-            return $this->successResponse($employeeType, 'Employment Type created successfully!', Response::HTTP_CREATED);
+            return $this->successResponse($employeeType, 'Employment Type created successfully!', Response::HTTP_CREATED, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Failed to create Employment Type', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse($th->getMessage(), 'Failed to create Employment Type', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
 
@@ -54,9 +54,9 @@ class EmployeeTypeController extends Controller
     {
         try {
             $employeeType = $this->employeeTypeService->getById($id);
-            return $this->successResponse($employeeType, 'Employment Type retrieved successfully!', Response::HTTP_OK);
+            return $this->successResponse($employeeType, 'Employment Type retrieved successfully!', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Employment Type not found', Response::HTTP_NOT_FOUND);
+            return $this->errorResponse($th->getMessage(), 'Employment Type not found', Response::HTTP_NOT_FOUND, false);
         }
     }
 
@@ -69,9 +69,9 @@ class EmployeeTypeController extends Controller
 
         try {
             $employeeType = $this->employeeTypeService->update($id, $data);
-            return $this->successResponse($employeeType, 'Employment Type updated successfully!', Response::HTTP_OK);
+            return $this->successResponse($employeeType, 'Employment Type updated successfully!', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Failed to update Employment Type', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse($th->getMessage(), 'Failed to update Employment Type', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
 
@@ -82,9 +82,9 @@ class EmployeeTypeController extends Controller
     {
         try {
             $this->employeeTypeService->delete($id);
-            return $this->successResponse(null, 'Employment Type deleted successfully!', Response::HTTP_OK);
+            return $this->successResponse(null, 'Employment Type deleted successfully!', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Failed to delete Employment Type', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse($th->getMessage(), 'Failed to delete Employment Type', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
 }

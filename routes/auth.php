@@ -3,20 +3,20 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
+// Auth Route Configuration
+Route::post('check-user-verification', [AuthController::class, 'checkUserVarification']);
+Route::post('forget-password', [AuthController::class, 'forgetPassword']);
 
-// Open Routes
-// Route::post('register', [AuthController::class, 'register']);
 Route::post('verify-login', [AuthController::class, 'checkOrCreateUser']);
+Route::post('check-user', [AuthController::class, 'checkOrCreateUser']);
+
 Route::post('login', [AuthController::class, 'login']);
 
 Route::post('verify-otp', [AuthController::class, 'verifyAndLogin']);
 
 Route::post('send-otp', [AuthController::class, 'sendOtp'])->middleware('throttle:5,1');
 
-// Protected Routes
+// Protected Routes: Auth Route Configuration
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('profile', [AuthController::class, 'profile']);
     Route::get('refresh-token', [AuthController::class, 'refreshToken']);
