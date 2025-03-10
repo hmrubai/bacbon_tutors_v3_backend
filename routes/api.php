@@ -100,18 +100,27 @@ Route::group(['middleware' => ['auth:api',]], function () {
 
         //Tutor schedule
         Route::get('tutor-schedules/{user_id}', [TutorScheduleController::class, 'listByUser']);
+<<<<<<< HEAD
 
         Route::get('user-profile/{userId}', [UserInformationController::class, 'getCompleteUserProfile']);
 
 
+=======
+        Route::get('user-profile/{userId}', [UserInformationController::class, 'getCompleteUserProfile']);
+>>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
     });
 
     // Tutor Profile for the Tutor
     Route::group(['prefix' => 'tutor'], function () {
+        // Education History
         Route::get('education-histories', [TutorController::class, 'getTutorEducationHistory']);
         Route::post('store-education-histories', [TutorController::class, 'storeEducationByUser']);
+        Route::post('update-education-histories/{id}', [TutorController::class, 'updateEducationHistories']);
+        Route::post('delete-education-histories/{id}', [TutorController::class, 'deleteEducationHistories']);
+
+        // For Admin 
         Route::post('store-education-histories-by-admin', [TutorController::class, 'storeEducationByAdmin']);
-        Route::post('update-education-histories/{id}', [TutorController::class, 'update']);
+        //Route::post('update-education-histories/{id}', [TutorController::class, 'update']);
 
         // Work Experience
         Route::get('tutor-work-experiences', [TutorWorkExperienceController::class, 'getWorkExperiencesByTutor']);
@@ -140,7 +149,13 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('update-address', [AddressController::class, 'update']);
 
         //Basic Information
+<<<<<<< HEAD
         Route::get('user-information', [UserInformationController::class, 'showUser']);
+=======
+
+        Route::get('user-information', [UserInformationController::class, 'showUser']);
+        Route::get('user-information', [UserInformationController::class, 'show']);
+>>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
         Route::post('user-information', [UserInformationController::class, 'update']);
 
         //Document

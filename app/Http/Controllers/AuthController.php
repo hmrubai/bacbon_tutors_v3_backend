@@ -50,9 +50,7 @@ class AuthController extends Controller
 
             return $this->successResponse($user, 'User registered successfully', Response::HTTP_CREATED);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), '
-            something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
-
+            return $this->errorResponse($th->getMessage(), 'something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -82,7 +80,6 @@ class AuthController extends Controller
     }
 
     // Profile API - GET (JWT Auth Token)
-
     public function profile()
     {
         try {
@@ -141,6 +138,22 @@ class AuthController extends Controller
             return $this->successResponse($menus, 'Menus', Response::HTTP_OK);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'new_password' => 'required|min:6',
+        ]);
+
+        $user = Auth::user();
+
+        try {
+            $data = $this->authService->setPassword($user, $request->name, $request->new_password);
+            return $this->successResponse($data, 'Password has been updated successfully', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->errorResponse([], $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

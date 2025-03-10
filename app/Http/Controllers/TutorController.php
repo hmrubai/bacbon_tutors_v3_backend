@@ -124,10 +124,20 @@ class TutorController extends Controller
         }
     }
 
-    public function update(TutorEducationRequest $request, $id)
+    public function updateEducationHistories(TutorEducationRequest $request, $id)
     {
+        $data = $request->validate([
+            'title' => 'required|string',
+            'institute' => 'required|string',
+            'discipline' => 'nullable|string',
+            'passing_year' => 'nullable|string',
+            'sequence' => 'nullable|integer',
+            'created_by' => 'nullable|integer',
+            'is_active' => 'boolean'
+        ]);
+
         try {
-            $resource = $this->tp_service->update($id, $request);
+            $resource = $this->tp_service->update($id, $data);
 
             return $this->successResponse($resource, 'Education Information updated successfully!', Response::HTTP_OK);
         } catch (\Throwable $th) {
@@ -137,7 +147,7 @@ class TutorController extends Controller
         return response()->json($this->tp_service->update($id, $data));
     }
 
-    public function destroy($id)
+    public function deleteEducationHistories($id)
     {
         try {
             $this->tp_service->delete($id);

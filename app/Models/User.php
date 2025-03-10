@@ -16,11 +16,6 @@ class User extends Authenticatable implements JWTSubject
     use HasFactory, HasRoles, Notifiable,SoftDeletes;
     use OrganizationScopedTrait;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -69,23 +64,14 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at',
         'created_by',
         'password',
+        'is_password_set',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -97,6 +83,7 @@ class User extends Authenticatable implements JWTSubject
             'is_account_verified' => 'boolean',
             'is_foreigner' => 'boolean',
             'is_bacbon_certified' => 'boolean',
+            'is_password_set' => 'boolean',
             'class_id' => 'integer',
             'present_division_id' => 'integer',
             'present_district_id' => 'integer',
@@ -109,21 +96,12 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
-    /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
-     */
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
     }
 
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
     public function getJWTCustomClaims()
     {
         return [];
@@ -137,42 +115,62 @@ class User extends Authenticatable implements JWTSubject
     public function workExperiences()
     {
         return $this->hasMany(TutorWorkExperience::class);
+<<<<<<< HEAD
 
     }
 
     // Relation for References
+=======
+    }
+
+>>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
     public function references()
     {
         return $this->hasMany(Reference::class);
     }
 
+<<<<<<< HEAD
     // Relation for Address (assuming one-to-one)
+=======
+>>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
     public function address()
     {
         return $this->hasOne(Address::class);
     }
 
+<<<<<<< HEAD
     // Relation for Documents
+=======
+>>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
     public function documents()
     {
         return $this->hasMany(Document::class);
     }
 
+<<<<<<< HEAD
     // Relation for Tution Areas
+=======
+>>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
     public function tutionAreas()
     {
         return $this->hasMany(TutionArea::class);
     }
 
+<<<<<<< HEAD
     // Relation for Tutor Schedules
+=======
+>>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
     public function tutorSchedules()
     {
         return $this->hasMany(TutorSchedule::class);
     }
+<<<<<<< HEAD
 
     // // Example: Relation for Grade (if the user has a grade via the 'class_id' column)
     // public function grade()
     // {
     //     return $this->belongsTo(Grade::class, 'class_id');
     // }
+=======
+>>>>>>> 57547c02077f4d032de417bde28a5fc0ad502528
 }

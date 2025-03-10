@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>BacBon Tutors API V3</title>
+        <link rel="shortcut icon" href="https://bacbontutors.com/assets/img/favicon.ico" type="image/x-icon">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
