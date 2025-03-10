@@ -24,7 +24,7 @@ class UserInformationController extends Controller
     {
         try {
             // Retrieve basic user information.
-            $userInfo = $this->userInfoService->show($userId);
+            $userInfo = $this->userInfoService->showUser($userId);
             return $this->successResponse( $userInfo, 'User profile retrieved successfully!', Response::HTTP_OK);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'Failed to retrieve user profile', Response::HTTP_INTERNAL_SERVER_ERROR);
