@@ -21,6 +21,7 @@ use App\Http\Controllers\UserInformationController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\TutionAreaController;
 use App\Http\Controllers\TutorScheduleController;
+use App\Http\Controllers\GuardianController;
 
 
 // Protected Routes
@@ -166,6 +167,13 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('tutor-schedules/{id}', [TutorScheduleController::class, 'show']);
         Route::post('tutor-schedules/{id}', [TutorScheduleController::class, 'update']);
         Route::delete('tutor-schedules/{id}', [TutorScheduleController::class, 'destroy']);
+
+        //Kids Information
+        Route::get('kid-information', [GuardianController::class, 'index']);
+        Route::post('kid-information', [GuardianController::class, 'store']);
+        Route::get('kid-information/{id}', [GuardianController::class, 'show']);
+        Route::post('kid-information/{id}', [GuardianController::class, 'update']);
+        Route::delete('kid-information/{id}', [GuardianController::class, 'destroy']);
 
     });
 
