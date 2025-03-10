@@ -32,6 +32,7 @@ class AuthController extends Controller
             return response()->json([
                 'data' => [],
                 'message' => 'Please attach Email/Phone No!',
+                'status' => false
             ], 422);
         }
 
@@ -49,6 +50,7 @@ class AuthController extends Controller
                         'is_password_set' => true,
                     ],
                     'message' => 'Enter Password to login!',
+                    'status' => true
                 ], 200);
             }
         }
@@ -69,6 +71,7 @@ class AuthController extends Controller
             return response()->json([
                 'data' => [],
                 'message' => 'Please attach Email/Phone No!',
+                'status' => false
             ], 422);
         }
 
@@ -83,6 +86,7 @@ class AuthController extends Controller
             return response()->json([
                 'data' => [],
                 'message' => 'User not found!',
+                'status' => false
             ], 422);
         }
 
@@ -102,6 +106,7 @@ class AuthController extends Controller
             return response()->json([
                 'data' => [],
                 'message' => 'Please attach Email/Phone No!',
+                'status' => false
             ], 422);
         }
 
@@ -119,6 +124,7 @@ class AuthController extends Controller
                         'is_password_set' => true,
                     ],
                     'message' => 'Enter Password to login!',
+                    'status' => true
                 ], 200);
             }
         }
