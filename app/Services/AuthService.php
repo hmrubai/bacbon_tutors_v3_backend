@@ -86,6 +86,81 @@ class AuthService
         return true;
     }
 
+    public function checkUserVarification($request)
+    {
+        $user_type = $request->user_type ? $request->user_type : "Student";
+
+        $user = User::where(function ($query) use ($request) {
+                $query->where('email', $request->email_or_username)
+                ->orWhere('username', $request->email_or_username);
+            })
+            ->where('user_type', $user_type)
+            ->first();
+
+        if ($user) {
+            if($user->is_password_set){
+                return response()->json([
+                    'data' =>[
+                        'is_password_set' => true,
+                    ],
+                    'message' => 'Enter Password to login!',
+                ], 400);
+            }
+        }
+
+        $request_type = $this->identifyInputType($request->email_or_username); 
+        $otp = mt_rand(1000, 9999);
+
+        $message = "Your verification code is: " . $otp;
+
+        if (!$user) {
+            if($request_type == 'email'){
+                $user = User::create([
+                    'email' => $request->email_or_username,
+                    'user_type' => $user_type ?? "Student",
+                    'is_active' => 1,
+                ]);
+                $mail_body = ['name' => $user->name ?? "Concern", 'subject' => "Verification Code", 'title' => "Verification Code", 'body' => $message];
+                $this->sendEmail($mail_body, $request->email_or_username);
+            }elseif($request_type == 'phone'){  
+                $user = User::create([
+                    'username' => $request->email_or_username,
+                    'primary_number' => $request->email_or_username,
+                    'user_type' => $user_type ?? "Student",
+                    'is_active' => 1,
+                ]);
+                $this->sendSms($request->email_or_username, $message);
+            }else{
+                throw new \Exception('Enter Valid Phone/Email!');
+            }
+        }
+        else{
+            if($request_type == 'email'){
+                if($user->email!= $request->email_or_username){
+                    throw new \Exception('Invalid Email!');
+                }else{
+                    $mail_body = ['name' => $user->name ?? "Concern", 'subject' => "Verification Code", 'title' => "Verification Code", 'body' => $message];
+                    $this->sendEmail($mail_body, $request->email_or_username);
+                }
+            }elseif($request_type == 'phone'){  
+                if($user->username!= $request->email_or_username){
+                    throw new \Exception('Invalid Phone!');
+                }else{
+                    $this->sendSms($request->email_or_username, $message);
+                }
+            }
+        }
+
+        OtpCodeVerification::create([
+            'user_id' => $user->id,
+            'otp_code' => $otp,
+            'expired_at' => now()->addMinutes(5),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        return true;
+    }
+
     public function verifyOtpForLogin($request){
         $user = User::where(function ($query) use ($request) {
             $query->where('email', $request->email_or_username)

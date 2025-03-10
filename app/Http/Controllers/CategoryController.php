@@ -29,9 +29,9 @@ class CategoryController extends Controller
         try {
             $data = $this->service->index($request);
 
-            return $this->successResponse($data, 'Category data retrieved successfully!', Response::HTTP_OK);
+            return $this->successResponse($data, 'Category data retrieved successfully!', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
 
@@ -43,9 +43,9 @@ class CategoryController extends Controller
         try {
             $resource = $this->service->store($request);
 
-            return $this->successResponse($resource, 'Category created successfully!', Response::HTTP_CREATED);
+            return $this->successResponse($resource, 'Category created successfully!', Response::HTTP_CREATED, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Failed to create Category', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse($th->getMessage(), 'Failed to create Category', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
 
@@ -57,9 +57,9 @@ class CategoryController extends Controller
         try {
             $resource = $this->service->show($id);
 
-            return $this->successResponse($resource, 'Category retrieved successfully!', Response::HTTP_OK);
+            return $this->successResponse($resource, 'Category retrieved successfully!', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Failed to retrieve Category', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse($th->getMessage(), 'Failed to retrieve Category', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
     
@@ -72,9 +72,9 @@ class CategoryController extends Controller
         try {
             $resource = $this->service->update($request, $id);
 
-            return $this->successResponse($resource, 'Category updated successfully!', Response::HTTP_OK);
+            return $this->successResponse($resource, 'Category updated successfully!', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Failed to update Category', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse($th->getMessage(), 'Failed to update Category', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
 
@@ -86,9 +86,9 @@ class CategoryController extends Controller
         try {
             $this->service->destroy($id);
 
-            return $this->successResponse(null, 'Category deleted successfully!', Response::HTTP_OK);
+            return $this->successResponse(null, 'Category deleted successfully!', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Failed to delete Category', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->errorResponse($th->getMessage(), 'Failed to delete Category', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
 }

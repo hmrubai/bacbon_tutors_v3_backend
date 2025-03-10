@@ -8,6 +8,7 @@ use App\Http\Traits\HelperTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Services\DocumentService;
 use App\Http\Requests\DocumentRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class DocumentController extends Controller
 {
@@ -30,9 +31,9 @@ class DocumentController extends Controller
         try {
             $userId = Auth::id();
             $documents = $this->documentService->getByUserId($userId);
-            return $this->successResponse($documents, 'Documents retrieved successfully!');
+            return $this->successResponse($documents, 'Documents retrieved successfully!', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Failed to retrieve documents', 500);
+            return $this->errorResponse($th->getMessage(), 'Failed to retrieve documents', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
 
@@ -52,9 +53,9 @@ class DocumentController extends Controller
 
         try {
             $document = $this->documentService->create($data);
-            return $this->successResponse($document, 'Document created successfully!', 201);
+            return $this->successResponse($document, 'Document created successfully!', Response::HTTP_CREATED, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Failed to create document', 500);
+            return $this->errorResponse($th->getMessage(), 'Failed to create document', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
 
@@ -66,11 +67,11 @@ class DocumentController extends Controller
         try {
             $document = $this->documentService->getById($id);
             if ($document->user_id != Auth::id()) {
-                return $this->errorResponse('Unauthorized', 'You do not have permission to view this document', 403);
+                return $this->errorResponse('Unauthorized', 'You do not have permission to view this document', Response::HTTP_NOT_FOUND, false);
             }
-            return $this->successResponse($document, 'Document retrieved successfully!');
+            return $this->successResponse($document, 'Document retrieved successfully!', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Failed to retrieve document', 500);
+            return $this->errorResponse($th->getMessage(), 'Failed to retrieve document', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
 
@@ -82,7 +83,7 @@ class DocumentController extends Controller
         try {
             $document = $this->documentService->getById($id);
             if ($document->user_id != Auth::id()) {
-                return $this->errorResponse('Unauthorized', 'You do not have permission to update this document', 403);
+                return $this->errorResponse('Unauthorized', 'You do not have permission to update this document', Response::HTTP_NOT_FOUND, false);
             }
             $data = $request->validated();
             if ($request->hasFile('document_image')) {
@@ -90,9 +91,9 @@ class DocumentController extends Controller
                 $data['document_image'] = $filePath;
             }
             $updatedDocument = $this->documentService->update($id, $data);
-            return $this->successResponse($updatedDocument, 'Document updated successfully!');
+            return $this->successResponse($updatedDocument, 'Document updated successfully!', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Failed to update document', 500);
+            return $this->errorResponse($th->getMessage(), 'Failed to update document', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
     // New endpoint: Delete a document (only if it belongs to the authenticated user or admin).
@@ -105,9 +106,9 @@ class DocumentController extends Controller
                 return $this->errorResponse('Unauthorized', 'You do not have permission to delete this document', 403);
             }
             $this->documentService->delete($id);
-            return $this->successResponse(null, 'Document deleted successfully!');
+            return $this->successResponse(null, 'Document deleted successfully!', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Failed to delete document', 500);
+            return $this->errorResponse($th->getMessage(), 'Failed to delete document', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
     // --- Admin Endpoint ---
@@ -116,9 +117,9 @@ class DocumentController extends Controller
     {
         try {
             $documents = $this->documentService->getByUserId($user_id);
-            return $this->successResponse($documents, "Documents for user_id: {$user_id} retrieved successfully!");
+            return $this->successResponse($documents, "Documents for user_id: {$user_id} retrieved successfully!", Response::HTTP_OK, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Failed to retrieve documents for the specified user', 500);
+            return $this->errorResponse($th->getMessage(), 'Failed to retrieve documents for the specified user', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
     /**
@@ -137,9 +138,9 @@ class DocumentController extends Controller
 
         try {
             $document = $this->documentService->update($id, $data);
-            return $this->successResponse($document, 'Document approval updated successfully!');
+            return $this->successResponse($document, 'Document approval updated successfully!', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Failed to update document approval', 500);
+            return $this->errorResponse($th->getMessage(), 'Failed to update document approval',  Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
 
