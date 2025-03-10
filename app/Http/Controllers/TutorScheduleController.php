@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use App\Http\Traits\HelperTrait;
 use Illuminate\Support\Facades\Auth;
@@ -28,9 +29,9 @@ class TutorScheduleController extends Controller
         $userId = Auth::id();
         try {
             $schedules = $this->tutorScheduleService->getByUserId($userId);
-            return $this->successResponse($schedules, 'Tutor schedules retrieved successfully!');
+            return $this->successResponse($schedules, 'Tutor schedules retrieved successfully!', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), 'Failed to retrieve tutor schedules', 500);
+            return $this->errorResponse($th->getMessage(), 'Failed to retrieve tutor schedules', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
 
