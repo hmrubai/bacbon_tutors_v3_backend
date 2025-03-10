@@ -30,12 +30,11 @@ class UserInformationController extends Controller
             return $this->errorResponse($th->getMessage(), 'Failed to retrieve user profile', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
     public function showUser(Request $request)
     {
         try {
             $userId = Auth::id();
-            $data = $this->userInfoService->show($userId);
+            $data = $this->userInfoService->showUser($userId);
             return $this->successResponse($data, 'User information retrieved successfully!', Response::HTTP_OK);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'Failed to retrieve user information', Response::HTTP_INTERNAL_SERVER_ERROR);
