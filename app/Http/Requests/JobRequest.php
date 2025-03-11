@@ -17,7 +17,6 @@ class JobRequest extends FormRequest
         return [
             'student_id'    => 'nullable|integer',
             'kid_id'        => 'nullable|integer',
-            // user_id is auto-populated, so we don’t require it.
             'job_title'     => 'required|string|max:255',
             'slot_days'     => 'required|integer',
             'slot_type'     => 'required|in:Month,Week',

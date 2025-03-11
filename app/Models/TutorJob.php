@@ -13,6 +13,7 @@ class TutorJob extends Model
     protected $table = 'tutor_jobs';
 
     protected $fillable = [
+        'job_id',
         'student_id',
         'kid_id',
         'user_id',
