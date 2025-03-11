@@ -182,7 +182,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
 
         //Job Post
         // List all jobs for the current user.
-        Route::get('all-job-list', [TutorJobController::class, 'index']);
+        Route::get('job-list', [TutorJobController::class, 'index']);
         Route::post('add-new-job', [TutorJobController::class, 'store']);
         Route::get('job-details/{id}', [TutorJobController::class, 'show']);
         Route::post('update-jobs/{id}', [TutorJobController::class, 'update']);
