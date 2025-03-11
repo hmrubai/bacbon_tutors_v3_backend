@@ -223,3 +223,11 @@ Route::group(['middleware' => ['auth:api',]], function () {
 
     Route::apiResource('categories', CategoryController::class);
 });
+
+
+// Common APIs for Guest uses
+Route::group(['prefix' => 'open'], function () {
+    //Job List
+    Route::get('all-job-list', [TutorJobController::class, 'allJobList']);
+    Route::get('job-details/{id}', [TutorJobController::class, 'jobDetails']);
+});
