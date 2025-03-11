@@ -6,16 +6,16 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Traits\HelperTrait;
 use Illuminate\Support\Facades\Auth;
-use App\Services\JobService;
+use App\Services\TutorJobService;
 use App\Http\Requests\JobRequest;
 
-class JobController extends Controller
+class TutorJobController extends Controller
 {
     use HelperTrait;
 
     protected $jobService;
 
-    public function __construct(JobService $service)
+    public function __construct(TutorJobService $service)
     {
         $this->jobService = $service;
     }
