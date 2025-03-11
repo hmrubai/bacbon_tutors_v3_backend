@@ -57,6 +57,13 @@ class AuthController extends Controller
 
         try {
             $data = $this->authService->checkUserVarification($request);
+            return response()->json([
+                'data' => [
+                    'is_password_set' => false,
+                ],
+                'message' => 'OTP sent successfully!',
+                'status' => true
+            ], 200);
             return $this->successResponse($data, 'OTP sent successfully', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
             return $this->errorResponse([], $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR, false);
@@ -92,6 +99,13 @@ class AuthController extends Controller
 
         try {
             $data = $this->authService->checkUser($request);
+            return response()->json([
+                'data' => [
+                    'is_password_set' => false,
+                ],
+                'message' => 'OTP sent successfully!',
+                'status' => true
+            ], 200);
             return $this->successResponse($data, 'OTP sent successfully', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
             return $this->errorResponse([], $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR, false);
@@ -131,6 +145,13 @@ class AuthController extends Controller
 
         try {
             $data = $this->authService->checkUser($request);
+            return response()->json([
+                'data' => [
+                    'is_password_set' => false,
+                ],
+                'message' => 'OTP sent successfully!',
+                'status' => true
+            ], 200);
             return $this->successResponse($data, 'OTP sent successfully', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
             return $this->errorResponse([], $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR, false);
