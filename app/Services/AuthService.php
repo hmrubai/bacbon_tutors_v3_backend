@@ -391,7 +391,28 @@ class AuthService
             $user->name = $name;
             $user->is_password_set = true;
             $user->save();
-            return true;
+
+        // Generate JWT token
+        $token = Auth::guard('api')->login($user);
+
+        $user = User::where('id', $user->id)->first();
+        $role = $user->roles()->first()->name ?? null;
+        $permissions = $user->getAllPermissions()->pluck('name');
+        $extraPermissions = $user->getDirectPermissions()->pluck('name');
+        $rolePermissions = $user->getPermissionsViaRoles()->pluck('name');
+        $expiresIn = auth()->factory()->getTTL() * 60;
+
+        return [
+            'token_type' => 'bearer',
+            'token' => $token,
+            'expires_in' => $expiresIn,
+            'role' => $role,
+            'permissions' => $permissions,
+            'role_permissions' => $rolePermissions,
+            'extra_permissions' => $extraPermissions,
+            'user' => $user,
+        ];
+
         }catch (\Throwable $th) {
             throw $th;
         }

@@ -175,10 +175,10 @@ Route::group(['middleware' => ['auth:api',]], function () {
 
         //Kids Information
         Route::get('kid-information', [GuardianController::class, 'index']);
-        Route::post('kid-information', [GuardianController::class, 'store']);
-        Route::get('kid-information/{id}', [GuardianController::class, 'show']);
-        Route::post('kid-information/{id}', [GuardianController::class, 'update']);
-        Route::delete('kid-information/{id}', [GuardianController::class, 'destroy']);
+        Route::post('add-kid-information', [GuardianController::class, 'store']);
+        Route::get('kid-details/{id}', [GuardianController::class, 'show']);
+        Route::post('update-kid-information/{id}', [GuardianController::class, 'update']);
+        Route::delete('delete-kid-information/{id}', [GuardianController::class, 'destroy']);
 
         //Job Post
         // List all jobs for the current user.
@@ -191,7 +191,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
     });
 
     // Common APIs for open uses
-    Route::group(['prefix' => 'open'], function () {
+    Route::group(['prefix' => 'common'], function () {
         //Medium
         Route::get('all-mediums', [MediumController::class, 'index']);
 

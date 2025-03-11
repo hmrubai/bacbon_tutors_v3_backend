@@ -23,5 +23,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::post('change-password', [AuthController::class, 'changePassword']);
     Route::post('update-password', [AuthController::class, 'updatePassword']);
+    Route::post('set-password', [AuthController::class, 'updatePassword']);
     Route::get('details', [AuthController::class, 'details']);
 });
