@@ -22,6 +22,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\TutionAreaController;
 use App\Http\Controllers\TutorScheduleController;
 use App\Http\Controllers\GuardianController;
+use App\Http\Controllers\JobController;
 
 
 // Protected Routes
@@ -174,6 +175,18 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('kid-information/{id}', [GuardianController::class, 'show']);
         Route::post('kid-information/{id}', [GuardianController::class, 'update']);
         Route::delete('kid-information/{id}', [GuardianController::class, 'destroy']);
+
+        //Job Post
+        // List all jobs for the current user.
+        Route::get('jobs', [JobController::class, 'index']);
+        // Create a new job.
+        Route::post('jobs', [JobController::class, 'store']);
+        // Show a specific job.
+        Route::get('jobs/{id}', [JobController::class, 'show']);
+        // Update a specific job.
+        Route::post('jobs/{id}', [JobController::class, 'update']);
+        // Delete a specific job.
+        Route::delete('jobs/{id}', [JobController::class, 'destroy']);
 
     });
 
