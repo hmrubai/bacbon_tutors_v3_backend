@@ -182,11 +182,11 @@ Route::group(['middleware' => ['auth:api',]], function () {
 
         //Job Post
         // List all jobs for the current user.
-        Route::get('jobs', [TutorJobController::class, 'index']);
-        Route::post('jobs', [TutorJobController::class, 'store']);
-        Route::get('jobs/{id}', [TutorJobController::class, 'show']);
-        Route::post('jobs/{id}', [TutorJobController::class, 'update']);
-        Route::delete('jobs/{id}', [TutorJobController::class, 'destroy']);
+        Route::get('all-job-list', [TutorJobController::class, 'index']);
+        Route::post('add-new-job', [TutorJobController::class, 'store']);
+        Route::get('job-details/{id}', [TutorJobController::class, 'show']);
+        Route::post('update-jobs/{id}', [TutorJobController::class, 'update']);
+        Route::delete('delete-jobs/{id}', [TutorJobController::class, 'destroy']);
 
     });
 
