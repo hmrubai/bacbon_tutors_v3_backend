@@ -22,7 +22,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\TutionAreaController;
 use App\Http\Controllers\TutorScheduleController;
 use App\Http\Controllers\GuardianController;
-use App\Http\Controllers\JobController;
+use App\Http\Controllers\TutorJobController;
 
 
 // Protected Routes
@@ -168,6 +168,10 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('tutor-schedules/{id}', [TutorScheduleController::class, 'show']);
         Route::post('tutor-schedules/{id}', [TutorScheduleController::class, 'update']);
         Route::delete('tutor-schedules/{id}', [TutorScheduleController::class, 'destroy']);
+    });
+
+    // Guardian APIs 
+    Route::group(['prefix' => 'guardian'], function () {
 
         //Kids Information
         Route::get('kid-information', [GuardianController::class, 'index']);
@@ -178,16 +182,32 @@ Route::group(['middleware' => ['auth:api',]], function () {
 
         //Job Post
         // List all jobs for the current user.
-        Route::get('jobs', [JobController::class, 'index']);
-        // Create a new job.
-        Route::post('jobs', [JobController::class, 'store']);
-        // Show a specific job.
-        Route::get('jobs/{id}', [JobController::class, 'show']);
-        // Update a specific job.
-        Route::post('jobs/{id}', [JobController::class, 'update']);
-        // Delete a specific job.
-        Route::delete('jobs/{id}', [JobController::class, 'destroy']);
+        Route::get('jobs', [TutorJobController::class, 'index']);
+        Route::post('jobs', [TutorJobController::class, 'store']);
+        Route::get('jobs/{id}', [TutorJobController::class, 'show']);
+        Route::post('jobs/{id}', [TutorJobController::class, 'update']);
+        Route::delete('jobs/{id}', [TutorJobController::class, 'destroy']);
 
+    });
+
+    // Common APIs for open uses
+    Route::group(['prefix' => 'open'], function () {
+        //Medium
+        Route::get('all-mediums', [MediumController::class, 'index']);
+
+        //Grade
+        Route::get('all-grades', [GradeController::class, 'index']);
+        Route::get('grades/medium/{mediumId}', [GradeController::class, 'getGradesByMediumId']);
+
+        //Subject
+        Route::get('all-subjects', [SubjectController::class, 'index']);
+        Route::get('subjects/medium/{mediumId}', [SubjectController::class, 'getSubjectsByMediumId']);
+
+        //Location Post
+        Route::get('division-list', [LocationController::class, 'divisionList']);
+        Route::get('district-list-by-id/{division_id}', [LocationController::class, 'districtListByID']);
+        Route::get('upazila-list-by-id/{district_id}', [LocationController::class, 'upazilaListByID']);
+        Route::get('area-list-by-id/{upazila_id}', [LocationController::class, 'unionListByID']);
     });
 
     Route::get('division-list', [LocationController::class, 'divisionList']);

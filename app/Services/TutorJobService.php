@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\Job;
+use App\Models\TutorJob;
 use App\Http\Traits\HelperTrait;
 use Illuminate\Support\Facades\Auth;
 
-class JobService
+class TutorJobService
 {
     use HelperTrait;
 
@@ -16,7 +16,7 @@ class JobService
      */
     public function getByUserId($userId)
     {
-        return Job::with(['medium', 'subject', 'kid'])
+        return TutorJob::with(['medium', 'subject', 'kid'])
                   ->where('user_id', $userId)
                   ->get();
     }
@@ -26,7 +26,7 @@ class JobService
      */
     public function getById($id)
     {
-        return Job::with(['medium', 'subject', 'kid'])->findOrFail($id);
+        return TutorJob::with(['medium', 'subject', 'kid'])->findOrFail($id);
     }
 
     /**
@@ -35,7 +35,7 @@ class JobService
     public function create(array $data)
     {
         $data['user_id'] = Auth::id();
-        return Job::create($data);
+        return TutorJob::create($data);
     }
 
     /**
@@ -43,7 +43,7 @@ class JobService
      */
     public function update($id, array $data)
     {
-        $job = Job::findOrFail($id);
+        $job = TutorJob::findOrFail($id);
         unset($data['user_id']);
         $job->update($data);
         return $job;
@@ -54,7 +54,7 @@ class JobService
      */
     public function delete($id)
     {
-        $job = Job::findOrFail($id);
+        $job = TutorJob::findOrFail($id);
         $job->delete();
         return ['message' => 'Deleted successfully'];
     }
