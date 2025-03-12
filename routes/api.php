@@ -111,7 +111,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('education-histories', [TutorController::class, 'getTutorEducationHistory']);
         Route::post('store-education-histories', [TutorController::class, 'storeEducationByUser']);
         Route::post('update-education-histories/{id}', [TutorController::class, 'updateEducationHistories']);
-        Route::post('delete-education-histories/{id}', [TutorController::class, 'deleteEducationHistories']);
+        Route::delete('delete-education-histories/{id}', [TutorController::class, 'deleteEducationHistories']);
 
         // For Admin 
         Route::post('store-education-histories-by-admin', [TutorController::class, 'storeEducationByAdmin']);
@@ -151,10 +151,10 @@ Route::group(['middleware' => ['auth:api',]], function () {
 
         //Document
         Route::get('documents', [DocumentController::class, 'index']);
-        Route::post('documents', [DocumentController::class, 'store']);
-        Route::get('documents/{id}', [DocumentController::class, 'show']);
-        Route::post('documents/{id}', [DocumentController::class, 'update']);
-        Route::delete('documents/{id}', [DocumentController::class, 'destroy']);
+        Route::post('add-documents', [DocumentController::class, 'store']);
+        Route::get('document-details/{id}', [DocumentController::class, 'show']);
+        Route::post('update-documents/{id}', [DocumentController::class, 'update']);
+        Route::delete('delete-documents/{id}', [DocumentController::class, 'destroy']);
 
         //Tution Area
         Route::get('tution-areas', [TutionAreaController::class, 'index']);
