@@ -158,16 +158,16 @@ Route::group(['middleware' => ['auth:api',]], function () {
 
         //Tution Area
         Route::get('tution-areas', [TutionAreaController::class, 'index']);
-        Route::post('tution-areas', [TutionAreaController::class, 'store']);
-        Route::post('tution-areas/{id}', [TutionAreaController::class, 'update']);
-        Route::delete('tution-areas/{id}', [TutionAreaController::class, 'destroy']);
+        Route::post('add-tution-areas', [TutionAreaController::class, 'store']);
+        Route::post('tution-areas-details/{id}', [TutionAreaController::class, 'update']);
+        Route::delete('delete-tution-areas/{id}', [TutionAreaController::class, 'destroy']);
 
         //Tutor Schedule
         Route::get('tutor-schedules', [TutorScheduleController::class, 'index']);
-        Route::post('tutor-schedules', [TutorScheduleController::class, 'store']);
-        Route::get('tutor-schedules/{id}', [TutorScheduleController::class, 'show']);
-        Route::post('tutor-schedules/{id}', [TutorScheduleController::class, 'update']);
-        Route::delete('tutor-schedules/{id}', [TutorScheduleController::class, 'destroy']);
+        Route::post('add-tutor-schedules', [TutorScheduleController::class, 'store']);
+        Route::get('tutor-schedules-details/{id}', [TutorScheduleController::class, 'show']);
+        Route::post('update-tutor-schedules/{id}', [TutorScheduleController::class, 'update']);
+        Route::delete('delete-tutor-schedules/{id}', [TutorScheduleController::class, 'destroy']);
     });
 
     // Guardian APIs 
