@@ -16,7 +16,7 @@ class SubjectExpertiseRequest extends FormRequest
     {
         return [
             'medium_id'  => 'required|integer',
-            'grade_id'   => 'required|integer',
+            'grade_id'   => 'required|array',
             'subject_id' => 'required|integer',
             // For tutors, user_id will be auto-populated so it can be nullable here.
             'user_id'    => 'nullable|integer',

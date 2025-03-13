@@ -42,4 +42,10 @@ class SubjectExpertise extends Model
     {
         return $this->belongsTo(\App\Models\Subject::class, 'subject_id');
     }
+
+    public function class_list()
+    {
+        return $this->hasMany(\App\Models\ExpertiseClassList::class);
+        // return $this->belongsTo(\App\Models\ExpertiseClassList::class, 'grade_id');
+    }
 }

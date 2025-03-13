@@ -12,6 +12,10 @@ class TutorJob extends Model
     // Use the table tutor_jobs instead of the default "jobs"
     protected $table = 'tutor_jobs';
 
+    protected $casts = [
+        'salary_amount' => 'integer',
+    ];
+
     protected $fillable = [
         'job_id',
         'student_id',
