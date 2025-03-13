@@ -146,7 +146,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
         //Basic Information
 
         Route::get('user-information', [UserInformationController::class, 'showUser']);
-        Route::get('user-information', [UserInformationController::class, 'show']);
+        // Route::get('user-information', [UserInformationController::class, 'show']);
         Route::post('user-information', [UserInformationController::class, 'update']);
 
         //Document
