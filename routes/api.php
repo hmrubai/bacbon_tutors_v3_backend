@@ -174,11 +174,11 @@ Route::group(['middleware' => ['auth:api',]], function () {
     Route::group(['prefix' => 'student'], function () {
         //Job Post
         // List all jobs for the current user.
-        Route::get('job-list', [TutorJobController::class, 'index']);
-        Route::post('add-new-job', [TutorJobController::class, 'store']);
-        Route::get('job-details/{id}', [TutorJobController::class, 'show']);
-        Route::post('update-jobs/{id}', [TutorJobController::class, 'update']);
-        Route::delete('delete-jobs/{id}', [TutorJobController::class, 'destroy']);
+        // Route::get('job-list', [TutorJobController::class, 'index']);
+        // Route::post('add-new-job', [TutorJobController::class, 'store']);
+        // Route::get('job-details/{id}', [TutorJobController::class, 'show']);
+        // Route::post('update-jobs/{id}', [TutorJobController::class, 'update']);
+        // Route::delete('delete-jobs/{id}', [TutorJobController::class, 'destroy']);
     });
 
     // Guardian APIs 
