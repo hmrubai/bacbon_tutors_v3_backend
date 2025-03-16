@@ -41,7 +41,6 @@ class UserInformationController extends Controller
         }
     }
 
-
     /**
      * Update the current user's information.
      */
