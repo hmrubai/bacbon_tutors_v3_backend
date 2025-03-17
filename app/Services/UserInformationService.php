@@ -18,11 +18,12 @@ class UserInformationService
             'subjectExpertise.grade',
             'subjectExpertise.subject',
             'workExperiences',
+            'educationHistory',
             'references',
             'address',
             'documents',
             'tutionAreas',
-            'tutorSchedules',
+            'tutorSchedules'
         )->findOrFail($userId);
     }
 

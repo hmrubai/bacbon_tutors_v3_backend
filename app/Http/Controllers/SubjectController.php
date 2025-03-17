@@ -44,6 +44,7 @@ class SubjectController extends Controller
     }
 
     // Retrieve a specific subject
+
     public function show($id)
     {
         try {
@@ -72,6 +73,17 @@ class SubjectController extends Controller
          try {
              $data = $this->subjectService->getSubjectsByMediumId($mediumId);
              return $this->successResponse($data, "Subjects retrieved successfully for medium_id: $mediumId", Response::HTTP_OK);
+         } catch (\Throwable $th) {
+             return $this->errorResponse($th->getMessage(), 'Failed to retrieve subjects by medium id', Response::HTTP_INTERNAL_SERVER_ERROR);
+         }
+     }
+
+     // New API: Get subject list by medium_id & grade_id
+     public function getSubjectsByMediumGradeId(Request $request, $mediumId, $gradeId)
+     {
+         try {
+             $data = $this->subjectService->getSubjectsByMediumGradeId($mediumId, $gradeId);
+             return $this->successResponse($data, "Subjects retrieved successfully", Response::HTTP_OK);
          } catch (\Throwable $th) {
              return $this->errorResponse($th->getMessage(), 'Failed to retrieve subjects by medium id', Response::HTTP_INTERNAL_SERVER_ERROR);
          }

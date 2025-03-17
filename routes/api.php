@@ -146,7 +146,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
         //Basic Information
 
         Route::get('user-information', [UserInformationController::class, 'showUser']);
-        Route::get('user-information', [UserInformationController::class, 'show']);
+        // Route::get('user-information', [UserInformationController::class, 'show']);
         Route::post('user-information', [UserInformationController::class, 'update']);
 
         //Document
@@ -168,6 +168,17 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('tutor-schedules-details/{id}', [TutorScheduleController::class, 'show']);
         Route::post('update-tutor-schedules/{id}', [TutorScheduleController::class, 'update']);
         Route::delete('delete-tutor-schedules/{id}', [TutorScheduleController::class, 'destroy']);
+    });
+
+    // Student APIs 
+    Route::group(['prefix' => 'student'], function () {
+        //Job Post
+        // List all jobs for the current user.
+        // Route::get('job-list', [TutorJobController::class, 'index']);
+        // Route::post('add-new-job', [TutorJobController::class, 'store']);
+        // Route::get('job-details/{id}', [TutorJobController::class, 'show']);
+        // Route::post('update-jobs/{id}', [TutorJobController::class, 'update']);
+        // Route::delete('delete-jobs/{id}', [TutorJobController::class, 'destroy']);
     });
 
     // Guardian APIs 
@@ -202,6 +213,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
         //Subject
         Route::get('all-subjects', [SubjectController::class, 'index']);
         Route::get('subjects/medium/{mediumId}', [SubjectController::class, 'getSubjectsByMediumId']);
+        Route::get('subjects/medium/{mediumId}/{gradeId}', [SubjectController::class, 'getSubjectsByMediumGradeId']);
 
         //Location Post
         Route::get('division-list', [LocationController::class, 'divisionList']);
