@@ -22,6 +22,9 @@ class SubjectExpertiseRequest extends FormRequest
             'user_id'    => 'nullable|integer',
             'remarks'    => 'nullable|string',
             'status'     => 'nullable|boolean',
+            'tuition_type' => 'nullable|in:offline,online,both',
+            'rate'         => 'nullable|in:hourly,fixed,monthly,yearly',
+            'fee'          => 'nullable|numeric|min:0',
         ];
     }
 }

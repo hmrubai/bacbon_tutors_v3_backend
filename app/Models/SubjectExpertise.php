@@ -19,6 +19,9 @@ class SubjectExpertise extends Model
         'user_id',
         'remarks',
         'status',
+        'tuition_type',
+        'rate',
+        'fee',
     ];
 
     protected $casts = [

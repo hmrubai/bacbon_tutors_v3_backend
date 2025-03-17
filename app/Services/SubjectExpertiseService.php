@@ -34,9 +34,10 @@ class SubjectExpertiseService
         return $subject_expertise;
     }
 
-    public function getByTutorId($userId)
+    public function getByTutorId($request, $userId)
     {
-        $subject_expertise = SubjectExpertise::select('subject_expertise.*', 
+        $query = SubjectExpertise::select(
+            'subject_expertise.*', 
             'mediums.title_en as medium_title_en', 
             'mediums.title_bn as medium_title_bn', 
             'subjects.name_en as subject_name_en',
@@ -45,23 +46,32 @@ class SubjectExpertiseService
         ->leftJoin('mediums', 'mediums.id', 'subject_expertise.medium_id')
         ->leftJoin('subjects', 'subjects.id', 'subject_expertise.subject_id')
         ->where('subject_expertise.user_id', $userId)
-        ->with(['medium', 'subject'])
-        ->get();
-
-        foreach ($subject_expertise as $item) {
-            $item->class_list = ExpertiseClassList::select('expertise_class_lists.*', 'grade.name_en as grade_name_en',
-                'grade.name_bn as grade_name_bn')
-                ->where('subject_expertise_id', $item->id)
-                ->leftJoin('grade', 'grade.id', 'expertise_class_lists.grade_id')
-                ->get();
+        ->with(['medium', 'subject']);
+    
+        // Apply tuition_type filter if provided
+        if ($request->filled('tuition_type')) {
+            $validTypes = ['offline', 'online', 'both'];
+            if (in_array($request->tuition_type, $validTypes)) {
+                $query->where('subject_expertise.tuition_type', $request->tuition_type);
+            }
         }
-
-        return $subject_expertise;
-
-        return SubjectExpertise::with(['medium', 'class_list', 'subject'])
-            ->where('user_id', $userId)
+    
+        $subject_expertise = $query->get();
+    
+        foreach ($subject_expertise as $item) {
+            $item->class_list = ExpertiseClassList::select(
+                'expertise_class_lists.*', 
+                'grade.name_en as grade_name_en',
+                'grade.name_bn as grade_name_bn'
+            )
+            ->where('subject_expertise_id', $item->id)
+            ->leftJoin('grade', 'grade.id', 'expertise_class_lists.grade_id')
             ->get();
+        }
+    
+        return $subject_expertise;
     }
+    
 
     public function create($data)
     {
@@ -72,6 +82,9 @@ class SubjectExpertiseService
             'user_id'    => $data['user_id'],
             'remarks'    => $data['remarks'] ?? null,
             'status'     => isset($data['status']) ? $data['status'] : true,
+            'tuition_type' => $data['tuition_type'] ?? null,
+            'rate'         => $data['rate'] ?? null,
+            'fee'          => $data['fee'] ?? 0,
         ]);
 
         foreach ($data['grade_id'] as $item) {
