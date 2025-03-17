@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\TutionArea;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\HelperTrait;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ class TutionAreaService
     public function create(array $data)
     {
         // Ensure the record is associated with the authenticated user.
-        $data['user_id'] = $data['user_id'] ?? auth()->id();
+        $data['user_id'] = $data['user_id'] ?? Auth::id();
         return TutionArea::create($data);
     }
 

@@ -213,6 +213,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
         //Subject
         Route::get('all-subjects', [SubjectController::class, 'index']);
         Route::get('subjects/medium/{mediumId}', [SubjectController::class, 'getSubjectsByMediumId']);
+        Route::get('subjects/medium/{mediumId}/{gradeId}', [SubjectController::class, 'getSubjectsByMediumGradeId']);
 
         //Location Post
         Route::get('division-list', [LocationController::class, 'divisionList']);
