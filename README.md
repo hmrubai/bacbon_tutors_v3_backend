@@ -29,5 +29,6 @@ BacBon Tutors Backend Application is built with Laravel, providing robust and sc
 ## Contributor
 
 - **[Hosne Mobarak Rubai](https://github.com/hmrubai/)**
+- **[Foysal Ahmmad](https://github.com/arfin-foysal)**
 - **[Eashen Mahmud](https://github.com/EashenMahmud)**
 

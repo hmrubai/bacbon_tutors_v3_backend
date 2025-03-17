@@ -51,7 +51,7 @@ class SubjectExpertiseController extends Controller
         }
 
         try {
-            $data = $this->expertiseService->getByTutorId($tutor_id);
+            $data = $this->expertiseService->getByTutorId($request,$tutor_id);
             return $this->successResponse($data, 'Subject expertise retrieved successfully!', Response::HTTP_OK);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
