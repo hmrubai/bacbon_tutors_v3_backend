@@ -36,22 +36,49 @@ class HomePageService
             [
                 'icon' => 'icon1',
                 'title' => 'Free Profile Creation',
-                'description' => 'Free Profile Creation allows users to register and set up a personal or business profile without any cost. It typically includes providing basic information (like name, bio, and contact details), customizing the profile with additional relevant fields, and setting privacy preferences. Users can access basic features, such as viewing others\' profiles or engaging with content. While the profile creation itself is free, some platforms may offer premium features for an upgraded experience. This service helps build communities and networks on various platforms.',
+                'description' => 'Create your profile for free and showcase your skills or services. Customize your profile with essential details, upload your portfolio, and connect with potential clients or employers effortlessly.'
             ],
             [
                 'icon' => 'icon2',
                 'title' => 'Easy Registration',
-                'description' => 'Free Profile Creation allows users to register and set up a personal or business profile without any cost. It typically includes providing basic information (like name, bio, and contact details), customizing the profile with additional relevant fields, and setting privacy preferences. Users can access basic features, such as viewing others\' profiles or engaging with content. While the profile creation itself is free, some platforms may offer premium features for an upgraded experience. This service helps build communities and networks on various platforms.',
+                'description' => 'Sign up quickly with a simple and user-friendly registration process. Provide basic details and get started in just a few clicks, without any complicated steps.'
             ],
             [
                 'icon' => 'icon3',
                 'title' => 'Expertise Tutor',
-                'description' => 'Free Profile Creation allows users to register and set up a personal or business profile without any cost. It typically includes providing basic information (like name, bio, and contact details), customizing the profile with additional relevant fields, and setting privacy preferences. Users can access basic features, such as viewing others\' profiles or engaging with content. While the profile creation itself is free, some platforms may offer premium features for an upgraded experience. This service helps build communities and networks on various platforms.',
+                'description' => 'Find highly skilled tutors specializing in various subjects. Our platform connects students with experienced educators to ensure effective learning and academic success.'
             ],
             [
                 'icon' => 'icon4',
-                'title' => '100+  New tuition per day',
-                'description' => 'Free Profile Creation allows users to register and set up a personal or business profile without any cost. It typically includes providing basic information (like name, bio, and contact details), customizing the profile with additional relevant fields, and setting privacy preferences. Users can access basic features, such as viewing others\' profiles or engaging with content. While the profile creation itself is free, some platforms may offer premium features for an upgraded experience. This service helps build communities and networks on various platforms.',
+                'title' => '100+ New Tuition Per Day',
+                'description' => 'Explore numerous tuition opportunities daily. Whether you are a tutor looking for students or a learner seeking guidance, our platform updates with fresh tuition listings regularly.'
+            ],
+        ];
+
+        $data['faq'] = [
+            [
+                'question' => 'How do I create a free profile?',
+                'answer' => 'To create a free profile, simply sign up using your email or social media account, fill in your basic information, and customize your profile as needed. No payment is required.'
+            ],
+            [
+                'question' => 'Is there any cost to register?',
+                'answer' => 'No, registration is completely free. You can create a profile and access basic features at no cost. However, premium features may require a subscription.'
+            ],
+            [
+                'question' => 'How can I find expert tutors?',
+                'answer' => 'You can browse through the tutor directory, use search filters to find tutors based on expertise, and check their profiles for ratings, reviews, and availability.'
+            ],
+            [
+                'question' => 'How often are new tuition opportunities available?',
+                'answer' => 'New tuition opportunities are added daily. You can check the platform regularly or enable notifications to stay updated on the latest listings.'
+            ],
+            [
+                'question' => 'Can I contact tutors directly?',
+                'answer' => 'Yes, you can send direct messages to tutors through the platform. Some tutors may also provide their contact details for direct communication.'
+            ],
+            [
+                'question' => 'How do I upgrade to a premium plan?',
+                'answer' => 'To upgrade to a premium plan, go to your account settings, select the upgrade option, choose a plan that fits your needs, and complete the payment process.'
             ],
         ];
 

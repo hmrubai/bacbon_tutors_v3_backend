@@ -23,6 +23,7 @@ use App\Http\Controllers\TutionAreaController;
 use App\Http\Controllers\TutorScheduleController;
 use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\TutorJobController;
+use App\Http\Controllers\HomePageController;
 
 
 // Protected Routes
@@ -220,6 +221,9 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('district-list-by-id/{division_id}', [LocationController::class, 'districtListByID']);
         Route::get('upazila-list-by-id/{district_id}', [LocationController::class, 'upazilaListByID']);
         Route::get('area-list-by-id/{upazila_id}', [LocationController::class, 'unionListByID']);
+
+        //Home Page Route
+        Route::get('home-page-details', [HomePageController::class, 'homePageDetails']);        
     });
 
     Route::get('division-list', [LocationController::class, 'divisionList']);
@@ -234,6 +238,10 @@ Route::group(['middleware' => ['auth:api',]], function () {
     Route::delete('delete-employment-type/{id}', [EmployeeTypeController::class, 'destroy']);
 
     Route::apiResource('categories', CategoryController::class);
+
+
+    
+
 });
 
 
