@@ -15,7 +15,7 @@ class TutorScheduleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'day_of_week' => 'required|in:Saturday,Sunday,Monday,Tuesday,Wednesday,Thursday,Friday',
+            'day_of_week' => 'required|in:Saturday,Sunday,Monday,Tuesday,Wednesday,Thursday,Friday|unique:tutor_schedules,day_of_week,NULL,id,user_id,' . auth()->id(),
             'morning'     => 'nullable|boolean',
             'afternoon'   => 'nullable|boolean',
             'evening'     => 'nullable|boolean',
