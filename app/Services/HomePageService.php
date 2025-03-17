@@ -20,14 +20,18 @@ class HomePageService
         $data = [];
 
         $data['active_tutors'] = User::where('user_type', "Teacher")->get()->count();
+        $data['active_jobs'] = TutorJob::where('job_status', "Open")->get()->count();
         $data['available_tutors'] = User::where('user_type', "Teacher")->limit(10)->get();
         $joblist = TutorJob::where('job_status', "Open")->limit(10)->get();
         foreach ($joblist as $job) {
             $job['is_bookmark'] = false;
             $job['job_type'] = "HomeTution";
         }
-
         $data['available_jobs'] = $joblist;
+
+        $data['hotline_no'] = "+88 09611 900 205";
+        $data['profile_completion'] = 72;
+
         $data['key_features'] = [
             [
                 'icon' => 'icon1',
@@ -35,23 +39,26 @@ class HomePageService
                 'description' => 'Free Profile Creation allows users to register and set up a personal or business profile without any cost. It typically includes providing basic information (like name, bio, and contact details), customizing the profile with additional relevant fields, and setting privacy preferences. Users can access basic features, such as viewing others\' profiles or engaging with content. While the profile creation itself is free, some platforms may offer premium features for an upgraded experience. This service helps build communities and networks on various platforms.',
             ],
             [
-                'icon' => 'icon1',
+                'icon' => 'icon2',
                 'title' => 'Easy Registration',
                 'description' => 'Free Profile Creation allows users to register and set up a personal or business profile without any cost. It typically includes providing basic information (like name, bio, and contact details), customizing the profile with additional relevant fields, and setting privacy preferences. Users can access basic features, such as viewing others\' profiles or engaging with content. While the profile creation itself is free, some platforms may offer premium features for an upgraded experience. This service helps build communities and networks on various platforms.',
             ],
             [
-                'icon' => 'icon1',
+                'icon' => 'icon3',
                 'title' => 'Expertise Tutor',
                 'description' => 'Free Profile Creation allows users to register and set up a personal or business profile without any cost. It typically includes providing basic information (like name, bio, and contact details), customizing the profile with additional relevant fields, and setting privacy preferences. Users can access basic features, such as viewing others\' profiles or engaging with content. While the profile creation itself is free, some platforms may offer premium features for an upgraded experience. This service helps build communities and networks on various platforms.',
             ],
             [
-                'icon' => 'icon1',
+                'icon' => 'icon4',
                 'title' => '100+  New tuition per day',
                 'description' => 'Free Profile Creation allows users to register and set up a personal or business profile without any cost. It typically includes providing basic information (like name, bio, and contact details), customizing the profile with additional relevant fields, and setting privacy preferences. Users can access basic features, such as viewing others\' profiles or engaging with content. While the profile creation itself is free, some platforms may offer premium features for an upgraded experience. This service helps build communities and networks on various platforms.',
             ],
         ];
 
+        return $data;
     }
+
+
 
     // public function index(Request $request): Collection|LengthAwarePaginator|array
     // {
