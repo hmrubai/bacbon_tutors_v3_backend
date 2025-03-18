@@ -169,6 +169,9 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('tutor-schedules-details/{id}', [TutorScheduleController::class, 'show']);
         Route::post('update-tutor-schedules/{id}', [TutorScheduleController::class, 'update']);
         Route::delete('delete-tutor-schedules/{id}', [TutorScheduleController::class, 'destroy']);
+
+        // Schedule Add or Update
+        Route::post('add-or-update-tutor-schedules', [TutorScheduleController::class, 'createOrUpdate']);
     });
 
     // Student APIs 
