@@ -24,8 +24,7 @@ class SubjectExpertiseService
         ->get();
 
         foreach ($subject_expertise as $item) {
-            $item->class_list = ExpertiseClassList::select('expertise_class_lists.*', 'grade.name_en as grade_name_en',
-                'grade.name_bn as grade_name_bn')
+            $item->class_list = ExpertiseClassList::select('expertise_class_lists.*', 'grade.name_en', 'grade.name_bn')
                 ->where('subject_expertise_id', $item->id)
                 ->leftJoin('grade', 'grade.id', 'expertise_class_lists.grade_id')
                 ->get();
@@ -61,8 +60,8 @@ class SubjectExpertiseService
         foreach ($subject_expertise as $item) {
             $item->class_list = ExpertiseClassList::select(
                 'expertise_class_lists.*', 
-                'grade.name_en as grade_name_en',
-                'grade.name_bn as grade_name_bn'
+                'grade.name_en',
+                'grade.name_bn'
             )
             ->where('subject_expertise_id', $item->id)
             ->leftJoin('grade', 'grade.id', 'expertise_class_lists.grade_id')

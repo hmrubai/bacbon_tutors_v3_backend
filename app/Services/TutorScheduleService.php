@@ -11,35 +11,39 @@ class TutorScheduleService
 {
     use HelperTrait;
 
-    /**
-     * Get all schedule records for the given user.
-     */
     public function getByUserId($userId)
     {
         return TutorSchedule::where('user_id', $userId)->get();
     }
 
-    /**
-     * Get a specific schedule record by its ID.
-     */
     public function getById($id)
     {
         return TutorSchedule::findOrFail($id);
     }
 
-    /**
-     * Create a new tutor schedule record.
-     */
     public function create(array $data)
     {
-        // Ensure the record is associated with the authenticated user.
         $data['user_id'] = Auth::id();
         return TutorSchedule::create($data);
     }
 
-    /**
-     * Update an existing schedule record.
-     */
+    public function createOrUpdate(array $data)
+    {
+        $data['user_id'] = Auth::id();
+
+        $is_exist = TutorSchedule::where('user_id', Auth::id())
+            ->where('day_of_week', $data['day_of_week'])
+            ->first();
+
+        if($is_exist){
+            $is_exist->update($data);
+        }else{
+            TutorSchedule::create($data);
+        }
+
+        return TutorSchedule::where('user_id', Auth::id())->get();
+    }
+
     public function update($id, array $data)
     {
         $record = TutorSchedule::findOrFail($id);
@@ -47,9 +51,6 @@ class TutorScheduleService
         return $record;
     }
 
-    /**
-     * Delete a schedule record.
-     */
     public function delete($id)
     {
         $record = TutorSchedule::findOrFail($id);
