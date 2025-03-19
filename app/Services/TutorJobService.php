@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Models\TutorJob;
 use Illuminate\Support\Str;
 use App\Http\Traits\HelperTrait;
+use App\Models\Institute;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -12,17 +13,26 @@ use Illuminate\Support\Facades\Auth;
 class TutorJobService
 {
     use HelperTrait;
+    protected $appends = ['institutes'];
 
     public function getByUserId($userId)
     {
-        return TutorJob::with(['medium', 'subject', 'kid'])
+        return TutorJob::with(['medium', 'subject', 'kid','institute'])
                   ->where('user_id', $userId)
                   ->get();
     }
 
     public function getById($id)
     {
-        return TutorJob::with(['medium', 'subject', 'kid'])->findOrFail($id);
+        $tutorJob = TutorJob::with(['medium', 'subject', 'kid'])->findOrFail($id);
+
+        $instituteIds = explode(',', $tutorJob->institute_ids);
+
+        $institutes = Institute::whereIn('id', $instituteIds)->get();
+
+        $tutorJob->institutes = $institutes;
+
+        return $tutorJob;
     }
 
     public function create(array $data)
