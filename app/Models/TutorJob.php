@@ -31,7 +31,17 @@ class TutorJob extends Model
         'medium_id',
         'subject_id',
         'note',
+        'tuition_type',
+        'grade_id',
+        'division_id',
+        'district_id',
+        'upazila_id',
+        'area_id',
+        'institute_ids',
+        'negotiable',
     ];
+
+   
 
     /**
      * Get the medium associated with the job.
@@ -56,4 +66,6 @@ class TutorJob extends Model
     {
         return $this->belongsTo(\App\Models\KidInformation::class, 'kid_id');
     }
+
+    
 }

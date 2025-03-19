@@ -7,6 +7,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\SubMenuController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\InstituteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeTypeController;
@@ -32,6 +33,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::apiResource('users', UserController::class);
         Route::apiResource('menus', MenuController::class);
         Route::apiResource('sub-menus', SubMenuController::class);
+
     });
 
     // Tutor Profile
@@ -104,6 +106,8 @@ Route::group(['middleware' => ['auth:api',]], function () {
         //Tutor schedule
         Route::get('tutor-schedules/{user_id}', [TutorScheduleController::class, 'listByUser']);
         Route::get('user-profile/{userId}', [UserInformationController::class, 'getCompleteUserProfile']);
+
+        Route::apiResource('institutes', InstituteController::class);
     });
 
     // Tutor Profile for the Tutor
@@ -241,6 +245,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
     Route::delete('delete-employment-type/{id}', [EmployeeTypeController::class, 'destroy']);
 
     Route::apiResource('categories', CategoryController::class);
+
 
 
     
