@@ -21,9 +21,6 @@ class TutorScheduleController extends Controller
         $this->tutorScheduleService = $service;
     }
 
-    /**
-     * List all schedule records for the currently authenticated user.
-     */
     public function index(Request $request): JsonResponse
     {
         $userId = Auth::id();
@@ -35,9 +32,6 @@ class TutorScheduleController extends Controller
         }
     }
 
-    /**
-     * Create a new tutor schedule record.
-     */
     public function store(TutorScheduleRequest $request): JsonResponse
     {
         $data = $request->validated();
@@ -49,9 +43,17 @@ class TutorScheduleController extends Controller
         }
     }
 
-    /**
-     * Show a specific tutor schedule record.
-     */
+    public function createOrUpdate(TutorScheduleRequest $request): JsonResponse
+    {
+        $data = $request->validated();
+        try {
+            $schedule = $this->tutorScheduleService->createOrUpdate($data);
+            return $this->successResponse($schedule, 'Tutor schedule has been updated successfully!', 201);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Failed to create tutor schedule', 500);
+        }
+    }
+
     public function show($id): JsonResponse
     {
         try {
@@ -66,9 +68,6 @@ class TutorScheduleController extends Controller
         }
     }
 
-    /**
-     * Update a specific tutor schedule record.
-     */
     public function update(TutorScheduleRequest $request, $id): JsonResponse
     {
         $userId = Auth::id();
@@ -85,9 +84,6 @@ class TutorScheduleController extends Controller
         }
     }
 
-    /**
-     * Delete a specific tutor schedule record.
-     */
     public function destroy($id): JsonResponse
     {
         $userId = Auth::id();
@@ -103,9 +99,6 @@ class TutorScheduleController extends Controller
         }
     }
 
-    /**
-     * Admin endpoint: List all tutor schedule records for a specific user_id.
-     */
     public function listByUser(Request $request, $user_id): JsonResponse
     {
         try {

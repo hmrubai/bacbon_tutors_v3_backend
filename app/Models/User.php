@@ -65,6 +65,8 @@ class User extends Authenticatable implements JWTSubject
         'created_by',
         'password',
         'is_password_set',
+        'department',
+        'subject'
     ];
 
     protected $hidden = [
@@ -115,6 +117,11 @@ class User extends Authenticatable implements JWTSubject
     public function workExperiences()
     {
         return $this->hasMany(TutorWorkExperience::class);
+    }
+
+    public function educationHistory()
+    {
+        return $this->hasMany(TutorEducationHistory::class);
     }
 
     public function references()

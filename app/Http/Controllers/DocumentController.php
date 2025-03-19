@@ -100,11 +100,12 @@ class DocumentController extends Controller
     public function destroy($id): JsonResponse
     {
         try {
-            $document = $this->documentService->getById($id);
-            // If the current user is not an admin, they must own the document.
-            if (!Auth::user()->hasAnyRole(['system-admin', 'super-admin', 'admin']) && $document->user_id != Auth::id()) {
-                return $this->errorResponse('Unauthorized', 'You do not have permission to delete this document', 403);
-            }
+            //$document = $this->documentService->getById($id);
+            //return $this->errorResponse('Unauthorized', 'You do not have permission to delete this document', 403);
+            // // If the current user is not an admin, they must own the document.
+            // if (!Auth::user()->hasAnyRole(['system-admin', 'super-admin', 'admin']) && $document->user_id != Auth::id()) {
+            //     return $this->errorResponse('Unauthorized', 'You do not have permission to delete this document', 403);
+            // }
             $this->documentService->delete($id);
             return $this->successResponse(null, 'Document deleted successfully!', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
@@ -134,7 +135,7 @@ class DocumentController extends Controller
         $data = $request->validate($rules);
 
         // Automatically set approved_by to the current admin's user id.
-        $data['approved_by'] = auth()->user()->id;
+        $data['approved_by'] = Auth::id();
 
         try {
             $document = $this->documentService->update($id, $data);

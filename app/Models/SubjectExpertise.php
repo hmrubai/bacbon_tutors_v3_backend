@@ -19,6 +19,9 @@ class SubjectExpertise extends Model
         'user_id',
         'remarks',
         'status',
+        'tuition_type',
+        'rate',
+        'fee',
     ];
 
     protected $casts = [
@@ -41,5 +44,11 @@ class SubjectExpertise extends Model
     public function subject()
     {
         return $this->belongsTo(\App\Models\Subject::class, 'subject_id');
+    }
+
+    public function class_list()
+    {
+        return $this->hasMany(\App\Models\ExpertiseClassList::class);
+        // return $this->belongsTo(\App\Models\ExpertiseClassList::class, 'grade_id');
     }
 }
