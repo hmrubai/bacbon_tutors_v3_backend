@@ -27,6 +27,8 @@ class UpdateUserInformationRequest extends FormRequest
             'gender'           => 'required|in:Male,Female,Other',
             'blood_group'      => 'nullable|string|max:10',
             'bio'              => 'nullable|string',
+            'department'       => 'nullable|string|max:255',
+            'subject'          => 'nullable|string|max:255',
         ];
     }
 }
