@@ -22,7 +22,7 @@ class HomePageService
         $data['active_tutors'] = User::where('user_type', "Teacher")->get()->count();
         $data['active_jobs'] = TutorJob::where('job_status', "Open")->get()->count();
         $data['available_tutors'] = User::where('user_type', "Teacher")->limit(10)->get();
-        $joblist = TutorJob::where('job_status', "Open")->limit(10)->get();
+        $joblist = TutorJob::where('job_status', "Open")->with(['medium', 'subject', 'kid'])->limit(10)->get();
         foreach ($joblist as $job) {
             $job['is_bookmark'] = false;
             $job['job_type'] = "HomeTution";

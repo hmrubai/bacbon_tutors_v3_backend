@@ -244,11 +244,6 @@ Route::group(['middleware' => ['auth:api',]], function () {
     Route::delete('delete-employment-type/{id}', [EmployeeTypeController::class, 'destroy']);
 
     Route::apiResource('categories', CategoryController::class);
-
-
-
-    
-
 });
 
 
@@ -260,5 +255,8 @@ Route::group(['prefix' => 'open'], function () {
     Route::get('job-details/{id}', [TutorJobController::class, 'jobDetails']);
     Route::get('all-tutor-list', [TutorController::class,'allTutorList']);
     Route::get('institution-list', [InstituteController::class, 'institutionList']);
+    
+    //Home Page Route
+    Route::get('home-page-details', [HomePageController::class, 'homePageDetails']); 
 
 });
