@@ -251,9 +251,9 @@ Route::group(['middleware' => ['auth:api',]], function () {
 // Common APIs for Guest uses
 Route::group(['prefix' => 'open'], function () {
     //Job List
-    Route::get('tutor-details/{id}', [TutorController::class, 'tutorDetails']);
     Route::get('all-job-list', [TutorJobController::class, 'allJobList']);
     Route::get('job-details/{id}', [TutorJobController::class, 'jobDetails']);
-    Route::get('all-tutor-list', [TutorController::class,'allTutorList']);
-
+    
+    //Home Page Route
+    Route::get('home-page-details', [HomePageController::class, 'homePageDetails']); 
 });
