@@ -85,4 +85,22 @@ class UserService
 
         return $user->save();
     }
+
+    public function tutorDetails($request, $id)
+    {
+        $user = User::where('id', $id)
+            ->with([
+                'subjectExpertise',
+                'workExperiences',
+                'educationHistory',
+                'references',
+                'address',
+                'documents',
+                'tutionAreas',
+                'tutorSchedules'
+            ])
+            ->first();
+
+        return $user;
+    }
 }

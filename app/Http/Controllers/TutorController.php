@@ -8,16 +8,21 @@ use App\Http\Traits\HelperTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Services\TutorInformationService;
 use App\Http\Requests\TutorEducationRequest;
+use App\Services\UserService;
 
 class TutorController extends Controller
 {
     use HelperTrait;
 
     protected $tp_service;
+    protected $userService;
 
-    public function __construct(TutorInformationService $service)
+    public function __construct(TutorInformationService $service,
+    UserService $userService
+    )
     {
         $this->tp_service = $service;
+        $this->userService = $userService;
     }
 
     public function index(Request $request)
@@ -155,6 +160,28 @@ class TutorController extends Controller
             return $this->successResponse(null, 'Education Informatio deleted successfully!', Response::HTTP_OK);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'Failed to delete Tutor Education Information', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function allTutorList(Request $request)
+    {
+        try {
+            $data = $this->tp_service->allTutorList($request);
+
+            return $this->successResponse($data, 'Tutor data retrieved successfully!', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function tutorDetails(Request $request, $id)
+    {
+        try {
+            $data = $this->userService->tutorDetails($request,$id);
+
+            return $this->successResponse($data, 'Tutor data retrieved successfully!', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -67,4 +67,26 @@ class TutorInformationService
         $history->delete();
         return ['message' => 'Deleted successfully'];
     }
+
+    public function allTutorList($request)
+    {
+        $query = user::query();
+        $query->where('user_type', 'Teacher');
+        $query->where('is_active', 1);
+
+        // Select specific columns
+        $query->select(['name', 'email', 'username', 'department','profile_image',
+        'subject']);
+
+        // Sorting
+        $this->applySorting($query, $request);
+
+        // $this->applyFilters($query, $request, $filters);
+        // Searching
+        $searchKeys = ['name','email','username','primary_number']; // Define the fields you want to search by
+        $this->applySearch($query, $request->input('search'), $searchKeys);
+
+        // Pagination
+        return $this->paginateOrGet($query, $request);
+    }
 }

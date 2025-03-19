@@ -88,7 +88,7 @@ class TutorJobController extends Controller
     public function allJobList(Request $request)
     {
         try {
-            $data = $this->jobService->allJobs();
+            $data = $this->jobService->allJobs($request);
             return $this->successResponse($data, 'Jobs retrieved successfully!', Response::HTTP_OK);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'Failed to retrieve jobs', Response::HTTP_INTERNAL_SERVER_ERROR);
