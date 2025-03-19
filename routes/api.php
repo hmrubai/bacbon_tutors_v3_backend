@@ -258,7 +258,13 @@ Route::group(['prefix' => 'open'], function () {
     //Job List
     Route::get('all-job-list', [TutorJobController::class, 'allJobList']);
     Route::get('job-details/{id}', [TutorJobController::class, 'jobDetails']);
+<<<<<<< HEAD
     
+=======
+    Route::get('all-tutor-list', [TutorController::class,'allTutorList']);
+    Route::get('institution-list', [InstituteController::class, 'institutionList']);
+
+>>>>>>> 93823c9 (Open Home page modified)
     //Home Page Route
     Route::get('home-page-details', [HomePageController::class, 'homePageDetails']); 
 });
