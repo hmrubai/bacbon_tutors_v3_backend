@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->enum('institute_type', ['School', 'College', 'University','under-graduate', 'post-graduate', 'Teaching Center', 'Others'])->default('Others');
             $table->boolean('is_active')->default(true);
+            $table->bigInteger('created_by')->nullable();
             $table->timestamps();
         });
     }
