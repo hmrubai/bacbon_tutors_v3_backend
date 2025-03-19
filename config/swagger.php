@@ -9,7 +9,7 @@ return [
     | The title of your API documentation.
     |
     */
-    'title' => env('SWAGGER_TITLE', 'Api Documentation'),
+    "title" => env("SWAGGER_TITLE", "Api Documentation"),
 
     /*
     |--------------------------------------------------------------------------
@@ -19,7 +19,7 @@ return [
     | The description of your API.
     |
     */
-    'description' => env('SWAGGER_DESCRIPTION', 'Laravel autogenerate swagger'),
+    "description" => env("SWAGGER_DESCRIPTION", "Laravel autogenerate swagger"),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ return [
     | The email associated with your API documentation.
     |
     */
-    'email' => env('SWAGGER_EMAIL', 'af.arfinfoysal@gmail.com'),
+    "email" => env("SWAGGER_EMAIL", "hussein4alaa@gmail.com"),
 
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ return [
     | The version of your API.
     |
     */
-    'version' => env('SWAGGER_VERSION', '3.0.7'),
+    "version" => env("SWAGGER_VERSION", "3.0.7"),
 
     /*
     |--------------------------------------------------------------------------
@@ -49,17 +49,11 @@ return [
     | Whether to enable response schema or not.
     |
     */
-    'enable_response_schema' => true,
+    "enable_response_schema" => true,
 
-    /*
-    |--------------------------------------------------------------------------
-    | Stop Saving Response
-    |--------------------------------------------------------------------------
-    |
-    | Whether to stop saving responses or not.
-    |
-    */
-    'stop_saving_response' => true,
+    "suggestions_select_input" => false,
+
+    "load_from_json" => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -69,9 +63,9 @@ return [
     | List of middleware names used for authentication.
     |
     */
-    'auth_middlewares' => [
-        'auth',
-        'auth:api',
+    "auth_middlewares" => [
+        "auth",
+        "auth:api",
     ],
 
     /*
@@ -82,7 +76,7 @@ return [
     | The URL path for accessing your API documentation.
     |
     */
-    'url' => env('SWAGGER_URL', 'swagger/documentation'),
+    "url" => env("SWAGGER_URL", "swagger/documentation"),
 
     /*
     |--------------------------------------------------------------------------
@@ -92,7 +86,7 @@ return [
     | The URL path for accessing issues related to your API documentation.
     |
     */
-    'issues_url' => env('SWAGGER_ISSUE_URL', 'swagger/issues'),
+    "issues_url" => env("SWAGGER_ISSUE_URL", "swagger/issues"),
 
     /*
     |--------------------------------------------------------------------------
@@ -102,7 +96,7 @@ return [
     | Whether Swagger is enabled or not.
     |
     */
-    'enable' => env('SWAGGER_ENABLED', true),
+    "enable" => env('SWAGGER_ENABLED', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -112,7 +106,18 @@ return [
     | List of prefixes to show in Swagger.
     |
     */
-    'show_prefix' => [],
+    "show_prefix" => [],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Include Web Routes
+    |--------------------------------------------------------------------------
+    |
+    | If you want to includes web.php routes, then enable this
+    |
+    */
+    "include_web_routes" => env('SWAGGER_INCLUDE_WEB_ROUTES', false),
+
 
     /*
     |--------------------------------------------------------------------------
@@ -122,10 +127,13 @@ return [
     | List of versions to show in Swagger.
     |
     */
-    'versions' => [
-        // "v1",
-        // "v2"
+    "versions" => [
+        "all",
+        // "v1"
     ],
+
+    "default" => "all",
+
 
     /*
     |--------------------------------------------------------------------------
@@ -135,16 +143,13 @@ return [
     | List of servers associated with your API.
     |
     */
-    'servers' => [
+    "servers" => [
         [
-            'url' => env('APP_URL'),
-            'description' => 'base url',
-        ],
-        [
-            'url' => env('APP_MEDIA_URL'),
-            'description' => 'media url',
+            "url" => env("APP_URL"),
+            "description" => "localhost"
         ]
     ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -154,19 +159,29 @@ return [
     | Security schemes used in your API.
     |
     */
-    'security_schemes' => [
-        'authorization' => [
-            'type' => 'apiKey',
-            'name' => 'authorization',
-            'in' => 'header',
+    "security_schemes" => [
+        "authorization" => [
+            "type" => "apiKey",
+            "name" => "authorization",
+            "in" => "header"
         ],
-
-        'bearerAuth' => [
-            'type' => 'http',
-            'scheme' => 'bearer',
-            'bearerFormat' => 'JWT', // Optional, specify if using JWT
-        ],
+        "apiKey1" => [
+            "type" => "apiKey",
+            "name" => "key1",
+            "in" => "query"
+        ]
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Spatie Query Builder
+    |--------------------------------------------------------------------------
+    |
+    | Enable it if you using Spatie query builder package to add spatie filters in all GET routes.
+    |
+    */
+    "spatie_query_builder" => false,
+
 
     /*
     |--------------------------------------------------------------------------
@@ -176,52 +191,52 @@ return [
     | HTTP response statuses for various methods.
     |
     */
-    'status' => [
-        'GET' => [
-            '200' => [
-                'description' => 'Successful Operation',
+    "status" => [
+        "GET" => [
+            "200" => [
+                "description" => "Successful Operation",
             ],
-            '404' => [
-                'description' => 'Not Found',
-            ],
+            "404" => [
+                "description" => "Not Found"
+            ]
         ],
-        'POST' => [
-            '200' => [
-                'description' => 'Successful Operation',
+        "POST" => [
+            "200" => [
+                "description" => "Successful Operation",
             ],
-            '422' => [
-                'description' => 'Validation Issues',
-            ],
+            "422" => [
+                "description" => "Validation Issues"
+            ]
         ],
-        'PUT' => [
-            '200' => [
-                'description' => 'Successful Operation',
+        "PUT" => [
+            "200" => [
+                "description" => "Successful Operation",
             ],
-            '404' => [
-                'description' => 'Not Found',
+            "404" => [
+                "description" => "Not Found"
             ],
-            '405' => [
-                'description' => 'Validation exception',
-            ],
+            "405" => [
+                "description" => "Validation exception"
+            ]
         ],
-        'PATCH' => [
-            '200' => [
-                'description' => 'Successful Operation',
+        "PATCH" => [
+            "200" => [
+                "description" => "Successful Operation",
             ],
-            '404' => [
-                'description' => 'Not Found',
+            "404" => [
+                "description" => "Not Found"
             ],
-            '405' => [
-                'description' => 'Validation exception',
-            ],
+            "405" => [
+                "description" => "Validation exception"
+            ]
         ],
-        'DELETE' => [
-            '200' => [
-                'description' => 'successful Operation',
+        "DELETE" => [
+            "200" => [
+                "description" => "successful Operation",
             ],
-            '404' => [
-                'description' => 'page Not Found',
-            ],
+            "404" => [
+                "description" => "page Not Found"
+            ]
         ],
     ],
 
