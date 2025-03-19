@@ -245,11 +245,6 @@ Route::group(['middleware' => ['auth:api',]], function () {
     Route::delete('delete-employment-type/{id}', [EmployeeTypeController::class, 'destroy']);
 
     Route::apiResource('categories', CategoryController::class);
-
-
-
-    
-
 });
 
 
