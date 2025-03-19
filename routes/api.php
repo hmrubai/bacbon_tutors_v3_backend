@@ -255,7 +255,7 @@ Route::group(['prefix' => 'open'], function () {
     Route::get('job-details/{id}', [TutorJobController::class, 'jobDetails']);
     Route::get('all-tutor-list', [TutorController::class,'allTutorList']);
     Route::get('institution-list', [InstituteController::class, 'institutionList']);
-
+    
     //Home Page Route
     Route::get('home-page-details', [HomePageController::class, 'homePageDetails']); 
 });
