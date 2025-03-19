@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+
 use App\Models\TutorJob;
 use Illuminate\Support\Str;
 use App\Http\Traits\HelperTrait;
@@ -17,9 +18,9 @@ class TutorJobService
 
     public function getByUserId($userId)
     {
-        return TutorJob::with(['medium', 'subject', 'kid','institute'])
-                  ->where('user_id', $userId)
-                  ->get();
+        return TutorJob::with(['medium', 'subject', 'kid'])
+            ->where('user_id', $userId)
+            ->get();
     }
 
     public function getById($id)
@@ -38,7 +39,7 @@ class TutorJobService
     public function create(array $data)
     {
         $data['user_id'] = Auth::id();
-        $data['job_id'] = strtoupper("BT".date('Ydm').Str::random(6));
+        $data['job_id'] = strtoupper("BT" . date('Ydm') . Str::random(6));
         return TutorJob::create($data);
     }
 
@@ -62,23 +63,77 @@ class TutorJobService
     {
         $query = TutorJob::query();
         $query->with(['medium', 'subject', 'kid']);
-
-        $filters = ['job_id' => '=',];
-
-        // Select specific columns
         $query->select(['*']);
 
         // Sorting
         $this->applySorting($query, $request);
 
-        $this->applyFilters($query, $request, $filters);
         // Searching
-        $searchKeys = ['job_title']; // Define the fields you want to search by
+        $searchKeys = ['job_title'];
         $this->applySearch($query, $request->input('search'), $searchKeys);
+
+        // Filters (single-value filters)
+        $filters = [
+            'tuition_type',
+            'division_id',
+            'district_id',
+            'upazila_id',
+            'gender',
+            'negotiable',
+        ];
+
+        foreach ($filters as $filter) {
+            if ($request->has($filter)) {
+                $query->where($filter, $request->input($filter));
+            }
+        }
+
+        // Multi-value filters
+        $multiValueFilters = [
+            'area_ids' => 'area_id',
+            'medium_ids' => 'medium_id',
+            'class_ids' => 'grade_id',
+            'subject_ids' => 'subject_id',
+            'institute_ids' => 'institute_ids',
+            // 'techar_ids' => 'techar_ids', // Added techar_ids here
+        ];
+
+        // Columns that require special handling (e.g., FIND_IN_SET)
+        $specialColumns = [
+            'institute_ids'
+            // , 'techar_ids'
+        ];
+
+        foreach ($multiValueFilters as $requestParam => $column) {
+            if ($request->has($requestParam)) {
+                $values = explode(',', $request->input($requestParam));
+                if (in_array($column, $specialColumns)) {
+                    // Special handling for FIND_IN_SET query
+                    $query->where(function ($subQuery) use ($values, $column) {
+                        foreach ($values as $value) {
+                            $subQuery->orWhereRaw("FIND_IN_SET(?, {$column})", [$value]);
+                        }
+                    });
+                } else {
+                    $query->whereIn($column, $values);
+                }
+            }
+        }
+
+        // Salary range filter
+        if ($request->has('salary_amount')) {
+            $salaryRange = explode(',', $request->input('salary_amount'));
+            if (count($salaryRange) === 2) {
+                $query->whereBetween('salary_amount', [$salaryRange[0], $salaryRange[1]]);
+            }
+        }
 
         // Pagination
         return $this->paginateOrGet($query, $request);
     }
+
+
+
 
     public function jobDetailsByID($id)
     {
