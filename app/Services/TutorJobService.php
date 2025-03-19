@@ -17,7 +17,7 @@ class TutorJobService
 
     public function getByUserId($userId)
     {
-        return TutorJob::with(['medium', 'subject', 'kid','institute'])
+        return TutorJob::with(['medium', 'subject', 'kid'])
                   ->where('user_id', $userId)
                   ->get();
     }
