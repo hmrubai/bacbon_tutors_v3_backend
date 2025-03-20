@@ -39,7 +39,7 @@ class SubjectExpertiseService
             'subject_expertise.*', 
             'mediums.title_en as medium_title_en', 
             'mediums.title_bn as medium_title_bn', 
-            'subjects.name_en as subject_name_en',
+            '   .name_en as subject_name_en',
             'subjects.name_bn as subject_name_bn'
         )
         ->leftJoin('mediums', 'mediums.id', 'subject_expertise.medium_id')
@@ -84,6 +84,7 @@ class SubjectExpertiseService
             'tuition_type' => $data['tuition_type'] ?? null,
             'rate'         => $data['rate'] ?? null,
             'fee'          => $data['fee'] ?? 0,
+            'location'     => $data['location'] ?? null
         ]);
 
         foreach ($data['grade_id'] as $item) {

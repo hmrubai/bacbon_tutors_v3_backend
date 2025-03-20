@@ -17,6 +17,7 @@ class TutorWorkExperience extends Model
         'currently_working',
         'start_date',
         'end_date',
+        'location'
     ];
 
     protected $casts = [
