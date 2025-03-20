@@ -71,4 +71,9 @@ class TutorJob extends Model
     {
         return $this->belongsTo(\App\Models\KidInformation::class, 'kid_id');
     }
+
+    public function grade()
+    {
+        return $this->belongsTo(Grade::class, 'grade_id');
+    }
 }

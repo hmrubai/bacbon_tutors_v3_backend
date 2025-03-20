@@ -18,14 +18,14 @@ class TutorJobService
 
     public function getByUserId($userId)
     {
-        return TutorJob::with(['medium', 'subjects', 'kid'])
+        return TutorJob::with(['medium', 'subjects', 'kid','grade'])
             ->where('user_id', $userId)
             ->get();
     }
 
     public function getById($id)
     {
-        $tutorJob = TutorJob::with(['medium', 'subjects','institutes', 'kid'])->findOrFail($id);
+        $tutorJob = TutorJob::with(['medium', 'subjects','institutes', 'kid','grade'])->findOrFail($id);
 
         return $tutorJob;
     }
@@ -64,7 +64,7 @@ class TutorJobService
     public function allJobs(Request $request): Collection|LengthAwarePaginator|array
 {
     $query = TutorJob::query();
-    $query->with(['medium', 'subjects', 'kid', 'institutes']);  // Add 'institutes' here
+    $query->with(['medium', 'subjects', 'kid', 'institutes','grade']);  // Add 'institutes' here
     $query->select(['*']);
 
     // Sorting
