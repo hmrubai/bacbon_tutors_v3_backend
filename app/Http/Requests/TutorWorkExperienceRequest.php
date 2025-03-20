@@ -23,6 +23,7 @@ class TutorWorkExperienceRequest extends FormRequest
             'currently_working'=> 'required|boolean',
             'start_date'      => 'required',
             'end_date'        => 'nullable|date',
+            'location'        => 'nullable|string'
         ];
     }
 }

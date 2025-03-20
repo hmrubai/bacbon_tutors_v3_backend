@@ -25,6 +25,7 @@ class SubjectExpertiseRequest extends FormRequest
             'tuition_type' => 'nullable|in:offline,online,both',
             'rate'         => 'nullable|in:hourly,fixed,monthly,yearly',
             'fee'          => 'nullable|numeric|min:0',
+            'location'=>'nullable|string'
         ];
     }
 }

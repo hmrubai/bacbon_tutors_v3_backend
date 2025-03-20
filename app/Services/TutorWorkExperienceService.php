@@ -32,6 +32,7 @@ class TutorWorkExperienceService
             'currently_working'=> $data['currently_working'] ?? false,
             'start_date'      => date('Y-m-d', strtotime($data['start_date'])),
             'end_date'        => $data['end_date'] ?? null,
+            'location'=> $data['location'] ?? null,
         ]);
     }
 

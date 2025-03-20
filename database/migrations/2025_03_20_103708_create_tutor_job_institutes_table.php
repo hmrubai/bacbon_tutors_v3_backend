@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('institutes', function (Blueprint $table) {
+        Schema::create('tutor_job_institutes', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->enum('institute_type', ['School', 'College', 'University','under-graduate', 'post-graduate', 'Teaching Center', 'Others'])->default('Others');
-            $table->boolean('is_active')->default(true);
-            $table->bigInteger('created_by')->nullable();
+            $table->foreignId('tutor_job_id');
+            $table->foreignId('institute_id');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('institutes');
+        Schema::dropIfExists('job_tutor_institutes');
     }
 };

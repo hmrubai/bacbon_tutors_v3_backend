@@ -7,6 +7,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\SubMenuController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\InstituteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeTypeController;
@@ -32,6 +33,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::apiResource('users', UserController::class);
         Route::apiResource('menus', MenuController::class);
         Route::apiResource('sub-menus', SubMenuController::class);
+
     });
 
     // Tutor Profile
@@ -104,6 +106,8 @@ Route::group(['middleware' => ['auth:api',]], function () {
         //Tutor schedule
         Route::get('tutor-schedules/{user_id}', [TutorScheduleController::class, 'listByUser']);
         Route::get('user-profile/{userId}', [UserInformationController::class, 'getCompleteUserProfile']);
+
+        Route::apiResource('institutes', InstituteController::class);
     });
 
     // Tutor Profile for the Tutor
@@ -178,16 +182,15 @@ Route::group(['middleware' => ['auth:api',]], function () {
     Route::group(['prefix' => 'student'], function () {
         //Job Post
         // List all jobs for the current user.
-        // Route::get('job-list', [TutorJobController::class, 'index']);
-        // Route::post('add-new-job', [TutorJobController::class, 'store']);
-        // Route::get('job-details/{id}', [TutorJobController::class, 'show']);
-        // Route::post('update-jobs/{id}', [TutorJobController::class, 'update']);
-        // Route::delete('delete-jobs/{id}', [TutorJobController::class, 'destroy']);
+        Route::get('job-list', [TutorJobController::class, 'index']);
+        Route::post('add-new-job', [TutorJobController::class, 'store']);
+        Route::get('job-details/{id}', [TutorJobController::class, 'show']);
+        Route::post('update-jobs/{id}', [TutorJobController::class, 'update']);
+        Route::delete('delete-jobs/{id}', [TutorJobController::class, 'destroy']);
     });
 
     // Guardian APIs 
     Route::group(['prefix' => 'guardian'], function () {
-
         //Kids Information
         Route::get('kid-information', [GuardianController::class, 'index']);
         Route::post('add-kid-information', [GuardianController::class, 'store']);
@@ -241,10 +244,6 @@ Route::group(['middleware' => ['auth:api',]], function () {
     Route::delete('delete-employment-type/{id}', [EmployeeTypeController::class, 'destroy']);
 
     Route::apiResource('categories', CategoryController::class);
-
-
-    
-
 });
 
 
@@ -255,5 +254,9 @@ Route::group(['prefix' => 'open'], function () {
     Route::get('all-job-list', [TutorJobController::class, 'allJobList']);
     Route::get('job-details/{id}', [TutorJobController::class, 'jobDetails']);
     Route::get('all-tutor-list', [TutorController::class,'allTutorList']);
+    Route::get('institution-list', [InstituteController::class, 'institutionList']);
+    
+    //Home Page Route
+    Route::get('home-page-details', [HomePageController::class, 'homePageDetails']); 
 
 });

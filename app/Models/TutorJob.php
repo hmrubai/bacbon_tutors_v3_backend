@@ -31,7 +31,16 @@ class TutorJob extends Model
         'medium_id',
         'subject_id',
         'note',
+        'tuition_type',
+        'grade_id',
+        'division_id',
+        'district_id',
+        'upazila_id',
+        'area_id',
+        'negotiable',
     ];
+
+
 
     /**
      * Get the medium associated with the job.
@@ -44,9 +53,15 @@ class TutorJob extends Model
     /**
      * Get the subject associated with the job.
      */
-    public function subject()
+    public function subjects()
     {
-        return $this->belongsTo(\App\Models\Subject::class, 'subject_id');
+        return $this->belongsToMany(Subject::class, 'tutor_job_subjects', 'tutor_job_id', 'subject_id');
+    }
+
+    //institutes
+    public function institutes()
+    {
+        return $this->belongsToMany(Institute::class, 'tutor_job_institutes', 'tutor_job_id', 'institute_id');
     }
 
     /**
@@ -55,5 +70,10 @@ class TutorJob extends Model
     public function kid()
     {
         return $this->belongsTo(\App\Models\KidInformation::class, 'kid_id');
+    }
+
+    public function grade()
+    {
+        return $this->belongsTo(Grade::class, 'grade_id');
     }
 }

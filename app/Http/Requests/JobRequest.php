@@ -26,8 +26,17 @@ class JobRequest extends FormRequest
             // Validate tutoring_time as a time format (e.g., "14:30:00")
             'tutoring_time' => 'required|date_format:H:i:s',
             'medium_id'     => 'required|integer|exists:mediums,id',
-            'subject_id'    => 'required|integer|exists:subjects,id',
+            'subject_ids'    => 'required|array',
             'note'          => 'nullable|string',
+            'tuition_type'  => 'required|in:Online,Offline',
+            'grade_id'      => 'nullable|integer',
+            'division_id'   => 'nullable|integer',
+            'district_id'   => 'nullable|integer',
+            'upazila_id'    => 'nullable|integer',
+            'area_id'       => 'nullable|integer',
+            'institute_ids' => 'nullable|array',
+            'negotiable'    => 'required|boolean',
+            
         ];
     }
 }
