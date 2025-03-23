@@ -14,6 +14,14 @@ class TutorJob extends Model
 
     protected $casts = [
         'salary_amount' => 'integer',
+        'division_id' => 'integer',
+        'district_id' => 'integer',
+        'upazila_id' => 'integer',
+        'area_id' => 'integer',
+        'negotiable' => 'boolean',
+        'user_id' => 'integer',
+        'student_id' => 'integer',
+        'medium_id' => 'integer',
     ];
 
     protected $fillable = [
