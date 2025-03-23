@@ -41,7 +41,7 @@
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td style="padding: 15px 25px; background-color: #0066cc; border-radius: 4px;">
-                                        <a href="{{ $actionUrl }}" style="color: #ffffff; text-decoration: none; font-size: 16px; display: inline-block;">
+                                        <a href="https://bacbontutors.com" target="_blank" style="color: #ffffff; text-decoration: none; font-size: 16px; display: inline-block;">
                                             Go to BacBon Tutors
                                         </a>
                                     </td>
