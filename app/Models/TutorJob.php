@@ -49,7 +49,6 @@ class TutorJob extends Model
     ];
 
 
-
     /**
      * Get the medium associated with the job.
      */
