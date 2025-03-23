@@ -74,6 +74,19 @@ class GradeController extends Controller
             return $this->errorResponse($th->getMessage(), 'Failed to retrieve grades by medium id', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function getGradesByMedium(Request $request)
+    {
+        try {
+            $data = $this->gradeService->getGradesByMedium($request);
+            return $this->successResponse($data, 'Grades retrieved successfully!', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Failed to retrieve grades by medium', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        
+    }
+
+
     
     // Delete a specific Grade record
     public function destroy($id)
