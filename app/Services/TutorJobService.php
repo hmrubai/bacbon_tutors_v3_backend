@@ -47,9 +47,9 @@ class TutorJobService
     {
         $job = TutorJob::findOrFail($id);
         unset($data['user_id']);
-        $job->update($data)
-            ->subjects()->sync($data['subject_ids'])
-            ->institutes()->sync($data['institute_ids']);
+        $job->update($data);
+            $job->subjects()->sync($data['subject_ids']);
+            $job->institutes()->sync($data['institute_ids']);
         return $job;
     }
 
