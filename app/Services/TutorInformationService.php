@@ -75,7 +75,7 @@ class TutorInformationService
         $query->where('is_active', 1);
 
         // Select specific columns
-        $query->select(['name', 'email', 'username', 'department','profile_image',
+        $query->select(['id','name', 'email', 'username', 'department','profile_image',
         'subject']);
 
         // Sorting
