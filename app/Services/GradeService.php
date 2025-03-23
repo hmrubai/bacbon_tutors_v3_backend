@@ -34,6 +34,14 @@ class GradeService
     {
         return Grade::where('medium_id', $mediumId)->get();
     }
+
+    public function getGradesByMedium($request)
+    {
+        $mediumIds = explode(',', $request->medium_ids);
+        return Grade::whereIn('medium_id', $mediumIds)->get();
+
+        
+    }
     
     public function delete($id)
     {
