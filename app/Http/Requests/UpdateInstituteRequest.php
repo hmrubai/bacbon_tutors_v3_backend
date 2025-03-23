@@ -9,12 +9,12 @@ class UpdateInstituteRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      */
-    
+
     public function authorize(): bool
     {
         return true;
     }
-            
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -26,6 +26,7 @@ class UpdateInstituteRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'institute_type' => 'required|in:School,College,University,under-graduate,post-graduate,Teaching Center,Others',
+            'is_selected' => 'boolean',
             'is_active' => 'required|boolean',
         ];
     }
