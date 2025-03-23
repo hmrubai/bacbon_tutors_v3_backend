@@ -224,11 +224,14 @@ Route::group(['middleware' => ['auth:api',]], function () {
         //Grade
         Route::get('all-grades', [GradeController::class, 'index']);
         Route::get('grades/medium/{mediumId}', [GradeController::class, 'getGradesByMediumId']);
+        Route::get('grades/medium', [GradeController::class, 'getGradesByMedium']);
 
         //Subject
         Route::get('all-subjects', [SubjectController::class, 'index']);
         Route::get('subjects/medium/{mediumId}', [SubjectController::class, 'getSubjectsByMediumId']);
         Route::get('subjects/medium/{mediumId}/{gradeId}', [SubjectController::class, 'getSubjectsByMediumGradeId']);
+        
+        Route::get('subjects/medium/grade', [SubjectController::class, 'getSubjectsByMediumGrade']);
 
         //Location Post
         Route::get('division-list', [LocationController::class, 'divisionList']);
