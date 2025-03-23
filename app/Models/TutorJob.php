@@ -76,4 +76,24 @@ class TutorJob extends Model
     {
         return $this->belongsTo(Grade::class, 'grade_id');
     }
+
+    public function  division()
+    {
+        return $this->belongsTo(Division::class, 'division_id');
+    }
+
+    public function  district()
+    {
+        return $this->belongsTo(District::class, 'district_id');
+    }
+
+    public function  upazila()  
+    {
+        return $this->belongsTo(Upazila::class, 'upazila_id');
+    }
+
+    public function  area()
+    {
+        return $this->belongsTo(Union::class, 'area_id');
+    }
 }

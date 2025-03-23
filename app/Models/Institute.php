@@ -10,6 +10,7 @@ class Institute extends Model
         'title',
         'institute_type',
         'is_active',
+        'is_selected',
         'created_by',
     ];
 }

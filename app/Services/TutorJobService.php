@@ -18,14 +18,14 @@ class TutorJobService
 
     public function getByUserId($userId)
     {
-        return TutorJob::with(['medium', 'subjects', 'kid','grade'])
+        return TutorJob::with(['medium', 'subjects', 'kid','grade','institutes','division','district','upazila','area'])
             ->where('user_id', $userId)
             ->get();
     }
 
     public function getById($id)
     {
-        $tutorJob = TutorJob::with(['medium', 'subjects','institutes', 'kid','grade'])->findOrFail($id);
+        $tutorJob = TutorJob::with(['medium', 'subjects','institutes', 'kid','grade','division','district','upazila','area'])->findOrFail($id);
 
         return $tutorJob;
     }
@@ -135,6 +135,6 @@ class TutorJobService
 
     public function jobDetailsByID($id)
     {
-        return TutorJob::with(['medium', 'subjects', 'kid'])->findOrFail($id);
+        return TutorJob::with(['medium', 'subjects', 'kid', 'institutes','grade','division','district','upazila','area'])->findOrFail($id);
     }
 }
