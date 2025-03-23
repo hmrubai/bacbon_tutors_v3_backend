@@ -54,8 +54,10 @@ class SubjectService
     {
         $mediumIds = explode(',', $request->medium_ids);
         $gradeIds = explode(',', $request->grade_ids);
-        return Subject::whereIn('medium_id', $mediumIds)
-            ->whereIn('grade_id', $gradeIds)
-            ->get();
+        return Subject::get();
+        
+        // whereIn('medium_id', $mediumIds)
+        //     ->whereIn('grade_id', $gradeIds)
+        //     ->get();
     }
 }
