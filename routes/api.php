@@ -187,6 +187,10 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('job-details/{id}', [TutorJobController::class, 'show']);
         Route::post('update-jobs/{id}', [TutorJobController::class, 'update']);
         Route::delete('delete-jobs/{id}', [TutorJobController::class, 'destroy']);
+
+        //Basic Information
+        Route::get('user-information', [UserInformationController::class, 'showUser']);
+        Route::post('user-information', [UserInformationController::class, 'update']);
     });
 
     // Guardian APIs 
@@ -205,6 +209,10 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('job-details/{id}', [TutorJobController::class, 'show']);
         Route::post('update-jobs/{id}', [TutorJobController::class, 'update']);
         Route::delete('delete-jobs/{id}', [TutorJobController::class, 'destroy']);
+
+        //Basic Information
+        Route::get('user-information', [UserInformationController::class, 'showUser']);
+        Route::post('user-information', [UserInformationController::class, 'update']);
 
     });
 
