@@ -25,7 +25,7 @@ use App\Http\Controllers\TutorScheduleController;
 use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\TutorJobController;
 use App\Http\Controllers\HomePageController;
-
+use App\Http\Controllers\StudentController;
 
 // Protected Routes
 Route::group(['middleware' => ['auth:api',]], function () {
@@ -108,6 +108,13 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('user-profile/{userId}', [UserInformationController::class, 'getCompleteUserProfile']);
 
         Route::apiResource('institutes', InstituteController::class);
+
+        Route::get('tutor-list', [TutorController::class, 'tutorList']);
+        Route::get('details/{id}', [TutorController::class, 'tutorDetails']);
+        Route::get('guardian-list', [GuardianController::class, 'guardianList']);
+        Route::get('student-list', [StudentController::class,'studentList']);
+        Route::get('all-job-list', [TutorJobController::class, 'allJobList']);
+        Route::get('job-details', [TutorJobController::class,'jobDetails']);
     });
 
     // Tutor Profile for the Tutor

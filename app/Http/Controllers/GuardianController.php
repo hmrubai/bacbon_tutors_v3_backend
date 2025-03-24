@@ -8,16 +8,30 @@ use App\Http\Traits\HelperTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Services\KidInformationService;
 use App\Http\Requests\KidInformationRequest;
+use App\Services\UserService;
 
 class GuardianController extends Controller
 {
     use HelperTrait;
 
     protected $kidInfoService;
+    protected $userService;
 
-    public function __construct(KidInformationService $service)
+    public function __construct(KidInformationService $service,UserService $userService)
     {
         $this->kidInfoService = $service;
+        $this->userService = $userService;
+    }
+
+    public function guardianList(Request $request)
+    {
+        $userType='Guardian';
+        try {
+            $data = $this->userService->userList($request, $userType);
+            return $this->successResponse($data, 'Guardian data retrieved successfully!', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

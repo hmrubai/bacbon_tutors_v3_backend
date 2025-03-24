@@ -14,6 +14,28 @@ class UserService
 {
     use HelperTrait;
 
+    public function userList(Request $request,$userType): Collection|LengthAwarePaginator|array
+    {
+        $query = User::query();
+        $query->where('user_type', $userType);
+
+        // Select specific columns
+        $query->select(['*']);
+
+        // Sorting
+        $this->applySorting($query, $request);
+
+        // Searching
+        $searchKeys = [
+        'name',
+        'email',
+        'username'
+        ]; // Define the fields you want to search by
+        $this->applySearch($query, $request->input('search'), $searchKeys);
+
+        // Pagination
+        return $this->paginateOrGet($query, $request);
+    }
     public function index(Request $request): Collection|LengthAwarePaginator|array
     {
         $query = User::query();
