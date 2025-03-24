@@ -176,6 +176,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
 
         // Schedule Add or Update
         Route::post('add-or-update-tutor-schedules', [TutorScheduleController::class, 'createOrUpdate']);
+        Route::post('update-profile-image', [UserInformationController::class, 'updateProfileImage']);
     });
 
     // Student APIs 
@@ -191,6 +192,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
         //Basic Information
         Route::get('user-information', [UserInformationController::class, 'showUser']);
         Route::post('user-information', [UserInformationController::class, 'update']);
+        Route::post('update-profile-image', [UserInformationController::class, 'updateProfileImage']);
     });
 
     // Guardian APIs 
@@ -213,6 +215,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
         //Basic Information
         Route::get('user-information', [UserInformationController::class, 'showUser']);
         Route::post('user-information', [UserInformationController::class, 'update']);
+        Route::post('update-profile-image', [UserInformationController::class, 'updateProfileImage']);
 
     });
 
