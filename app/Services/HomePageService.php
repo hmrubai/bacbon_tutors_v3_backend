@@ -21,7 +21,13 @@ class HomePageService
 
         $data['active_tutors'] = User::where('user_type', "Teacher")->get()->count();
         $data['active_jobs'] = TutorJob::where('job_status', "Open")->get()->count();
+
         $data['available_tutors'] = User::where('user_type', "Teacher")->limit(10)->get();
+        
+        foreach ($data['available_tutors'] as $tutor) {
+            $tutor['review'] = rand(1, 5);
+        }
+
         $joblist = TutorJob::where('job_status', "Open")->with(['medium', 'subjects', 'kid'])->limit(10)->get();
         foreach ($joblist as $job) {
             $job['is_bookmark'] = false;
@@ -81,6 +87,7 @@ class HomePageService
                 'answer' => 'To upgrade to a premium plan, go to your account settings, select the upgrade option, choose a plan that fits your needs, and complete the payment process.'
             ],
         ];
+
 
         return $data;
     }
