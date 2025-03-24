@@ -108,13 +108,13 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('user-profile/{userId}', [UserInformationController::class, 'getCompleteUserProfile']);
 
         Route::apiResource('institutes', InstituteController::class);
-
         Route::get('tutor-list', [TutorController::class, 'tutorList']);
         Route::get('details/{id}', [TutorController::class, 'tutorDetails']);
+        Route::get('job-details/{id}', [TutorJobController::class, 'jobDetails']);
         Route::get('guardian-list', [GuardianController::class, 'guardianList']);
         Route::get('student-list', [StudentController::class,'studentList']);
         Route::get('all-job-list', [TutorJobController::class, 'allJobList']);
-        Route::get('job-details', [TutorJobController::class,'jobDetails']);
+  
     });
 
     // Tutor Profile for the Tutor
