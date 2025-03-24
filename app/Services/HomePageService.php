@@ -26,7 +26,7 @@ class HomePageService
         ->limit(10)->get();
         
         foreach ($data['available_tutors'] as $tutor) {
-            $tutor['review'] = rand(1, 5);
+            $tutor['review'] = rand(10, 50) / 10;
         }
 
         $joblist = TutorJob::where('job_status', "Open")->with(['medium', 'subjects', 'kid'])->limit(10)->get();
@@ -174,7 +174,7 @@ class HomePageService
         ->limit(5)->get();
         
         foreach ($data['available_tutors'] as $tutor) {
-            $tutor['review'] = rand(1, 5);
+            $tutor['review'] = rand(10, 50) / 10;
         }
 
 
