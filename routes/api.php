@@ -193,6 +193,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('user-information', [UserInformationController::class, 'showUser']);
         Route::post('user-information', [UserInformationController::class, 'update']);
         Route::post('update-profile-image', [UserInformationController::class, 'updateProfileImage']);
+        Route::get('dashboard', [HomePageController::class, 'studentDashboard']);
     });
 
     // Guardian APIs 
@@ -216,6 +217,8 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('user-information', [UserInformationController::class, 'showUser']);
         Route::post('user-information', [UserInformationController::class, 'update']);
         Route::post('update-profile-image', [UserInformationController::class, 'updateProfileImage']);
+        Route::get('dashboard', [HomePageController::class, 'studentDashboard']);
+
 
     });
 
