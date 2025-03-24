@@ -22,7 +22,7 @@ class HomePageService
         $data['active_tutors'] = User::where('user_type', "Teacher")->get()->count();
         $data['active_jobs'] = TutorJob::where('job_status', "Open")->get()->count();
 
-        $data['available_tutors'] = User::where('user_type', "Teacher")->with('subjectExpertise')
+        $data['available_tutors'] = User::where('user_type', "Teacher")->with(['subjectExpertise:id,subject_id,medium_id,grade_id,user_id,location', 'subjectExpertise.subject:id,name_en,name_bn'])
         ->limit(10)->get();
         
         foreach ($data['available_tutors'] as $tutor) {
