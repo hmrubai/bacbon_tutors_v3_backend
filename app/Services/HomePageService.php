@@ -22,10 +22,11 @@ class HomePageService
         $data['active_tutors'] = User::where('user_type', "Teacher")->get()->count();
         $data['active_jobs'] = TutorJob::where('job_status', "Open")->get()->count();
 
-        $data['available_tutors'] = User::where('user_type', "Teacher")->limit(10)->get();
+        $data['available_tutors'] = User::where('user_type', "Teacher")->with('subjectExpertise')
+        ->limit(10)->get();
         
         foreach ($data['available_tutors'] as $tutor) {
-            $tutor['review'] = rand(1, 5);
+            $tutor['review'] = rand(10, 50) / 10;
         }
 
         $joblist = TutorJob::where('job_status', "Open")->with(['medium', 'subjects', 'kid'])->limit(10)->get();
@@ -162,4 +163,75 @@ class HomePageService
 
     //     return $homePage->save();
     // }
+
+
+    public function studentDashboard(Request $request)
+    {
+        $data = [];
+
+
+        $data['available_tutors'] = User::where('user_type', "Teacher")->with('subjectExpertise')
+        ->limit(5)->get();
+        
+        foreach ($data['available_tutors'] as $tutor) {
+            $tutor['review'] = rand(10, 50) / 10;
+        }
+
+
+        $data['hotline_no'] = "+88 09611 900 205";
+        $data['par_day_tutors'] = 99;
+
+        $data['key_features'] = [
+            [
+                'icon' => 'icon1',
+                'title' => 'Free Profile Creation',
+                'description' => 'Create your profile for free and showcase your skills or services. Customize your profile with essential details, upload your portfolio, and connect with potential clients or employers effortlessly.'
+            ],
+            [
+                'icon' => 'icon2',
+                'title' => 'Easy Registration',
+                'description' => 'Sign up quickly with a simple and user-friendly registration process. Provide basic details and get started in just a few clicks, without any complicated steps.'
+            ],
+            [
+                'icon' => 'icon3',
+                'title' => 'Expertise Tutor',
+                'description' => 'Find highly skilled tutors specializing in various subjects. Our platform connects students with experienced educators to ensure effective learning and academic success.'
+            ],
+            [
+                'icon' => 'icon4',
+                'title' => '100+ New Tuition Per Day',
+                'description' => 'Explore numerous tuition opportunities daily. Whether you are a tutor looking for students or a learner seeking guidance, our platform updates with fresh tuition listings regularly.'
+            ],
+        ];
+
+        $data['faq'] = [
+            [
+                'question' => 'How do I create a free profile?',
+                'answer' => 'To create a free profile, simply sign up using your email or social media account, fill in your basic information, and customize your profile as needed. No payment is required.'
+            ],
+            [
+                'question' => 'Is there any cost to register?',
+                'answer' => 'No, registration is completely free. You can create a profile and access basic features at no cost. However, premium features may require a subscription.'
+            ],
+            [
+                'question' => 'How can I find expert tutors?',
+                'answer' => 'You can browse through the tutor directory, use search filters to find tutors based on expertise, and check their profiles for ratings, reviews, and availability.'
+            ],
+            [
+                'question' => 'How often are new tuition opportunities available?',
+                'answer' => 'New tuition opportunities are added daily. You can check the platform regularly or enable notifications to stay updated on the latest listings.'
+            ],
+            [
+                'question' => 'Can I contact tutors directly?',
+                'answer' => 'Yes, you can send direct messages to tutors through the platform. Some tutors may also provide their contact details for direct communication.'
+            ],
+            [
+                'question' => 'How do I upgrade to a premium plan?',
+                'answer' => 'To upgrade to a premium plan, go to your account settings, select the upgrade option, choose a plan that fits your needs, and complete the payment process.'
+            ],
+        ];
+
+
+        return $data;
+    }
 }
