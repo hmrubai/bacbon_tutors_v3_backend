@@ -38,6 +38,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleCheckMiddleware::class,
             'RPManagement' => \App\Http\Middleware\PermissionCheckMiddleware::class,
+            'optional.auth' => \App\Http\Middleware\TokenMiddleware::class,
+
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
