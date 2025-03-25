@@ -341,7 +341,10 @@ class AuthService
 
         try {
             $user = auth()->user();
-            $user->password = bcrypt($request->password);
+            if (!Hash::check($request->old_password, $user->password)) {
+                throw new \Exception('Old password is incorrect');
+            }
+            $user->password = bcrypt($request->new_password);
             $user->save();
             return $user;
         } catch (\Throwable $th) {

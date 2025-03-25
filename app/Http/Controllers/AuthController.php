@@ -21,14 +21,14 @@ class AuthController extends Controller
     public function __construct(AuthService $authService)
     {
         $this->authService = $authService;
-
     }
 
-    public function checkUserVarification(LoginRequest $request){
+    public function checkUserVarification(LoginRequest $request)
+    {
 
         $user_type = $request->user_type ? $request->user_type : "Student";
 
-        if(!$request->email_or_username){
+        if (!$request->email_or_username) {
             return response()->json([
                 'data' => [],
                 'message' => 'Please attach Email/Phone No!',
@@ -37,14 +37,14 @@ class AuthController extends Controller
         }
 
         $user = User::where(function ($query) use ($request) {
-                $query->where('email', $request->email_or_username)
+            $query->where('email', $request->email_or_username)
                 ->orWhere('username', $request->email_or_username);
-            })
+        })
             ->where('user_type', $user_type)
             ->first();
 
         if ($user) {
-            if($user->is_password_set){
+            if ($user->is_password_set) {
                 return response()->json([
                     'data' => [
                         'is_password_set' => true,
@@ -70,11 +70,12 @@ class AuthController extends Controller
         }
     }
 
-    public function forgetPassword(LoginRequest $request){
+    public function forgetPassword(LoginRequest $request)
+    {
 
         $user_type = $request->user_type ? $request->user_type : "Student";
 
-        if(!$request->email_or_username){
+        if (!$request->email_or_username) {
             return response()->json([
                 'data' => [],
                 'message' => 'Please attach Email/Phone No!',
@@ -83,9 +84,9 @@ class AuthController extends Controller
         }
 
         $user = User::where(function ($query) use ($request) {
-                $query->where('email', $request->email_or_username)
+            $query->where('email', $request->email_or_username)
                 ->orWhere('username', $request->email_or_username);
-            })
+        })
             ->where('user_type', $user_type)
             ->first();
 
@@ -116,7 +117,7 @@ class AuthController extends Controller
     {
         $user_type = $request->user_type ? $request->user_type : "Student";
 
-        if(!$request->email_or_username){
+        if (!$request->email_or_username) {
             return response()->json([
                 'data' => [],
                 'message' => 'Please attach Email/Phone No!',
@@ -125,14 +126,14 @@ class AuthController extends Controller
         }
 
         $user = User::where(function ($query) use ($request) {
-                $query->where('email', $request->email_or_username)
+            $query->where('email', $request->email_or_username)
                 ->orWhere('username', $request->email_or_username);
-            })
+        })
             ->where('user_type', $user_type)
             ->first();
 
         if ($user) {
-            if($user->is_password_set){
+            if ($user->is_password_set) {
                 return response()->json([
                     'data' => [
                         'is_password_set' => true,
@@ -158,7 +159,8 @@ class AuthController extends Controller
         }
     }
 
-    public function verifyAndLogin(LoginRequest $request){
+    public function verifyAndLogin(LoginRequest $request)
+    {
         try {
             $data = $this->authService->verifyOtpForLogin($request);
             return $this->successResponse($data, 'User logged in successfully', Response::HTTP_OK, true);
@@ -178,10 +180,10 @@ class AuthController extends Controller
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
-
     }
 
-    public function sendOtp(Request $request){
+    public function sendOtp(Request $request)
+    {
         try {
             $this->authService->sendOtp($request);
             return $this->successResponse([], 'OTP sent successfully', Response::HTTP_OK, true);
@@ -199,7 +201,6 @@ class AuthController extends Controller
             $data = $this->authService->login($request);
 
             return $this->successResponse($data, 'User logged in successfully', Response::HTTP_OK, true);
-
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
@@ -215,7 +216,6 @@ class AuthController extends Controller
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
-
     }
 
     // Refresh Token API - GET (JWT Auth Token)
@@ -229,7 +229,6 @@ class AuthController extends Controller
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
-
     }
 
     // Logout API - GET (JWT Auth Token)
@@ -245,13 +244,16 @@ class AuthController extends Controller
     }
 
     // Change Password API - POST
-     public function changePassword(ChangePasswordRequest $request)
+    public function changePassword(ChangePasswordRequest $request)
     {
         try {
 
-            $data = $this->authService->changePassword( $request );
+            $data = $this->authService->changePassword($request);
 
             return $this->successResponse($data, 'Password changed successfully', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), $th->getMessage(), Response::
+            HTTP_UNPROCESSABLE_ENTITY, false);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
@@ -282,5 +284,4 @@ class AuthController extends Controller
             return $this->errorResponse([], $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
-
 }

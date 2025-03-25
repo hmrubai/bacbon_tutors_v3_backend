@@ -8,6 +8,7 @@ use App\Services\UserService;
 use App\Http\Traits\HelperTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
@@ -80,10 +81,11 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(): JsonResponse
     {
         try {
-            $this->service->destroy($id);
+            $authId=Auth::id();
+            $this->service->destroy($authId);
 
             return $this->successResponse(null, 'User deleted successfully!', Response::HTTP_OK);
         } catch (\Throwable $th) {
