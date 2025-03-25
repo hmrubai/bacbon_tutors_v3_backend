@@ -72,7 +72,12 @@ class TutorJobService
         $query->select(['*']);
 
         // this is an open api but i want to check is auth
-        $query->selectRaw('CASE WHEN EXISTS (SELECT 1 FROM tuition_bookmarks WHERE tutor_job_id = tutor_jobs.id AND user_id = ?) THEN 1 ELSE 0 END AS is_bookmark', [auth()->id()]);
+        $query->selectRaw('CASE WHEN EXISTS (
+            SELECT 1 
+            FROM tuition_bookmarks 
+            WHERE tutor_job_id = tutor_jobs.id 
+            AND user_id = COALESCE(?, 0)
+        ) THEN 1 ELSE 0 END AS is_bookmark', [auth()->id() ?? 0]);
 
         // Sorting
         $this->applySorting($query, $request);
@@ -163,6 +168,15 @@ class TutorJobService
     public function getBookmarkedJobs()
     {
         $user = Auth::user();
-        return $user->bookmarkedJobs()->with(['medium', 'subjects', 'kid', 'institutes', 'grade'])->get();
+        $jobs = $user->bookmarkedJobs()
+            ->selectRaw('tutor_jobs.*, CASE WHEN EXISTS (
+            SELECT 1 
+            FROM tuition_bookmarks 
+            WHERE tutor_job_id = tutor_jobs.id 
+            AND user_id = ?
+        ) THEN 1 ELSE 0 END AS is_bookmark', [auth()->id()??1])
+            ->with(['medium', 'subjects', 'kid', 'institutes', 'grade'])->get();
+
+        return $jobs;
     }
 }
