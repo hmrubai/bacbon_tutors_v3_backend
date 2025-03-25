@@ -16,83 +16,62 @@ class HomePageService
     use HelperTrait;
 
     public function homePageDetailsByUser(Request $request)
-    {
-        $data = [];
+{
+    // Fetch active tutors and jobs count
+    $data = [
+        'active_tutors'   => User::where('user_type', "Teacher")->count(),
+        'active_jobs'     => TutorJob::where('job_status', "Open")->count(),
+        'hotline_no'      => "+88 09611 900 205",
+        'profile_completion' => 72,
+    ];
 
-        $data['active_tutors'] = User::where('user_type', "Teacher")->get()->count();
-        $data['active_jobs'] = TutorJob::where('job_status', "Open")->get()->count();
+    // Get authenticated user ID once
+    $userId = auth()->id() ?? 0;
 
-        $data['available_tutors'] = User::where('user_type', "Teacher")
-        ->with(['subjectExpertise:id,subject_id,medium_id,grade_id,user_id,location', 'subjectExpertise.subject:id,name_en,name_bn'])
-        ->limit(10)->get();
-        
-        foreach ($data['available_tutors'] as $tutor) {
-            $tutor['review'] = rand(10, 50) / 10;
-        }
+    // Fetch bookmarked job IDs in a single query
+    $bookmarkedJobs = \DB::table('tuition_bookmarks')
+        ->where('user_id', $userId)
+        ->pluck('tutor_job_id')
+        ->toArray();
 
-        $joblist = TutorJob::where('job_status', "Open")->with(['medium', 'subjects', 'kid'])->limit(10)->get();
-        foreach ($joblist as $job) {
-            $job['is_bookmark'] = false;
-            $job['job_type'] = "HomeTution";
-        }
-        $data['available_jobs'] = $joblist;
+    // Fetch available tutors with subject expertise
+    $data['available_tutors'] = User::where('user_type', "Teacher")
+        ->with([
+            'subjectExpertise:id,subject_id,medium_id,grade_id,user_id,location',
+            'subjectExpertise.subject:id,name_en,name_bn'
+        ])
+        ->limit(10)
+        ->get()
+        ->map(fn($tutor) => $tutor->setAttribute('review', rand(10, 50) / 10));
 
-        $data['hotline_no'] = "+88 09611 900 205";
-        $data['profile_completion'] = 72;
+    // Fetch available jobs with relationships and pre-check bookmarks
+    $data['available_jobs'] = TutorJob::where('job_status', "Open")
+        ->with(['medium', 'subjects', 'kid'])
+        ->limit(10)
+        ->get()
+        ->map(fn($job) => $job->setAttribute('is_bookmark', in_array($job->id, $bookmarkedJobs) ? 1 : 0)
+                            ->setAttribute('job_type', "HomeTution"));
 
-        $data['key_features'] = [
-            [
-                'icon' => 'icon1',
-                'title' => 'Free Profile Creation',
-                'description' => 'Create your profile for free and showcase your skills or services. Customize your profile with essential details, upload your portfolio, and connect with potential clients or employers effortlessly.'
-            ],
-            [
-                'icon' => 'icon2',
-                'title' => 'Easy Registration',
-                'description' => 'Sign up quickly with a simple and user-friendly registration process. Provide basic details and get started in just a few clicks, without any complicated steps.'
-            ],
-            [
-                'icon' => 'icon3',
-                'title' => 'Expertise Tutor',
-                'description' => 'Find highly skilled tutors specializing in various subjects. Our platform connects students with experienced educators to ensure effective learning and academic success.'
-            ],
-            [
-                'icon' => 'icon4',
-                'title' => '100+ New Tuition Per Day',
-                'description' => 'Explore numerous tuition opportunities daily. Whether you are a tutor looking for students or a learner seeking guidance, our platform updates with fresh tuition listings regularly.'
-            ],
-        ];
+    // Static key features and FAQ data
+    $data['key_features'] = collect([
+        ['icon' => 'icon1', 'title' => 'Free Profile Creation', 'description' => 'Create your profile for free and showcase your skills or services.'],
+        ['icon' => 'icon2', 'title' => 'Easy Registration', 'description' => 'Sign up quickly with a simple and user-friendly registration process.'],
+        ['icon' => 'icon3', 'title' => 'Expertise Tutor', 'description' => 'Find highly skilled tutors specializing in various subjects.'],
+        ['icon' => 'icon4', 'title' => '100+ New Tuition Per Day', 'description' => 'Explore numerous tuition opportunities daily.']
+    ]);
 
-        $data['faq'] = [
-            [
-                'question' => 'How do I create a free profile?',
-                'answer' => 'To create a free profile, simply sign up using your email or social media account, fill in your basic information, and customize your profile as needed. No payment is required.'
-            ],
-            [
-                'question' => 'Is there any cost to register?',
-                'answer' => 'No, registration is completely free. You can create a profile and access basic features at no cost. However, premium features may require a subscription.'
-            ],
-            [
-                'question' => 'How can I find expert tutors?',
-                'answer' => 'You can browse through the tutor directory, use search filters to find tutors based on expertise, and check their profiles for ratings, reviews, and availability.'
-            ],
-            [
-                'question' => 'How often are new tuition opportunities available?',
-                'answer' => 'New tuition opportunities are added daily. You can check the platform regularly or enable notifications to stay updated on the latest listings.'
-            ],
-            [
-                'question' => 'Can I contact tutors directly?',
-                'answer' => 'Yes, you can send direct messages to tutors through the platform. Some tutors may also provide their contact details for direct communication.'
-            ],
-            [
-                'question' => 'How do I upgrade to a premium plan?',
-                'answer' => 'To upgrade to a premium plan, go to your account settings, select the upgrade option, choose a plan that fits your needs, and complete the payment process.'
-            ],
-        ];
+    $data['faq'] = collect([
+        ['question' => 'How do I create a free profile?', 'answer' => 'To create a free profile, sign up using your email or social media account.'],
+        ['question' => 'Is there any cost to register?', 'answer' => 'No, registration is completely free.'],
+        ['question' => 'How can I find expert tutors?', 'answer' => 'Browse through the tutor directory and use search filters to find tutors.'],
+        ['question' => 'How often are new tuition opportunities available?', 'answer' => 'New tuition opportunities are added daily.'],
+        ['question' => 'Can I contact tutors directly?', 'answer' => 'Yes, you can send direct messages to tutors through the platform.'],
+        ['question' => 'How do I upgrade to a premium plan?', 'answer' => 'Go to account settings, select an upgrade option, and complete the payment.']
+    ]);
 
+    return $data;
+}
 
-        return $data;
-    }
 
 
 
