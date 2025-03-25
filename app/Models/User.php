@@ -95,6 +95,15 @@ class User extends Authenticatable implements JWTSubject
             'permanent_area_id' => 'integer',
             'organization_id' => 'integer',
             'created_by' => 'integer',
+            'profile_progress' => 'integer',
+
+        ];
+    }
+    // profile_progress default value 0
+    protected function atributosPropiosParaJson(): array
+    {
+        return [
+            'profile_progress' => 0,
         ];
     }
 
