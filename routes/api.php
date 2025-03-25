@@ -26,6 +26,7 @@ use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\TutorJobController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\JobApplicationController;
 
 // Protected Routes
 Route::group(['middleware' => ['auth:api',]], function () {
@@ -187,6 +188,12 @@ Route::group(['middleware' => ['auth:api',]], function () {
 
         Route::post('bookmark-tutor-job/{id}', [TutorJobController::class, 'bookmarkTutorJob']);
         Route::get('bookmarked-jobs', [TutorJobController::class, 'getBookmarkedJobs']);
+
+        //Job Applications
+        Route::get('applied-list', [JobApplicationController::class, 'index']);
+        Route::post('apply-for-a-tution', [JobApplicationController::class, 'applyForAJob']);
+        // Route::get('applied-job-details/{id}', [JobApplicationController::class, 'show']);
+        // Route::delete('delete-applied-job/{id}', [JobApplicationController::class, 'destroy']);
     });
 
     // Student APIs 
