@@ -194,6 +194,8 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('apply-for-a-tution', [JobApplicationController::class, 'applyForAJob']);
         // Route::get('applied-job-details/{id}', [JobApplicationController::class, 'show']);
         // Route::delete('delete-applied-job/{id}', [JobApplicationController::class, 'destroy']);
+        
+        Route::post('address-and-update', [AddressController::class, 'addressUpdate']);
     });
 
     // Student APIs 
@@ -211,6 +213,8 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('user-information', [UserInformationController::class, 'update']);
         Route::post('update-profile-image', [UserInformationController::class, 'updateProfileImage']);
         Route::get('dashboard', [HomePageController::class, 'studentDashboard']);
+        Route::post('address-and-update', [AddressController::class, 'addressUpdate']);
+
     });
 
     // Guardian APIs 
@@ -235,6 +239,8 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('user-information', [UserInformationController::class, 'update']);
         Route::post('update-profile-image', [UserInformationController::class, 'updateProfileImage']);
         Route::get('dashboard', [HomePageController::class, 'studentDashboard']);
+        Route::post('address-and-update', [AddressController::class, 'addressUpdate']);
+
 
 
     });

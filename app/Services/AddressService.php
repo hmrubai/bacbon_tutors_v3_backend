@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Address;
 use App\Http\Traits\HelperTrait;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AddressService
 {
@@ -34,5 +36,16 @@ class AddressService
             return $address;
         }
         return null;
+    }
+
+    public function addressUpdate($request)
+    {
+
+        $userId = Auth::id();
+        $data = $request->validated();
+        $user = User::findOrFail($userId);
+        $user->update($data);
+
+        return $user;
     }
 }

@@ -103,6 +103,10 @@ class UserService
     {
         $user = User::findOrFail($id);
         $user->name .= '_' . Str::random(8);
+        $user->email .= '_' . Str::random(8);
+        $user->username .= '_' . Str::random(8);
+        $user->primary_number .= '_' . Str::random(8);
+        $user->alternate_number .= '_' . Str::random(8);
         $user->deleted_at = now();
 
         return $user->save();

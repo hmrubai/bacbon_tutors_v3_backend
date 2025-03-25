@@ -23,7 +23,15 @@ class UserInformationService
             'address',
             'documents',
             'tutionAreas',
-            'tutorSchedules'
+            'tutorSchedules',
+            'presentDivision',
+            'presentDistrict',
+            'presentArea',
+            'permanentDivision',
+            'permanentDistrict',
+            'presentUpazila',
+            'permanentUpazila',
+            'permanentArea'
         )->findOrFail($userId);
     
         // Add the review attribute without modifying the model structure

@@ -68,7 +68,7 @@ class UserInformationController extends Controller
             $user->profile_image = $data;
             $user->save();
 
-            return $this->successResponse(   $user, 'Profile image updated successfully!', Response::HTTP_OK);
+            return $this->successResponse($user, 'Profile image updated successfully!', Response::HTTP_OK);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'Failed to upload file', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
