@@ -25,7 +25,7 @@ class AppliedJob extends Model
         return $this->belongsTo(User::class, 'tutor_id');
     }
 
-    public function job()
+    public function tutorJobs()
     {
         return $this->belongsTo(TutorJob::class, 'job_id');
     }

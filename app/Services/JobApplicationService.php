@@ -15,7 +15,7 @@ class JobApplicationService
 
     public function getByTutorId($tutorId)
     {
-        return AppliedJob::where('tutor_id', $tutorId)->with('job')->latest()->get();
+        return AppliedJob::where('tutor_id', $tutorId)->with('tutorJobs')->latest()->get();
     }
 
     public function apply(array $data)
