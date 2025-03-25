@@ -23,9 +23,6 @@ class JobApplicationController extends Controller
         $this->jobApplicationService = $service;
     }
 
-    /**
-     * List all applied jobs for the authenticated tutor.
-     */
     public function index(Request $request)
     {
         try {
@@ -37,14 +34,18 @@ class JobApplicationController extends Controller
         }
     }
 
-    /**
-     * Store a new job application.
-     */
-    public function store(JobApplyRequest $request)
+    public function applyForAJob(JobApplyRequest $request)
     {
+        $tutor_id =  Auth::id();
+        $job_id =  $request->job_id;
+
+        if ($this->isJobAlreadyApplied($job_id, $tutor_id)) {
+            return $this->errorResponse('You have already applied for this job.', 'Job application error', Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         try {
             $data = $request->all();
-            $data['tutor_id'] = Auth::id(); // assume logged-in tutor is applying
+            $data['tutor_id'] = Auth::id();
 
             $appliedJob = $this->jobApplicationService->apply($data);
 
@@ -54,9 +55,6 @@ class JobApplicationController extends Controller
         }
     }
 
-    /**
-     * Show details of a specific application.
-     */
     public function show($id)
     {
         try {
@@ -67,9 +65,6 @@ class JobApplicationController extends Controller
         }
     }
 
-    /**
-     * Delete an application.
-     */
     public function destroy($id)
     {
         try {
@@ -78,5 +73,10 @@ class JobApplicationController extends Controller
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'Failed to delete application', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public function isJobAlreadyApplied($job_id, $tutor_id)
+    {
+        return AppliedJob::where('tutor_id', $tutor_id)->where('job_id', $job_id)->get()->count() ? true : false;
     }
 }
