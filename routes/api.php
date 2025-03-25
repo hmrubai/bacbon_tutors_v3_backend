@@ -184,6 +184,9 @@ Route::group(['middleware' => ['auth:api',]], function () {
         // Schedule Add or Update
         Route::post('add-or-update-tutor-schedules', [TutorScheduleController::class, 'createOrUpdate']);
         Route::post('update-profile-image', [UserInformationController::class, 'updateProfileImage']);
+
+        Route::post('bookmark-tutor-job/{id}', [TutorJobController::class, 'bookmarkTutorJob']);
+        Route::get('bookmarked-jobs', [TutorJobController::class, 'getBookmarkedJobs']);
     });
 
     // Student APIs 
