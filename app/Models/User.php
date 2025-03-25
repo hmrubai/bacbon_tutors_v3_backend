@@ -157,4 +157,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(TutorSchedule::class);
     }
+
+    public function bookmarkedJobs()
+    {
+        return $this->belongsToMany(TutorJob::class, 'tuition_bookmarks', 'user_id', 'tutor_job_id');
+    }
 }

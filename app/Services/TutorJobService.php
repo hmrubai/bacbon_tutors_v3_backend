@@ -137,4 +137,23 @@ class TutorJobService
     {
         return TutorJob::with(['medium', 'subjects', 'kid', 'institutes','grade','division','district','upazila','area'])->findOrFail($id);
     }
+
+    public function bookmarkTutorJob($id)
+    {
+        $user = Auth::user();
+
+        if ($user->bookmarkedJobs()->where('tutor_job_id', $id)->exists()) {
+            $user->bookmarkedJobs()->detach($id);
+            return ['message' => 'Job removed from bookmarks'];
+        } else {
+            $user->bookmarkedJobs()->attach($id);
+            return ['message' => 'Job bookmarked successfully'];
+        }
+    }
+
+    public function getBookmarkedJobs()
+    {
+        $user = Auth::user();
+        return $user->bookmarkedJobs()->with(['medium', 'subjects', 'kid', 'institutes', 'grade'])->get();
+    }
 }

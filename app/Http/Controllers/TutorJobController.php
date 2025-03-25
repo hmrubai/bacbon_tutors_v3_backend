@@ -104,4 +104,24 @@ class TutorJobController extends Controller
             return $this->errorResponse($th->getMessage(), 'Job not found', Response::HTTP_NOT_FOUND);
         }
     }
+
+    public function bookmarkTutorJob($id)
+    {
+        try {
+            $result = $this->jobService->bookmarkTutorJob($id);
+            return $this->successResponse($result, $result['message'], Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Failed to bookmark job', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getBookmarkedJobs()
+    {
+        try {
+            $bookmarkedJobs = $this->jobService->getBookmarkedJobs();
+            return $this->successResponse($bookmarkedJobs, 'Bookmarked jobs retrieved successfully!', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Failed to retrieve bookmarked jobs', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

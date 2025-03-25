@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('tuition_bookmarks', function (Blueprint $table) {
             $table->id();
-            $table->foreign('tutor_job_id');
-            $table->foreign('user_id');
+            $table->foreignId('tutor_job_id');
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tution_bookmark');
+        Schema::dropIfExists('tuition_bookmark');
     }
 };
