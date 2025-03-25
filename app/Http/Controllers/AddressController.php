@@ -8,6 +8,7 @@ use App\Http\Traits\HelperTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Services\AddressService;
 use App\Http\Requests\AddressRequest;
+use App\Http\Requests\UserAddressRequest;
 
 class AddressController extends Controller
 {
@@ -76,6 +77,17 @@ class AddressController extends Controller
         try {
             $updated = $this->addressService->update($userId, $data);
             return $this->successResponse($updated, "Address updated successfully!", Response::HTTP_OK, true);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), "Failed to update address", Response::HTTP_INTERNAL_SERVER_ERROR, false);
+        }
+    }
+
+    public function addressUpdate(UserAddressRequest $request)
+    {
+        try {
+
+            $address = $this->addressService->addressUpdate($request);
+            return $this->successResponse($address, "Address updated successfully!", Response::HTTP_OK, true);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), "Failed to update address", Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Auth Route Configuration
@@ -25,4 +26,5 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('update-password', [AuthController::class, 'updatePassword']);
     Route::post('set-password', [AuthController::class, 'updatePassword']);
     Route::get('details', [AuthController::class, 'details']);
+    Route::delete('delete-account', [UserController::class,'destroy']);
 });
