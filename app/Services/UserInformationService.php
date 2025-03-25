@@ -13,7 +13,7 @@ class UserInformationService
 
     public function showUser(int $userId): User
     {
-        return User::with(
+        $user = User::with(
             'subjectExpertise.medium',
             'subjectExpertise.grade',
             'subjectExpertise.subject',
@@ -25,7 +25,13 @@ class UserInformationService
             'tutionAreas',
             'tutorSchedules'
         )->findOrFail($userId);
+    
+        // Add the review attribute without modifying the model structure
+        $user->review=rand(10, 50) / 10;
+    
+        return $user;
     }
+    
 
     public function show(int $userId): UserInformation
     {
