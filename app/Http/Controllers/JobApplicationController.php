@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\JobApplicationService;
 use App\Http\Requests\JobApplyRequest;
 use App\Models\AppliedJob;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Response;
@@ -39,8 +40,12 @@ class JobApplicationController extends Controller
         $tutor_id =  Auth::id();
         $job_id =  $request->job_id;
 
+        if ($this->isTutor($tutor_id)) {
+            return $this->errorResponse([], 'Become a Tutor to apply!', Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         if ($this->isJobAlreadyApplied($job_id, $tutor_id)) {
-            return $this->errorResponse('You have already applied for this job.', 'Job application error', Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->errorResponse([], 'You have already applied for this job.', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         try {
@@ -78,5 +83,10 @@ class JobApplicationController extends Controller
     public function isJobAlreadyApplied($job_id, $tutor_id)
     {
         return AppliedJob::where('tutor_id', $tutor_id)->where('job_id', $job_id)->get()->count() ? true : false;
+    }
+
+    public function isTutor($tutor_id)
+    {
+        return User::where('id', $tutor_id)->where('user_type', "Teacher")->get()->count() ? false : true;
     }
 }
