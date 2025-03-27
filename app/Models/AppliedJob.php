@@ -27,7 +27,7 @@ class AppliedJob extends Model
 
     public function tutorJobs()
     {
-        return $this->belongsTo(TutorJob::class, 'job_id');
+        return $this->belongsTo(TutorJob::class, 'job_id')->with(['medium', 'subjects', 'kid', 'grade', 'institutes', 'division', 'district', 'upazila', 'area']);
     }
 
     public function reviewer()
