@@ -65,8 +65,6 @@ class TutorJobService
 
     public function allJobs(Request $request): Collection|LengthAwarePaginator|array
     {
-
-
         $query = TutorJob::query();
         $query->with(['medium', 'subjects', 'kid', 'institutes', 'grade']);  // Add 'institutes' here
         $query->select(['*']);
@@ -138,8 +136,6 @@ class TutorJobService
                 $query->whereBetween('salary_amount', [$salaryRange[0], $salaryRange[1]]);
             }
         }
-
-
 
         // Pagination
         return $this->paginateOrGet($query, $request);
