@@ -209,7 +209,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::delete('delete-jobs/{id}', [TutorJobController::class, 'destroy']);
 
         //Basic Information
-        Route::get('user-information', [UserInformationController::class, 'showUser']);
+        Route::get('user-information', [UserInformationController::class, 'studentInformation']);
         Route::post('user-information', [UserInformationController::class, 'update']);
         Route::post('update-profile-image', [UserInformationController::class, 'updateProfileImage']);
         Route::get('dashboard', [HomePageController::class, 'studentDashboard']);

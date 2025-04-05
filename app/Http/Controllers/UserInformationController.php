@@ -34,8 +34,18 @@ class UserInformationController extends Controller
     public function showUser(Request $request)
     {
         try {
-            $userId = Auth::id();
-            $data = $this->userInfoService->showUser($userId);
+            $user = Auth::user();
+            $data = $this->userInfoService->showUser($user);
+            return $this->successResponse($data, 'User information retrieved successfully!', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Failed to retrieve user information', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    public function studentInformation(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $data = $this->userInfoService->showStudent($user);
             return $this->successResponse($data, 'User information retrieved successfully!', Response::HTTP_OK);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'Failed to retrieve user information', Response::HTTP_INTERNAL_SERVER_ERROR);
