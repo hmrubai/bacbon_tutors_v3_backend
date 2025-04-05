@@ -14,6 +14,28 @@ class UserService
 {
     use HelperTrait;
 
+    public function userList(Request $request,$userType): Collection|LengthAwarePaginator|array
+    {
+        $query = User::query();
+        $query->where('user_type', $userType);
+
+        // Select specific columns
+        $query->select(['*']);
+
+        // Sorting
+        $this->applySorting($query, $request);
+
+        // Searching
+        $searchKeys = [
+        'name',
+        'email',
+        'username'
+        ]; // Define the fields you want to search by
+        $this->applySearch($query, $request->input('search'), $searchKeys);
+
+        // Pagination
+        return $this->paginateOrGet($query, $request);
+    }
     public function index(Request $request): Collection|LengthAwarePaginator|array
     {
         $query = User::query();
@@ -81,6 +103,10 @@ class UserService
     {
         $user = User::findOrFail($id);
         $user->name .= '_' . Str::random(8);
+        $user->email .= '_' . Str::random(8);
+        $user->username .= '_' . Str::random(8);
+        $user->primary_number .= '_' . Str::random(8);
+        $user->alternate_number .= '_' . Str::random(8);
         $user->deleted_at = now();
 
         return $user->save();

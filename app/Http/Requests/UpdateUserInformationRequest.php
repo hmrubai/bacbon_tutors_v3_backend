@@ -19,7 +19,7 @@ class UpdateUserInformationRequest extends FormRequest
             'profile_image'    => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'primary_number'   => 'nullable|string|max:50',
             'alternate_number' => 'nullable|string|max:50',
-            'email'            => 'required|string|email|max:255|unique:users,email,' . auth()->id(),
+            'email'            => 'required|string|email|max:255',
             'date_of_birth'    => 'nullable|date',
             'religion'         => 'nullable|string|max:255',
             'fathers_name'     => 'nullable|string|max:255',

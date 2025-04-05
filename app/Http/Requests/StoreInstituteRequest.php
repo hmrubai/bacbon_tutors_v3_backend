@@ -26,6 +26,7 @@ class StoreInstituteRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'institute_type' => 'required|in:School,College,University,under-graduate,post-graduate,Teaching Center,Others',
+            'is_selected' => 'boolean',
             'is_active' => 'boolean',
         ];
     }

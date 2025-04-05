@@ -11,9 +11,9 @@ class UserInformationService
 {
     use HelperTrait;
 
-    public function showUser(int $userId): User
+    public function showUser($user): User
     {
-        return User::with(
+        $user = User::with(
             'subjectExpertise.medium',
             'subjectExpertise.grade',
             'subjectExpertise.subject',
@@ -23,10 +23,30 @@ class UserInformationService
             'address',
             'documents',
             'tutionAreas',
-            'tutorSchedules'
-        )->findOrFail($userId);
+            'tutorSchedules',
+            'presentDivision',
+            'presentDistrict',
+            'presentArea',
+            'permanentDivision',
+            'permanentDistrict',
+            'presentUpazila',
+            'permanentUpazila',
+            'permanentArea'
+        )->findOrFail($user->id);
+
+        // Add the review attribute without modifying the model structure
+        $user->review = rand(10, 50) / 10;
+
+        return $user;
     }
 
+
+
+    public function showStudent($user)
+    {
+
+        return User::with('educationHistory')->findOrFail($user->id);
+    }
     public function show(int $userId): UserInformation
     {
         return UserInformation::findOrFail($userId);

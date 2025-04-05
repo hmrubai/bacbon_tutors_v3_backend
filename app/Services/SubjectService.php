@@ -49,4 +49,13 @@ class SubjectService
         return Subject::where('medium_id', $mediumId)->where('grade_id', $gradeId)
             ->get();
     }
+
+    public function getSubjectsByMediumGrade($request)
+    {
+        $mediumIds = explode(',', $request->medium_ids);
+        $gradeIds = explode(',', $request->grade_ids);
+        return Subject::whereIn('medium_id', $mediumIds)
+            ->whereIn('grade_id', $gradeIds)
+            ->get();
+    }
 }

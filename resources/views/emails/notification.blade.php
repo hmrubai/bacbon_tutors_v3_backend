@@ -34,11 +34,15 @@
                             <p style="color: #666666; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
                                 {{ $details['body'] }}
                             </p>
+                            <br/>
+                            <hr/>
+                            <h4 style="text-align:justify; font-weight: 100 !important;  color: #b3b3b3;">About BacBon Tutors</h4>
+                            <p style="text-align:justify; font-weight: 100 !important;  color: #b3b3b3;">BacBon Family has more than 06-years experience in being a successful Tutor Management service. Since September 2016, we have been providing Quality English Lecture Correction (SLC) service to Japanese High School Students. Currently, more than 130 tutors are serving to above 30,000 Japanese students from 230 high schools. Inspired by the success of the SLC service, BacBon has introduced 'BacBon-Tutors' to provide similar tutor management service to the Bangladeshi students. We aim to promote Sustainable Development Goal - 04 (SDG-04): "ENSURE INCLUSIVE AND EQUITABLE QUALITY EDUCATION FOR ALL"</p>
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td style="padding: 15px 25px; background-color: #0066cc; border-radius: 4px;">
-                                        <a href="#" style="color: #ffffff; text-decoration: none; font-size: 16px; display: inline-block;">
-                                            Call to Action
+                                        <a href="https://bacbontutors.com" target="_blank" style="color: #ffffff; text-decoration: none; font-size: 16px; display: inline-block;">
+                                            Go to BacBon Tutors
                                         </a>
                                     </td>
                                 </tr>

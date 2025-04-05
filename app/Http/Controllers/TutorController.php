@@ -25,6 +25,19 @@ class TutorController extends Controller
         $this->userService = $userService;
     }
 
+    public function tutorList(Request $request)
+    {
+        try {
+            // ['Student', 'Teacher', 'Admin', 'Kid', 'Guardian']
+            $userType="Teacher";
+            $data = $this->userService->userList($request, $userType);
+
+            return $this->successResponse($data, 'Tutor data retrieved successfully!', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function index(Request $request)
     {
         try {

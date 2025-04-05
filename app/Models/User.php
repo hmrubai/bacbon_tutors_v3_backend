@@ -43,6 +43,8 @@ class User extends Authenticatable implements JWTSubject
         'present_address',
         'permanent_division_id',
         'permanent_district_id',
+        'present_upazila_id',
+        'permanent_upazila_id',
         'permanent_area_id',
         'permanent_address',
         'organization_id',
@@ -95,6 +97,15 @@ class User extends Authenticatable implements JWTSubject
             'permanent_area_id' => 'integer',
             'organization_id' => 'integer',
             'created_by' => 'integer',
+            'profile_progress' => 'integer',
+
+        ];
+    }
+    // profile_progress default value 0
+    protected function atributosPropiosParaJson(): array
+    {
+        return [
+            'profile_progress' => 0,
         ];
     }
 
@@ -147,5 +158,50 @@ class User extends Authenticatable implements JWTSubject
     public function tutorSchedules()
     {
         return $this->hasMany(TutorSchedule::class);
+    }
+
+    public function bookmarkedJobs()
+    {
+        return $this->belongsToMany(TutorJob::class, 'tuition_bookmarks', 'user_id', 'tutor_job_id');
+    }
+
+    public function presentDivision()
+    {
+        return $this->belongsTo(Division::class, 'present_division_id');
+    }
+
+    public function presentDistrict()
+    {
+        return $this->belongsTo(District::class, 'present_district_id');
+    }
+
+    public function presentArea()
+    {
+        return $this->belongsTo(Union::class, 'present_area_id');
+    }
+
+    public function permanentDivision()
+    {
+        return $this->belongsTo(Division::class, 'permanent_division_id');
+    }
+
+    public function permanentDistrict()
+    {
+        return $this->belongsTo(District::class, 'permanent_district_id');
+    }
+
+    public function presentUpazila()
+    {
+        return $this->belongsTo(Upazila::class, 'present_upazila_id');
+    }
+
+    public function permanentUpazila()
+    {
+        return $this->belongsTo(Upazila::class, 'permanent_upazila_id');
+    }
+
+    public function permanentArea()
+    {
+        return $this->belongsTo(Union::class, 'permanent_area_id');
     }
 }

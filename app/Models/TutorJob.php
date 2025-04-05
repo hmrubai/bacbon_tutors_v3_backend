@@ -14,6 +14,14 @@ class TutorJob extends Model
 
     protected $casts = [
         'salary_amount' => 'integer',
+        'division_id' => 'integer',
+        'district_id' => 'integer',
+        'upazila_id' => 'integer',
+        'area_id' => 'integer',
+        'negotiable' => 'boolean',
+        'user_id' => 'integer',
+        'student_id' => 'integer',
+        'medium_id' => 'integer',
     ];
 
     protected $fillable = [
@@ -39,7 +47,6 @@ class TutorJob extends Model
         'area_id',
         'negotiable',
     ];
-
 
 
     /**
@@ -75,5 +82,25 @@ class TutorJob extends Model
     public function grade()
     {
         return $this->belongsTo(Grade::class, 'grade_id');
+    }
+
+    public function  division()
+    {
+        return $this->belongsTo(Division::class, 'division_id');
+    }
+
+    public function  district()
+    {
+        return $this->belongsTo(District::class, 'district_id');
+    }
+
+    public function  upazila()  
+    {
+        return $this->belongsTo(Upazila::class, 'upazila_id');
+    }
+
+    public function  area()
+    {
+        return $this->belongsTo(Union::class, 'area_id');
     }
 }

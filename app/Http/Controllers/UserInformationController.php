@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use App\Http\Traits\HelperTrait;
 use App\Services\UserInformationService;
 use App\Http\Requests\UpdateUserInformationRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class UserInformationController extends Controller
@@ -19,13 +20,13 @@ class UserInformationController extends Controller
     {
         $this->userInfoService = $service;
     }
-  
+
     public function getCompleteUserProfile(Request $request, $userId)
     {
         try {
             // Retrieve basic user information.
             $userInfo = $this->userInfoService->showUser($userId);
-            return $this->successResponse( $userInfo, 'User profile retrieved successfully!', Response::HTTP_OK);
+            return $this->successResponse($userInfo, 'User profile retrieved successfully!', Response::HTTP_OK);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'Failed to retrieve user profile', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -33,8 +34,18 @@ class UserInformationController extends Controller
     public function showUser(Request $request)
     {
         try {
-            $userId = Auth::id();
-            $data = $this->userInfoService->showUser($userId);
+            $user = Auth::user();
+            $data = $this->userInfoService->showUser($user);
+            return $this->successResponse($data, 'User information retrieved successfully!', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Failed to retrieve user information', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    public function studentInformation(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $data = $this->userInfoService->showStudent($user);
             return $this->successResponse($data, 'User information retrieved successfully!', Response::HTTP_OK);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'Failed to retrieve user information', Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -52,6 +63,24 @@ class UserInformationController extends Controller
             return $this->successResponse($data, 'User information updated successfully!', Response::HTTP_OK);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'Failed to update user information', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    public function updateProfileImage(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|max:2048',
+        ]);
+
+        try {
+          
+            $data = $this->fileUpload($request, 'file', 'users');
+            $user = User::find(Auth::id());
+            $user->profile_image = $data;
+            $user->save();
+
+            return $this->successResponse($user, 'Profile image updated successfully!', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Failed to upload file', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

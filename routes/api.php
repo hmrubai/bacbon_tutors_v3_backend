@@ -25,7 +25,8 @@ use App\Http\Controllers\TutorScheduleController;
 use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\TutorJobController;
 use App\Http\Controllers\HomePageController;
-
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\JobApplicationController;
 
 // Protected Routes
 Route::group(['middleware' => ['auth:api',]], function () {
@@ -108,6 +109,13 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('user-profile/{userId}', [UserInformationController::class, 'getCompleteUserProfile']);
 
         Route::apiResource('institutes', InstituteController::class);
+        Route::get('tutor-list', [TutorController::class, 'tutorList']);
+        Route::get('details/{id}', [TutorController::class, 'tutorDetails']);
+        Route::get('job-details/{id}', [TutorJobController::class, 'jobDetails']);
+        Route::get('guardian-list', [GuardianController::class, 'guardianList']);
+        Route::get('student-list', [StudentController::class,'studentList']);
+        Route::get('all-job-list', [TutorJobController::class, 'allJobList']);
+  
     });
 
     // Tutor Profile for the Tutor
@@ -176,6 +184,18 @@ Route::group(['middleware' => ['auth:api',]], function () {
 
         // Schedule Add or Update
         Route::post('add-or-update-tutor-schedules', [TutorScheduleController::class, 'createOrUpdate']);
+        Route::post('update-profile-image', [UserInformationController::class, 'updateProfileImage']);
+
+        Route::post('bookmark-tutor-job/{id}', [TutorJobController::class, 'bookmarkTutorJob']);
+        Route::get('bookmarked-jobs', [TutorJobController::class, 'getBookmarkedJobs']);
+
+        //Job Applications
+        Route::get('applied-list', [JobApplicationController::class, 'index']);
+        Route::post('apply-for-a-tution', [JobApplicationController::class, 'applyForAJob']);
+        // Route::get('applied-job-details/{id}', [JobApplicationController::class, 'show']);
+        // Route::delete('delete-applied-job/{id}', [JobApplicationController::class, 'destroy']);
+        
+        Route::post('address-and-update', [AddressController::class, 'addressUpdate']);
     });
 
     // Student APIs 
@@ -187,6 +207,14 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('job-details/{id}', [TutorJobController::class, 'show']);
         Route::post('update-jobs/{id}', [TutorJobController::class, 'update']);
         Route::delete('delete-jobs/{id}', [TutorJobController::class, 'destroy']);
+
+        //Basic Information
+        Route::get('user-information', [UserInformationController::class, 'studentInformation']);
+        Route::post('user-information', [UserInformationController::class, 'update']);
+        Route::post('update-profile-image', [UserInformationController::class, 'updateProfileImage']);
+        Route::get('dashboard', [HomePageController::class, 'studentDashboard']);
+        Route::post('address-and-update', [AddressController::class, 'addressUpdate']);
+
     });
 
     // Guardian APIs 
@@ -206,6 +234,20 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('update-jobs/{id}', [TutorJobController::class, 'update']);
         Route::delete('delete-jobs/{id}', [TutorJobController::class, 'destroy']);
 
+        //Basic Information
+        Route::get('user-information', [UserInformationController::class, 'showUser']);
+        Route::post('user-information', [UserInformationController::class, 'update']);
+        Route::post('update-profile-image', [UserInformationController::class, 'updateProfileImage']);
+        Route::get('dashboard', [HomePageController::class, 'studentDashboard']);
+        Route::post('address-and-update', [AddressController::class, 'addressUpdate']);
+
+        //Document
+        Route::get('documents', [DocumentController::class, 'index']);
+        Route::post('add-documents', [DocumentController::class, 'store']);
+        Route::get('document-details/{id}', [DocumentController::class, 'show']);
+        Route::post('update-documents/{id}', [DocumentController::class, 'update']);
+        Route::delete('delete-documents/{id}', [DocumentController::class, 'destroy']);
+
     });
 
     // Common APIs for open uses
@@ -216,11 +258,14 @@ Route::group(['middleware' => ['auth:api',]], function () {
         //Grade
         Route::get('all-grades', [GradeController::class, 'index']);
         Route::get('grades/medium/{mediumId}', [GradeController::class, 'getGradesByMediumId']);
+        Route::get('grades/medium', [GradeController::class, 'getGradesByMedium']);
 
         //Subject
         Route::get('all-subjects', [SubjectController::class, 'index']);
         Route::get('subjects/medium/{mediumId}', [SubjectController::class, 'getSubjectsByMediumId']);
         Route::get('subjects/medium/{mediumId}/{gradeId}', [SubjectController::class, 'getSubjectsByMediumGradeId']);
+        
+        Route::get('subjects/medium-grade', [SubjectController::class, 'getSubjectsByMediumGrade']);
 
         //Location Post
         Route::get('division-list', [LocationController::class, 'divisionList']);
@@ -248,13 +293,34 @@ Route::group(['middleware' => ['auth:api',]], function () {
 
 
 // Common APIs for Guest uses
-Route::group(['prefix' => 'open'], function () {
+Route::group(['prefix' => 'open', 'middleware' => 'optional.auth'], function () {
     //Job List
     Route::get('tutor-details/{id}', [TutorController::class, 'tutorDetails']);
     Route::get('all-job-list', [TutorJobController::class, 'allJobList']);
     Route::get('job-details/{id}', [TutorJobController::class, 'jobDetails']);
     Route::get('all-tutor-list', [TutorController::class,'allTutorList']);
     Route::get('institution-list', [InstituteController::class, 'institutionList']);
+
+    //Location Post
+    Route::get('division-list', [LocationController::class, 'divisionList']);
+    Route::get('district-list-by-id/{division_id}', [LocationController::class, 'districtListByID']);
+    Route::get('upazila-list-by-id/{district_id}', [LocationController::class, 'upazilaListByID']);
+    Route::get('area-list-by-id/{upazila_id}', [LocationController::class, 'unionListByID']);
+
+    //Medium
+    Route::get('all-mediums', [MediumController::class, 'index']);
+
+    //Grade
+    Route::get('all-grades', [GradeController::class, 'index']);
+    Route::get('grades/medium/{mediumId}', [GradeController::class, 'getGradesByMediumId']);
+    Route::get('grades/medium', [GradeController::class, 'getGradesByMedium']);
+
+    //Subject
+    Route::get('all-subjects', [SubjectController::class, 'index']);
+    Route::get('subjects/medium/{mediumId}', [SubjectController::class, 'getSubjectsByMediumId']);
+    Route::get('subjects/medium/{mediumId}/{gradeId}', [SubjectController::class, 'getSubjectsByMediumGradeId']);
+
+    Route::get('subjects/medium-grade', [SubjectController::class, 'getSubjectsByMediumGrade']);
     
     //Home Page Route
     Route::get('home-page-details', [HomePageController::class, 'homePageDetails']); 

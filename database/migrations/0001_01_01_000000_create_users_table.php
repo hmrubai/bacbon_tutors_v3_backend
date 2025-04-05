@@ -60,7 +60,7 @@ return new class extends Migration
             $table->string('passport_no')->nullable();
             $table->string('intro_video')->nullable();
             $table->string('bacbon_rank')->nullable();
-            $table->string('profile_progress')->nullable();
+            $table->integer('profile_progress')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->bigInteger('created_by')->nullable();
             $table->string('password')->nullable();

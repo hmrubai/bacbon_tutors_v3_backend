@@ -89,6 +89,17 @@ class SubjectController extends Controller
          }
      }
 
+     public function getSubjectsByMediumGrade(Request $request)
+     {
+        try {
+            $data = $this->subjectService->getSubjectsByMediumGrade($request);
+            return $this->successResponse($data, "Subjects retrieved successfully", Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Failed to retrieve subjects by medium id', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+         
+     }
+
     // Delete a subject
     public function destroy($id)
     {
