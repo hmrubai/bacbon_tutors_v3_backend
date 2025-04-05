@@ -98,6 +98,7 @@ class User extends Authenticatable implements JWTSubject
             'organization_id' => 'integer',
             'created_by' => 'integer',
             'profile_progress' => 'integer',
+            
 
         ];
     }
