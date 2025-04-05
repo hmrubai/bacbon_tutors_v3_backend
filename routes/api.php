@@ -214,6 +214,11 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('update-profile-image', [UserInformationController::class, 'updateProfileImage']);
         Route::get('dashboard', [HomePageController::class, 'studentDashboard']);
         Route::post('address-and-update', [AddressController::class, 'addressUpdate']);
+        
+        Route::get('education-histories', [TutorController::class, 'getTutorEducationHistory']);
+        Route::post('store-education-histories', [TutorController::class, 'storeEducationByUser']);
+        Route::post('update-education-histories/{id}', [TutorController::class, 'updateEducationHistories']);
+        Route::delete('delete-education-histories/{id}', [TutorController::class, 'deleteEducationHistories']);
 
     });
 
