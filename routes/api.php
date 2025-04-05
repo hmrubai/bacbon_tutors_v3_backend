@@ -241,7 +241,12 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('dashboard', [HomePageController::class, 'studentDashboard']);
         Route::post('address-and-update', [AddressController::class, 'addressUpdate']);
 
-
+        //Document
+        Route::get('documents', [DocumentController::class, 'index']);
+        Route::post('add-documents', [DocumentController::class, 'store']);
+        Route::get('document-details/{id}', [DocumentController::class, 'show']);
+        Route::post('update-documents/{id}', [DocumentController::class, 'update']);
+        Route::delete('delete-documents/{id}', [DocumentController::class, 'destroy']);
 
     });
 
@@ -314,7 +319,7 @@ Route::group(['prefix' => 'open', 'middleware' => 'optional.auth'], function () 
     Route::get('all-subjects', [SubjectController::class, 'index']);
     Route::get('subjects/medium/{mediumId}', [SubjectController::class, 'getSubjectsByMediumId']);
     Route::get('subjects/medium/{mediumId}/{gradeId}', [SubjectController::class, 'getSubjectsByMediumGradeId']);
-    
+
     Route::get('subjects/medium-grade', [SubjectController::class, 'getSubjectsByMediumGrade']);
     
     //Home Page Route
