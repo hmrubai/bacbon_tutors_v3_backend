@@ -295,6 +295,27 @@ Route::group(['prefix' => 'open', 'middleware' => 'optional.auth'], function () 
     Route::get('job-details/{id}', [TutorJobController::class, 'jobDetails']);
     Route::get('all-tutor-list', [TutorController::class,'allTutorList']);
     Route::get('institution-list', [InstituteController::class, 'institutionList']);
+
+    //Location Post
+    Route::get('division-list', [LocationController::class, 'divisionList']);
+    Route::get('district-list-by-id/{division_id}', [LocationController::class, 'districtListByID']);
+    Route::get('upazila-list-by-id/{district_id}', [LocationController::class, 'upazilaListByID']);
+    Route::get('area-list-by-id/{upazila_id}', [LocationController::class, 'unionListByID']);
+
+    //Medium
+    Route::get('all-mediums', [MediumController::class, 'index']);
+
+    //Grade
+    Route::get('all-grades', [GradeController::class, 'index']);
+    Route::get('grades/medium/{mediumId}', [GradeController::class, 'getGradesByMediumId']);
+    Route::get('grades/medium', [GradeController::class, 'getGradesByMedium']);
+
+    //Subject
+    Route::get('all-subjects', [SubjectController::class, 'index']);
+    Route::get('subjects/medium/{mediumId}', [SubjectController::class, 'getSubjectsByMediumId']);
+    Route::get('subjects/medium/{mediumId}/{gradeId}', [SubjectController::class, 'getSubjectsByMediumGradeId']);
+    
+    Route::get('subjects/medium-grade', [SubjectController::class, 'getSubjectsByMediumGrade']);
     
     //Home Page Route
     Route::get('home-page-details', [HomePageController::class, 'homePageDetails']); 
