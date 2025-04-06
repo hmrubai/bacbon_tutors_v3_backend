@@ -95,9 +95,21 @@ class TutorInformationService
         $this->applyWhereIn($query, 'subject_expertise.subject_id', $request->subject_ids);
 
         $query->when($request->tuition_type, fn($q, $val) => $q->where('subject_expertise.tuition_type', $val))
-            ->when($request->rate, fn($q, $val) => $q->where('subject_expertise.rate', $val))
-            ->when($request->min_fee, fn($q, $val) => $q->where('subject_expertise.fee', '>=', $val))
-            ->when($request->max_fee, fn($q, $val) => $q->where('subject_expertise.fee', '<=', $val));
+            ->when($request->rate, fn($q, $val) => $q->where('subject_expertise.rate', $val));
+
+        if ($request->filled('fee')) {
+            $fees = explode(',', $request->fee);
+            $minFee = $fees[0] ?? null;
+            $maxFee = $fees[1] ?? null;
+
+            if ($minFee !== null) {
+                $query->where('subject_expertise.fee', '>=', $minFee);
+            }
+
+            if ($maxFee !== null) {
+                $query->where('subject_expertise.fee', '<=', $maxFee);
+            }
+        }
 
         foreach (['division_id', 'district_id', 'upazila_id', 'union_id'] as $filter) {
             $query->when($request->$filter, fn($q, $val) => $q->where("tution_areas.$filter", $val));
