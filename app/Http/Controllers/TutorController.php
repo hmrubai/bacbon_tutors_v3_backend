@@ -197,4 +197,27 @@ class TutorController extends Controller
             return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function myTutorList(Request $request)
+    {
+        try {
+            $data = $this->tp_service->myTutorList($request);
+
+            return $this->successResponse($data, 'Tutor data retrieved successfully!', Response::HTTP_OK);
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function hireTutor(Request $request, $id)
+    {
+        try {
+            $data = $this->tp_service->hireTutor($request, $id);
+
+            return $this->successResponse($data, 'Tutor data retrieved successfully!', Response::HTTP_OK);
+        }
+        catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }
