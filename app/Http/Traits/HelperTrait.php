@@ -65,13 +65,13 @@ trait HelperTrait
     protected function codeGenerator($prefix, $model)
     {
         if ($model::count() == 0) {
-            $newId = $prefix.'-'.str_pad(1, 5, 0, STR_PAD_LEFT);
+            $newId = $prefix . '-' . str_pad(1, 5, 0, STR_PAD_LEFT);
 
             return $newId;
         }
         $lastId = $model::orderBy('id', 'desc')->first()->id;
         $lastIncrement = substr($lastId, -3);
-        $newId = $prefix.'-'.str_pad($lastIncrement + 1, 5, 0, STR_PAD_LEFT);
+        $newId = $prefix . '-' . str_pad($lastIncrement + 1, 5, 0, STR_PAD_LEFT);
         $newId++;
 
         return $newId;
@@ -89,7 +89,7 @@ trait HelperTrait
         if ($searchValue) {
             $query->where(function ($query) use ($searchValue, $searchKeys) {
                 foreach ($searchKeys as $key) {
-                    $query->orWhereRaw('LOWER('.$key.') LIKE ?', ['%'.strtolower($searchValue).'%']);
+                    $query->orWhereRaw('LOWER(' . $key . ') LIKE ?', ['%' . strtolower($searchValue) . '%']);
                 }
             });
         }
@@ -105,6 +105,14 @@ trait HelperTrait
         }
 
         return $query->get();
+    }   
+
+    protected function applyWhereIn($query, $column, $values)
+    {
+        if (!empty($values)) {
+            $ids = is_array($values) ? $values : explode(',', $values);
+            $query->whereIn($column, $ids);
+        }
     }
 
     private function applyFilters($query, $request, $filters)
@@ -117,7 +125,7 @@ trait HelperTrait
                         $query->where($key, '=', $value);
                         break;
                     case 'like':
-                        $query->where($key, 'like', '%'.$value.'%');
+                        $query->where($key, 'like', '%' . $value . '%');
                         break;
                     case '>':
                     case '<':
@@ -125,7 +133,7 @@ trait HelperTrait
                     case '<=':
                         $query->where($key, $operator, $value);
                         break;
-                        // Add more cases for additional operators as needed.
+                    // Add more cases for additional operators as needed.
                     default:
                         // Handle other operators or throw an exception if needed.
                         break;
@@ -138,8 +146,8 @@ trait HelperTrait
     {
         if ($request->hasFile($fileName)) {
             $file = $request->file($fileName);
-            $fileName = $fileName.'-'.Str::random(6).time().'.'.$file->getClientOriginalExtension();
-            $destinationPath = 'uploads/'.trim($destination, '/');
+            $fileName = $fileName . '-' . Str::random(6) . time() . '.' . $file->getClientOriginalExtension();
+            $destinationPath = 'uploads/' . trim($destination, '/');
 
             // Ensure the destination directory exists
             if (! is_dir($destinationPath)) {
@@ -148,7 +156,7 @@ trait HelperTrait
 
             $file->move($destinationPath, $fileName);
 
-            return $destinationPath.'/'.$fileName;
+            return $destinationPath . '/' . $fileName;
         }
 
         return null;
@@ -158,7 +166,7 @@ trait HelperTrait
     {
         if ($request->hasFile($fileName)) {
             $file = $request->file($fileName);
-            $fileName = $fileName.'-'.Str::random(6).time().'.'.$file->getClientOriginalExtension();
+            $fileName = $fileName . '-' . Str::random(6) . time() . '.' . $file->getClientOriginalExtension();
             $destinationPath = trim($destination, '/');
 
             // Store the file on the 'public' disk
@@ -175,27 +183,27 @@ trait HelperTrait
         if ($fullRequest->hasFile($fileName)) {
             $file_temp = $fullRequest->file($fileName);
             $destinations = 'uploads/' . $destination;
-    
+
             // Create directory if it doesn't exist and set permissions
             if (!Storage::exists($destinations)) {
                 Storage::makeDirectory($destinations);
             }
-    
+
             $file_url = Storage::put($destinations, $file_temp);
-    
+
             return "ftp/{$file_url}";
         }
         return null;
     }
-    
-    
+
+
     // Upload and Replace file
     protected function fileUploadAndUpdate($request, $fileName, $destination, $oldFile = null)
     {
         if ($request->hasFile($fileName)) {
             // Remove the old file if it exists
             if ($oldFile) {
-                $oldFilePath = public_path('uploads/'.trim($oldFile, '/'));
+                $oldFilePath = public_path('uploads/' . trim($oldFile, '/'));
                 if (file_exists($oldFilePath)) {
                     unlink($oldFilePath);
                 }
@@ -203,8 +211,8 @@ trait HelperTrait
 
             // Handle the new file upload
             $file = $request->file($fileName);
-            $newFileName = $fileName.'-'.Str::random(6).time().'.'.$file->getClientOriginalExtension();
-            $destinationPath = 'uploads/'.trim($destination, '/');
+            $newFileName = $fileName . '-' . Str::random(6) . time() . '.' . $file->getClientOriginalExtension();
+            $destinationPath = 'uploads/' . trim($destination, '/');
 
             // Ensure the destination directory exists
             if (! is_dir($destinationPath)) {
@@ -213,7 +221,7 @@ trait HelperTrait
 
             $file->move($destinationPath, $newFileName);
 
-            return $destinationPath.'/'.$newFileName;
+            return $destinationPath . '/' . $newFileName;
         }
 
         return $oldFile; // Return old file path if no new file is uploaded
@@ -232,7 +240,7 @@ trait HelperTrait
 
             // Handle the new file upload
             $file = $request->file($fileName);
-            $newFileName = $fileName.'-'.Str::random(6).time().'.'.$file->getClientOriginalExtension();
+            $newFileName = $fileName . '-' . Str::random(6) . time() . '.' . $file->getClientOriginalExtension();
             $destinationPath = trim($destination, '/');
 
             // Store the file on the 'public' disk
@@ -249,7 +257,7 @@ trait HelperTrait
         if ($fullRequest->hasFile($fileName)) {
             // Delete old file if it exists
             if ($oldFile) {
-                $old_image_path = 'uploads/'.$oldFile;
+                $old_image_path = 'uploads/' . $oldFile;
                 if (Storage::exists($old_image_path)) {
                     Storage::delete($old_image_path);
                 }
@@ -257,7 +265,7 @@ trait HelperTrait
 
             // Upload new file
             $file_temp = $fullRequest->file($fileName);
-            $destinations = 'uploads/'.$destination;
+            $destinations = 'uploads/' . $destination;
             $file_url = Storage::put($destinations, $file_temp);
 
             return "crm/{$file_url}";
@@ -269,7 +277,7 @@ trait HelperTrait
     // Delete File
     protected function deleteFile($file)
     {
-        $filePath = public_path('uploads/'.trim($file, '/'));
+        $filePath = public_path('uploads/' . trim($file, '/'));
 
         if (file_exists($filePath) && is_file($filePath)) {
             unlink($filePath);
@@ -293,7 +301,7 @@ trait HelperTrait
 
     protected function ftpDeleteFile($file)
     {
-        $file_path = 'uploads/'.$file;
+        $file_path = 'uploads/' . $file;
 
         if (Storage::exists($file_path)) {
             Storage::delete($file_path);
@@ -305,9 +313,8 @@ trait HelperTrait
     public function sendSms($phone, $message)
     {
         try {
-            $url = "https://api.mobireach.com.bd/SendTextMessage?Username=bacbon1&Password=BBSft@2024&From=8801877715110&To=". $phone. "&Message=" . $message;
+            $url = "https://api.mobireach.com.bd/SendTextMessage?Username=bacbon1&Password=BBSft@2024&From=8801877715110&To=" . $phone . "&Message=" . $message;
             return $response = Http::get($url);
-
         } catch (\Throwable $th) {
             throw $th;
         }

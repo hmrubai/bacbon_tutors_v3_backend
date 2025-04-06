@@ -65,17 +65,26 @@ class TutorJobService
 
     public function allJobs(Request $request): Collection|LengthAwarePaginator|array
     {
+        
         $query = TutorJob::query();
-        $query->with(['medium', 'subjects', 'kid', 'institutes', 'grade']);  // Add 'institutes' here
+        $query->with(['medium', 'subjects', 'kid', 'institutes', 'grade']);
         $query->select(['*']);
 
-        // this is an open api but i want to check is auth
+        // Add bookmark flag
         $query->selectRaw('CASE WHEN EXISTS (
             SELECT 1 
             FROM tuition_bookmarks 
             WHERE tutor_job_id = tutor_jobs.id 
             AND user_id = COALESCE(?, 0)
         ) THEN 1 ELSE 0 END AS is_bookmark', [auth()->id() ?? 0]);
+
+        // Add applied flag
+        $query->selectRaw('CASE WHEN EXISTS (
+            SELECT 1 
+            FROM applied_jobs 
+            WHERE job_id = tutor_jobs.id 
+            AND tutor_id = COALESCE(?, 0)
+        ) THEN 1 ELSE 0 END AS is_applied', [auth()->id() ?? 0]);
 
         // Sorting
         $this->applySorting($query, $request);
