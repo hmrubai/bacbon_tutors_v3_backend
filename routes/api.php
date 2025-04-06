@@ -115,6 +115,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('guardian-list', [GuardianController::class, 'guardianList']);
         Route::get('student-list', [StudentController::class,'studentList']);
         Route::get('all-job-list', [TutorJobController::class, 'allJobList']);
+        Route::post('hire-tutor/{id}', [TutorController::class, 'hireTutor']);
   
     });
 
@@ -219,6 +220,8 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('store-education-histories', [TutorController::class, 'storeEducationByUser']);
         Route::post('update-education-histories/{id}', [TutorController::class, 'updateEducationHistories']);
         Route::delete('delete-education-histories/{id}', [TutorController::class, 'deleteEducationHistories']);
+        Route::get('my-tutor-list', [TutorController::class, 'myTutorList']);
+        
 
     });
 
