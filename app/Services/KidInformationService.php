@@ -14,12 +14,12 @@ class KidInformationService
      */
     public function getByUserId($userId)
     {
-        return KidInformation::with('grade')->where('user_id', $userId)->get();
+        return KidInformation::with('grade', 'medium')->where('user_id', $userId)->get();
     }
 
     public function getById($id)
     {
-        return KidInformation::with('grade')->findOrFail($id);
+        return KidInformation::with('grade', 'medium')->findOrFail($id);
     }
 
     /**

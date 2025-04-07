@@ -20,6 +20,7 @@ class KidInformationRequest extends FormRequest
             'gender'   => 'nullable|in:Male,Female,Others',
             'class_id' => 'required|integer|exists:grade,id', // Make sure it exists in the Grade table (the table used in your Grade CRUD)
             'institute'=> 'nullable|string|max:255',
+            'medium_id' => 'nullable|integer|exists:mediums,id',
         ];
-    }
+    }   
 }

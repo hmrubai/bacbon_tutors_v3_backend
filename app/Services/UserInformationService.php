@@ -50,7 +50,7 @@ class UserInformationService
     public function showGuardian($user)
     {
 
-        return User::with(['kids', 'documents'])->findOrFail($user->id);
+        return User::with(['kids', 'kids.grade', 'kids.medium', 'documents'])->findOrFail($user->id);
     }
     public function show(int $userId): UserInformation
     {
