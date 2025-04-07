@@ -146,7 +146,7 @@ class UserService
         $user->joined_here = (string) Carbon::parse($user->created_at)->diffForHumans();
 
         //favorite tutor
-        $user->favorite = TutorFavorite::where('user_id', $authId)
+        $user->is_favorite = TutorFavorite::where('user_id', $authId)
             ->where('tutor_id', $user->id)
             ->exists()??false;
 
