@@ -25,7 +25,7 @@ class JobApplicationService
 
     public function getById($id)
     {
-        return AppliedJob::findOrFail($id);
+        return AppliedJob::with('tutorJobs')->findOrFail($id);
     }
 
     public function delete($id)
