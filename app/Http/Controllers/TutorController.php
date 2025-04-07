@@ -17,10 +17,10 @@ class TutorController extends Controller
     protected $tp_service;
     protected $userService;
 
-    public function __construct(TutorInformationService $service,
-    UserService $userService
-    )
-    {
+    public function __construct(
+        TutorInformationService $service,
+        UserService $userService
+    ) {
         $this->tp_service = $service;
         $this->userService = $userService;
     }
@@ -29,7 +29,7 @@ class TutorController extends Controller
     {
         try {
             // ['Student', 'Teacher', 'Admin', 'Kid', 'Guardian']
-            $userType="Teacher";
+            $userType = "Teacher";
             $data = $this->userService->userList($request, $userType);
 
             return $this->successResponse($data, 'Tutor data retrieved successfully!', Response::HTTP_OK);
@@ -48,13 +48,13 @@ class TutorController extends Controller
             return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     // Only Toturs
     public function getTutorEducationHistory(Request $request)
     {
         $tutor_id = Auth::id();
-        if(!$tutor_id){
-            return $this->errorResponse("Please Attach Tutor ID", 'Something went wrong', Response::HTTP_UNPROCESSABLE_ENTITY);  
+        if (!$tutor_id) {
+            return $this->errorResponse("Please Attach Tutor ID", 'Something went wrong', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         try {
@@ -70,8 +70,8 @@ class TutorController extends Controller
     public function tutorEducationForAdmin(Request $request, $tutor_id)
     {
         $tutor_id = $tutor_id ? $tutor_id : 0;
-        if(!$tutor_id){
-            return $this->errorResponse("Please Attach Tutor ID", 'Something went wrong', Response::HTTP_UNPROCESSABLE_ENTITY);  
+        if (!$tutor_id) {
+            return $this->errorResponse("Please Attach Tutor ID", 'Something went wrong', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         try {
@@ -190,7 +190,7 @@ class TutorController extends Controller
     public function tutorDetails(Request $request, $id)
     {
         try {
-            $data = $this->userService->tutorDetails($request,$id);
+            $data = $this->userService->tutorDetails($request, $id);
 
             return $this->successResponse($data, 'Tutor data retrieved successfully!', Response::HTTP_OK);
         } catch (\Throwable $th) {
@@ -215,8 +215,7 @@ class TutorController extends Controller
             $data = $this->tp_service->hireTutor($request, $id);
 
             return $this->successResponse($data, 'Tutor data retrieved successfully!', Response::HTTP_OK);
-        }
-        catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -226,9 +225,8 @@ class TutorController extends Controller
         try {
             $data = $this->tp_service->favoriteTutor($request, $id);
 
-            return $this->successResponse($data, $data, Response::HTTP_OK);
-        }
-        catch (\Throwable $th) {
+            return $this->successResponse(['is_favorite' => $data['is_favorite']], $data['message'], Response::HTTP_OK);
+        } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -239,8 +237,7 @@ class TutorController extends Controller
             $data = $this->tp_service->getFavoriteJobs();
 
             return $this->successResponse($data, 'Tutor data retrieved successfully!', Response::HTTP_OK);
-        }
-        catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -251,11 +248,8 @@ class TutorController extends Controller
             $data = $this->tp_service->updateOnlineStatus($request);
 
             return $this->successResponse($data, 'Tutor data retrieved successfully!', Response::HTTP_OK);
-        }
-        catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
-
 }

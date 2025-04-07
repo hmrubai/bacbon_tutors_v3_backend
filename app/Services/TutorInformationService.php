@@ -190,10 +190,10 @@ class TutorInformationService
 
         if ($user->favoriteTutors()->where('tutor_id', $id)->exists()) {
             $user->favoriteTutors()->detach($id);
-            return  'favorite removed from bookmarks';
+            return ['message' => 'Tutor unfavorited successfully', 'is_favorite' => false];
         } else {
             $user->favoriteTutors()->attach($id);
-            return  'favorite successfully';
+            return  ['message' => 'Tutor favorited successfully', 'is_favorite' => true];
         }
     }
 
