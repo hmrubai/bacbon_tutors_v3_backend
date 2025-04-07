@@ -255,6 +255,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('document-details/{id}', [DocumentController::class, 'show']);
         Route::post('update-documents/{id}', [DocumentController::class, 'update']);
         Route::delete('delete-documents/{id}', [DocumentController::class, 'destroy']);
+        Route::get('my-tutor-list', [TutorController::class, 'myTutorList']);
 
     });
 
