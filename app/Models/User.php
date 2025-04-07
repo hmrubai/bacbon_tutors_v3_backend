@@ -69,7 +69,8 @@ class User extends Authenticatable implements JWTSubject
         'is_password_set',
         'department',
         'subject',
-        'institute_id'
+        'institute_id',
+        'is_online'
     ];
 
     protected $hidden = [
@@ -99,7 +100,8 @@ class User extends Authenticatable implements JWTSubject
             'organization_id' => 'integer',
             'created_by' => 'integer',
             'profile_progress' => 'integer',
-            
+            'is_online'=>'boolean',
+
 
         ];
     }
@@ -165,6 +167,12 @@ class User extends Authenticatable implements JWTSubject
     public function bookmarkedJobs()
     {
         return $this->belongsToMany(TutorJob::class, 'tuition_bookmarks', 'user_id', 'tutor_job_id');
+    }
+
+    public function favoriteTutors()
+    {
+        return $this->belongsToMany(User::class, 'tutor_favorites', 'user_id', 'tutor_id')
+            ->withTimestamps();
     }
 
     public function presentDivision()
