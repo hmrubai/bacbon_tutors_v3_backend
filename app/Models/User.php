@@ -124,6 +124,11 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function kids()
+    {
+        return $this->hasMany(KidInformation::class);
+    }
+
     public function subjectExpertise()
     {
         return $this->hasMany(SubjectExpertise::class);
