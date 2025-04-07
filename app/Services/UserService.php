@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use App\Http\Traits\HelperTrait;
 use App\Models\AppliedJob;
+use App\Models\TutorFavorite;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -116,6 +117,7 @@ class UserService
 
     public function tutorDetails($request, $id)
     {
+        $authId = auth()->id();
         $user = User::where('id', $id)
             ->with([
                 'subjectExpertise',
@@ -142,6 +144,11 @@ class UserService
             return round($years, 1);
         });
         $user->joined_here = (string) Carbon::parse($user->created_at)->diffForHumans();
+
+        //favorite tutor
+        $user->favorite = TutorFavorite::where('user_id', $authId)
+            ->where('tutor_id', $user->id)
+            ->exists()??false;
 
         return $user;
     }

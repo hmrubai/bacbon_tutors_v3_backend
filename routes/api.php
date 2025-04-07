@@ -197,6 +197,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
         // Route::delete('delete-applied-job/{id}', [JobApplicationController::class, 'destroy']);
         
         Route::post('address-and-update', [AddressController::class, 'addressUpdate']);
+        Route::post('update-online-status', [TutorController::class, 'updateOnlineStatus']);
     });
 
     // Student APIs 
@@ -222,6 +223,8 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::delete('delete-education-histories/{id}', [TutorController::class, 'deleteEducationHistories']);
         Route::get('my-tutor-list', [TutorController::class, 'myTutorList']);
         
+        Route::post('favorite-tutor/{id}', [TutorController::class, 'favoriteTutor']);
+        Route::get('favorite-jobs', [TutorController::class, 'getFavoriteJobs']);
 
     });
 
@@ -256,6 +259,8 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('update-documents/{id}', [DocumentController::class, 'update']);
         Route::delete('delete-documents/{id}', [DocumentController::class, 'destroy']);
         Route::get('my-tutor-list', [TutorController::class, 'myTutorList']);
+        Route::post('favorite-tutor/{id}', [TutorController::class, 'favoriteTutor']);
+        Route::get('favorite-jobs', [TutorController::class, 'getFavoriteJobs']);
 
     });
 

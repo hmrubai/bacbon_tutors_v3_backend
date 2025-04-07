@@ -49,6 +49,7 @@ class UserInformation extends Model
             'organization_id' => 'integer',
             'created_by' => 'integer',
             'profile_progress' => 'integer',
+            'is_online'=>'boolean',
 
 
         ];

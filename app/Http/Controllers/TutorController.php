@@ -220,4 +220,42 @@ class TutorController extends Controller
             return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function favoriteTutor(Request $request, $id)
+    {
+        try {
+            $data = $this->tp_service->favoriteTutor($request, $id);
+
+            return $this->successResponse($data, $data, Response::HTTP_OK);
+        }
+        catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getFavoriteJobs()
+    {
+        try {
+            $data = $this->tp_service->getFavoriteJobs();
+
+            return $this->successResponse($data, 'Tutor data retrieved successfully!', Response::HTTP_OK);
+        }
+        catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function updateOnlineStatus(Request $request)
+    {
+        try {
+            $data = $this->tp_service->updateOnlineStatus($request);
+
+            return $this->successResponse($data, 'Tutor data retrieved successfully!', Response::HTTP_OK);
+        }
+        catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), 'Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }

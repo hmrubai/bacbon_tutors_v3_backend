@@ -90,14 +90,14 @@ class TutorInformationService
         $this->applyFilters($query, $request, [
             'gender'       => '=',
             'institute_id' => '=',
+            'is_online'    => '=',
         ]);
 
         $this->applyWhereIn($query, 'subject_expertise.medium_id', $request->medium_ids);
         $this->applyWhereIn($query, 'subject_expertise.grade_id', $request->grade_ids);
         $this->applyWhereIn($query, 'subject_expertise.subject_id', $request->subject_ids);
 
-        $query->when($request->tuition_type, fn($q, $val) => $q->where('subject_expertise.tuition_type', $val))
-            ->when($request->rate, fn($q, $val) => $q->where('subject_expertise.rate', $val));
+        $query->when($request->rate, fn($q, $val) => $q->where('subject_expertise.rate', $val));
 
         if ($request->filled('fee')) {
             $fees = explode(',', $request->fee);
@@ -175,8 +175,49 @@ class TutorInformationService
     {
         $tutor = AppliedJob::findOrFail($id);
         $studentId = TutorJob::where('id', $tutor->job_id)->first();
-        $tutor->update(['is_linked_up' => 1]);
-        $tutor->update(['linked_up_with_id' => $studentId->user_id]);
+        $tutor->update([
+            'is_linked_up' => 1,
+            'linked_up_with_id' => $studentId->user_id,
+            'status' => "accepted",
+        ]);
         return $tutor;
+    }
+
+
+    public function favoriteTutor(Request $request, $id)
+    {
+        $user = Auth::user();
+
+        if ($user->favoriteTutors()->where('tutor_id', $id)->exists()) {
+            $user->favoriteTutors()->detach($id);
+            return  'favorite removed from bookmarks';
+        } else {
+            $user->favoriteTutors()->attach($id);
+            return  'favorite successfully';
+        }
+    }
+
+
+    public function getFavoriteJobs()
+    {
+        $user = Auth::user();
+        $tutor = $user->favoriteTutors()->get();
+
+        $tutor = $tutor->map(function ($item) {
+            $item->review = rand(10, 50) / 10;
+            $item->favorite = true;
+            return $item;
+        });
+
+        return $tutor;
+    }
+
+    public function updateOnlineStatus(Request $request)
+    {
+        $user = Auth::user();
+        $user->update([
+            'is_online' => !$user->is_online,
+        ]);
+        return $user;
     }
 }
