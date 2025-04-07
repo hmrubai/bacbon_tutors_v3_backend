@@ -192,12 +192,14 @@ Route::group(['middleware' => ['auth:api',]], function () {
 
         //Job Applications
         Route::get('applied-list', [JobApplicationController::class, 'index']);
+        Route::get('applied-job-details/{id}', [JobApplicationController::class, 'show']);
         Route::post('apply-for-a-tution', [JobApplicationController::class, 'applyForAJob']);
         // Route::get('applied-job-details/{id}', [JobApplicationController::class, 'show']);
         // Route::delete('delete-applied-job/{id}', [JobApplicationController::class, 'destroy']);
         
         Route::post('address-and-update', [AddressController::class, 'addressUpdate']);
         Route::post('update-online-status', [TutorController::class, 'updateOnlineStatus']);
+
     });
 
     // Student APIs 
