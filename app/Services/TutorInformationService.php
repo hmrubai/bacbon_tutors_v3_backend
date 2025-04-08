@@ -157,7 +157,7 @@ class TutorInformationService
 
         $query->leftJoin('applied_jobs as aj', 'users.id', '=', 'aj.tutor_id');
         $query->where('aj.is_linked_up', 1);
-        $query->where('aj.tutor_id', Auth::user()->id);
+        $query->where('aj.linked_up_with_id', Auth::user()->id);
 
         // Sorting
         $this->applySorting($query, $request);
