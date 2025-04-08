@@ -202,6 +202,8 @@ class AuthController extends Controller
 
             return $this->successResponse($data, 'User logged in successfully', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage(), $th->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY, false);
+        } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }
@@ -252,8 +254,7 @@ class AuthController extends Controller
 
             return $this->successResponse($data, 'Password changed successfully', Response::HTTP_OK);
         } catch (\Throwable $th) {
-            return $this->errorResponse($th->getMessage(), $th->getMessage(), Response::
-            HTTP_UNPROCESSABLE_ENTITY, false);
+            return $this->errorResponse($th->getMessage(), $th->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY, false);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
