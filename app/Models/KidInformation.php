@@ -21,6 +21,10 @@ class KidInformation extends Model
         'medium_id'
     ];
 
+    protected $casts = [
+        'age' => 'integer',
+    ];
+
     /**
      * Get the grade (class) associated with the kid.
      */
