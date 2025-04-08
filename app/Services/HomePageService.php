@@ -33,6 +33,10 @@ class HomePageService
             ->where('user_id', $userId)
             ->pluck('tutor_job_id')
             ->toArray();
+        $appliedJobs = \DB::table('applied_jobs')
+            ->where('tutor_id', $userId)
+            ->pluck('job_id')
+            ->toArray();
 
         // Fetch available tutors with subject expertise
         $data['available_tutors'] = User::where('user_type', "Teacher")
@@ -49,8 +53,12 @@ class HomePageService
             ->with(['medium', 'subjects', 'kid'])
             ->limit(10)
             ->get()
-            ->map(fn($job) => $job->setAttribute('is_bookmark', in_array($job->id, $bookmarkedJobs) ? 1 : 0)
-                ->setAttribute('job_type', "HomeTution"));
+            ->map(function ($job) use ($bookmarkedJobs, $appliedJobs) {
+                return $job->setAttribute('is_bookmark', in_array($job->id, $bookmarkedJobs) ? 1 : 0)
+                    ->setAttribute('is_applied', in_array($job->id, $appliedJobs) ? 1 : 0)
+                    ->setAttribute('job_type', 'HomeTution');
+            });
+
 
         // Static key features and FAQ data
         $data['key_features'] = collect([
