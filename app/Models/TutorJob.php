@@ -104,4 +104,13 @@ class TutorJob extends Model
     {
         return $this->belongsTo(Union::class, 'area_id');
     }
+
+    public function bookmarkedJobs()
+    {
+        return $this->belongsToMany(User::class, 'tuition_bookmarks', 'tutor_job_id', 'user_id');
+    }
+    public function appliedJobs()
+    {
+        return $this->hasMany(AppliedJob::class, 'job_id');
+    }
 }
