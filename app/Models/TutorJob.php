@@ -23,6 +23,7 @@ class TutorJob extends Model
         'student_id' => 'integer',
         'medium_id' => 'integer',
         'is_applied' => 'boolean',
+        'is_bookmark' => 'boolean',
     ];
 
     protected $fillable = [
