@@ -156,8 +156,8 @@ class TutorJobService
     {
   
        $job = TutorJob::with(['medium', 'subjects', 'kid', 'institutes', 'grade', 'division', 'district', 'upazila', 'area'])->findOrFail($id);
-       $job->is_bookmark = $job->bookmarkedJobs()->where('user_id', auth()->id())->exists();
-       $job->is_applied = $job->appliedJobs()->where('tutor_id', auth()->id())->exists();
+       $job->is_bookmark = $job->bookmarkedJobs()->where('user_id', auth()->id())->exists()??false;
+       $job->is_applied = $job->appliedJobs()->where('tutor_id', auth()->id())->exists()??false;
 
        return $job;
     }
