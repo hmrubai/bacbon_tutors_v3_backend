@@ -16,7 +16,7 @@ class JobApplicationService
 
     public function getByTutorId($tutorId)
     {
-        return AppliedJob::where('tutor_id', $tutorId)->with('tutorJobs')->latest()->get();
+        return AppliedJob::where('tutor_id', $tutorId)->with('tutorJobs','tutorJobs.user:id,name,email,username,profile_image,gender')->latest()->get();
     }
 
     public function apply(array $data)
@@ -38,7 +38,7 @@ class JobApplicationService
     {
 
         $query = TutorJob::query();
-        $query->with(['medium', 'subjects', 'kid', 'institutes', 'grade','user:id,name,email,username,profile_image']);
+        $query->with(['medium', 'subjects', 'kid', 'institutes', 'grade','user:id,name,email,username,profile_image,gender']);
         $query->select(['*']);
         $query->leftJoin('applied_jobs as aj', 'tutor_jobs.id', '=', 'aj.job_id');
         $query->where('aj.tutor_id', auth()->id());
