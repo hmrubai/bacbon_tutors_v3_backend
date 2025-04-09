@@ -40,6 +40,8 @@ class HomePageService
 
         // Fetch available tutors with subject expertise
         $data['available_tutors'] = User::where('user_type', "Teacher")
+            ->select('users.*')  // Add this to select all user fields
+            ->selectRaw('(SELECT institute FROM tutor_education_histories WHERE tutor_education_histories.user_id = users.id ORDER BY passing_year DESC, sequence DESC LIMIT 1) as institute')
             ->with([
                 'subjectExpertise:id,subject_id,medium_id,grade_id,user_id,location',
                 'subjectExpertise.subject:id,name_en,name_bn'
@@ -47,6 +49,7 @@ class HomePageService
             ->limit(10)
             ->get()
             ->map(fn($tutor) => $tutor->setAttribute('review', rand(10, 50) / 10));
+
 
         // Fetch available jobs with relationships and pre-check bookmarks
         $data['available_jobs'] = TutorJob::where('job_status', "Open")

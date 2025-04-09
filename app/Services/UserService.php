@@ -127,7 +127,7 @@ class UserService
                 'address',
                 'documents',
                 'tutionAreas',
-                'tutorSchedules'
+                'tutorSchedules',
             ])
 
             ->first();
@@ -148,7 +148,7 @@ class UserService
         //favorite tutor
         $user->is_favorite = TutorFavorite::where('user_id', $authId)
             ->where('tutor_id', $user->id)
-            ->exists()??false;
+            ->exists() ?? false;
 
         return $user;
     }

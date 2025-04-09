@@ -83,9 +83,14 @@ class TutorInformationService
                 'users.department',
                 'users.profile_image',
                 'users.subject',
+                'users.is_online',
+                'users.tutor_code',
             ])
+            ->selectRaw('COALESCE(ROUND(RAND() * 4 + 1, 1), 0) as review')
+            ->selectRaw('(SELECT institute FROM tutor_education_histories WHERE tutor_education_histories.user_id = users.id ORDER BY passing_year DESC, sequence DESC LIMIT 1) as institute')
             ->leftJoin('subject_expertise', 'users.id', '=', 'subject_expertise.user_id')
             ->leftJoin('tution_areas', 'users.id', '=', 'tution_areas.user_id');
+
 
         $this->applyFilters($query, $request, [
             'gender'       => '=',
@@ -133,6 +138,8 @@ class TutorInformationService
             'users.department',
             'users.profile_image',
             'users.subject',
+            'users.is_online',
+            'users.tutor_code',
         ]);
 
         return $this->paginateOrGet($query, $request);
