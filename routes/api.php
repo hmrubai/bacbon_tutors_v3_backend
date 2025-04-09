@@ -118,11 +118,11 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::post('hire-tutor/{id}', [TutorController::class, 'hireTutor']);
 
         // carousels 
-        Route::get('all-carousels', [HomePageController::class, 'getAllCarousel']);
-        Route::post('add-carousels', [HomePageController::class, 'createCarousel']);
-        Route::get('carousels/{id}', [HomePageController::class, 'getCarouselById']);
+        Route::get('all-carousels', [HomePageController::class, 'allCarousel']);
+        Route::post('add-carousels', [HomePageController::class, 'storeCarousel']);
+        Route::get('carousels/{id}', [HomePageController::class, 'carouselDetails']);
         Route::post('update-carousels/{id}', [HomePageController::class, 'updateCarousel']);
-        Route::delete('delete-carousels/{id}', [HomePageController::class, 'deleteCarousel']);
+        Route::delete('delete-carousels/{id}', [HomePageController::class, 'destroyCarousel']);
   
     });
 
