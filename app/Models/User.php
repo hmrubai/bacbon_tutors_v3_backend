@@ -13,7 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, HasRoles, Notifiable,SoftDeletes;
+    use HasFactory, HasRoles, Notifiable, SoftDeletes;
     use OrganizationScopedTrait;
 
     protected $fillable = [
@@ -69,7 +69,8 @@ class User extends Authenticatable implements JWTSubject
         'is_password_set',
         'department',
         'subject',
-        'institute_id'
+        'institute_id',
+        'is_online'
     ];
 
     protected $hidden = [
@@ -99,10 +100,78 @@ class User extends Authenticatable implements JWTSubject
             'organization_id' => 'integer',
             'created_by' => 'integer',
             'profile_progress' => 'integer',
-            
+            'is_online' => 'boolean',
+
 
         ];
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            // Generate tutor_code if empty
+            if (empty($user->tutor_code)) {
+                $user->tutor_code = self::generateUniqueCode($user->user_type);
+            }
+
+            // Generate referral_code if empty
+            if (empty($user->referral_code)) {
+                $user->referral_code = self::generateReferralCode();
+            }
+        });
+    }
+
+    protected static function generateReferralCode()
+    {
+        $length = 8; // Length of referral code
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        do {
+            $code = 'REF-';
+            for ($i = 0; $i < $length; $i++) {
+                $code .= $characters[rand(0, strlen($characters) - 1)];
+            }
+
+            // Check if code exists
+            $exists = self::where('referral_code', $code)->exists();
+        } while ($exists);
+
+        return $code;
+    }
+
+    protected static function generateUniqueCode($userType)
+    {
+        // Existing code for tutor_code generation
+        $prefixMap = [
+            'Teacher' => 'BBT',
+            'Student' => 'BBS',
+            'Admin' => 'BBA',
+            'Guardian' => 'BBG',
+        ];
+
+        $prefix = $prefixMap[$userType] ?? 'USR';
+
+        do {
+            $lastUser = self::where('tutor_code', 'like', $prefix . '-%')
+                ->orderBy('id', 'desc')
+                ->first();
+
+            if (!$lastUser) {
+                $nextNumber = 1;
+            } else {
+                $lastNumber = (int) substr($lastUser->tutor_code, -5);
+                $nextNumber = $lastNumber + 1;
+            }
+
+            $newCode = $prefix . '-' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+            $exists = self::where('tutor_code', $newCode)->exists();
+        } while ($exists);
+
+        return $newCode;
+    }
+
     // profile_progress default value 0
     protected function atributosPropiosParaJson(): array
     {
@@ -120,6 +189,11 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function kids()
+    {
+        return $this->hasMany(KidInformation::class);
     }
 
     public function subjectExpertise()
@@ -167,6 +241,12 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(TutorJob::class, 'tuition_bookmarks', 'user_id', 'tutor_job_id');
     }
 
+    public function favoriteTutors()
+    {
+        return $this->belongsToMany(User::class, 'tutor_favorites', 'user_id', 'tutor_id')
+            ->withTimestamps();
+    }
+
     public function presentDivision()
     {
         return $this->belongsTo(Division::class, 'present_division_id');
@@ -205,5 +285,9 @@ class User extends Authenticatable implements JWTSubject
     public function permanentArea()
     {
         return $this->belongsTo(Union::class, 'permanent_area_id');
+    }
+    public function institute()
+    {
+        return $this->belongsTo(Institute::class, 'institute_id', 'id');
     }
 }

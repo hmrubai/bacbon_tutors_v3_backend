@@ -18,6 +18,11 @@ class KidInformation extends Model
         'gender',
         'class_id',
         'institute',
+        'medium_id'
+    ];
+
+    protected $casts = [
+        'age' => 'integer',
     ];
 
     /**
@@ -26,5 +31,9 @@ class KidInformation extends Model
     public function grade()
     {
         return $this->belongsTo(\App\Models\Grade::class, 'class_id');
+    }
+    public function medium()
+    {
+        return $this->belongsTo(\App\Models\Medium::class, 'medium_id');
     }
 }

@@ -47,6 +47,11 @@ class UserInformationService
 
         return User::with('educationHistory')->findOrFail($user->id);
     }
+    public function showGuardian($user)
+    {
+
+        return User::with(['kids', 'kids.grade', 'kids.medium', 'documents'])->findOrFail($user->id);
+    }
     public function show(int $userId): UserInformation
     {
         return UserInformation::findOrFail($userId);
