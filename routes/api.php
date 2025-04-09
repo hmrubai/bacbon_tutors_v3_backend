@@ -116,6 +116,13 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('student-list', [StudentController::class,'studentList']);
         Route::get('all-job-list', [TutorJobController::class, 'allJobList']);
         Route::post('hire-tutor/{id}', [TutorController::class, 'hireTutor']);
+
+        // carousels 
+        Route::get('all-carousels', [HomePageController::class, 'getAllCarousel']);
+        Route::post('add-carousels', [HomePageController::class, 'createCarousel']);
+        Route::get('carousels/{id}', [HomePageController::class, 'getCarouselById']);
+        Route::post('update-carousels/{id}', [HomePageController::class, 'updateCarousel']);
+        Route::delete('delete-carousels/{id}', [HomePageController::class, 'deleteCarousel']);
   
     });
 
