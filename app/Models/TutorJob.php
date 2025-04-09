@@ -114,4 +114,9 @@ class TutorJob extends Model
     {
         return $this->hasMany(AppliedJob::class, 'job_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
