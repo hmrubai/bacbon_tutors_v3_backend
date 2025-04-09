@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\HomePage;
+use App\Models\HomeCarousel;
 use App\Http\Traits\HelperTrait;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -61,7 +62,8 @@ class HomePageService
                     ->setAttribute('is_applied', in_array($job->id, $appliedJobs) ? 1 : 0)
                     ->setAttribute('job_type', 'HomeTution');
             });
-
+        
+        $data['home_carousel'] = HomeCarousel::orderBy('sorting_order')->get();
 
         // Static key features and FAQ data
         $data['key_features'] = collect([
@@ -166,9 +168,10 @@ class HomePageService
             $tutor['review'] = rand(10, 50) / 10;
         }
 
-
         $data['hotline_no'] = "+88 09611 900 205";
         $data['par_day_tutors'] = 99;
+
+        $data['home_carousel'] = HomeCarousel::orderBy('sorting_order')->get();
 
         $data['key_features'] = [
             [
