@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\AppliedJob;
 use App\Http\Traits\HelperTrait;
+use App\Models\TutorJob;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -31,5 +32,40 @@ class JobApplicationService
     public function delete($id)
     {
         return AppliedJob::findOrFail($id)->delete();
+    }
+
+    public function hireTutorList(Request $request)
+    {
+
+        $query = TutorJob::query();
+        $query->with(['medium', 'subjects', 'kid', 'institutes', 'grade']);
+        $query->select(['*']);
+        $query->leftJoin('applied_jobs as aj', 'tutor_jobs.id', '=', 'aj.job_id');
+        $query->where('aj.tutor_id', auth()->id());
+        $query->where('aj.is_linked_up', 1);
+        $query->where('status', 'accepted');
+
+
+        // Add bookmark flag
+        $query->selectRaw('CASE WHEN EXISTS (
+                SELECT 1 
+                FROM tuition_bookmarks 
+                WHERE tutor_job_id = tutor_jobs.id 
+                AND user_id = COALESCE(?, 0)
+            ) THEN 1 ELSE 0 END AS is_bookmark', [auth()->id() ?? 0]);
+
+        // Add applied flag
+        $query->selectRaw('CASE WHEN EXISTS (
+                SELECT 1 
+                FROM applied_jobs 
+                WHERE job_id = tutor_jobs.id 
+                AND tutor_id = COALESCE(?, 0)
+            ) THEN 1 ELSE 0 END AS is_applied', [auth()->id() ?? 0]);
+
+        // Sorting
+
+        $query->orderBy('tutor_jobs.id', 'desc');
+
+        return $query->get();
     }
 }

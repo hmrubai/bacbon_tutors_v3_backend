@@ -89,4 +89,11 @@ class JobApplicationController extends Controller
     {
         return User::where('id', $tutor_id)->where('user_type', "Teacher")->get()->count() ? false : true;
     }
+
+    public function hireTutorList(Request $request)
+    {
+        $tutor_id = Auth::id();
+        $data = $this->jobApplicationService->hireTutorList( $request);
+        return $this->successResponse($data, 'Applied jobs retrieved successfully!', Response::HTTP_OK);
+    }
 }

@@ -194,6 +194,7 @@ Route::group(['middleware' => ['auth:api',]], function () {
         Route::get('applied-list', [JobApplicationController::class, 'index']);
         Route::get('applied-job-details/{id}', [JobApplicationController::class, 'show']);
         Route::post('apply-for-a-tution', [JobApplicationController::class, 'applyForAJob']);
+        Route::get('hire-tutor-list', [JobApplicationController::class, 'hireTutorList']);
         // Route::get('applied-job-details/{id}', [JobApplicationController::class, 'show']);
         // Route::delete('delete-applied-job/{id}', [JobApplicationController::class, 'destroy']);
         

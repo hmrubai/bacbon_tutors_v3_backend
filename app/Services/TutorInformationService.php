@@ -86,6 +86,7 @@ class TutorInformationService
                 'users.is_online',
                 'users.tutor_code',
             ])
+            ->with('subjectExpertise')
             ->selectRaw('COALESCE(ROUND(RAND() * 4 + 1, 1), 0) as review')
             ->selectRaw('(SELECT institute FROM tutor_education_histories WHERE tutor_education_histories.user_id = users.id ORDER BY passing_year DESC, sequence DESC LIMIT 1) as institute')
             ->leftJoin('subject_expertise', 'users.id', '=', 'subject_expertise.user_id')
