@@ -41,7 +41,7 @@ class JobApplicationService
         $query->with(['medium', 'subjects', 'kid', 'institutes', 'grade','user:id,name,email,username,profile_image,gender']);
         $query->select([
             'tutor_jobs.*',
-            'tutor_jobs.id as job_id',
+            'tutor_jobs.id as tutor_job_id',
             'aj.id as applied_job_id',
             'aj.status as applied_job_status',
             'aj.is_linked_up',
