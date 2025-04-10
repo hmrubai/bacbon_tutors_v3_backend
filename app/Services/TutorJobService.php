@@ -108,6 +108,20 @@ class TutorJobService
                 $query->where($filter, $request->input($filter));
             }
         }
+        if ($request->this_week==true) {
+            $query->whereBetween('tutor_jobs.created_at', [
+                now()->startOfWeek(),
+                now()->endOfWeek()
+            ]);
+        }
+
+        // This month filter
+        if ($request->this_month==true) {
+            $query->whereBetween('tutor_jobs.created_at', [
+                now()->startOfMonth(),
+                now()->endOfMonth()
+            ]);
+        }
 
         // Multi-value filters
         $multiValueFilters = [

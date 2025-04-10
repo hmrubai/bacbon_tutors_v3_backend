@@ -14,9 +14,28 @@ class JobApplicationService
 {
     use HelperTrait;
 
-    public function getByTutorId($tutorId)
+    public function getByTutorId( $request ,$tutorId )
     {
-        return AppliedJob::where('tutor_id', $tutorId)->with('tutorJobs','tutorJobs.user:id,name,email,username,profile_image,gender')->latest()->get();
+        $query = AppliedJob::where('tutor_id', $tutorId)
+            ->with('tutorJobs', 'tutorJobs.user:id,name,email,username,profile_image,gender');
+
+        // This week filter
+        if ($request && $request->this_week == true) {
+            $query->whereBetween('applied_jobs.created_at', [
+                now()->startOfWeek(),
+                now()->endOfWeek()
+            ]);
+        }
+
+        // This month filter
+        if ($request && $request->this_month == true) {
+            $query->whereBetween('applied_jobs.created_at', [
+                now()->startOfMonth(),
+                now()->endOfMonth()
+            ]);
+        }
+
+        return $query->latest()->get();
     }
 
     public function apply(array $data)
@@ -38,7 +57,7 @@ class JobApplicationService
     {
 
         $query = TutorJob::query();
-        $query->with(['medium', 'subjects', 'kid', 'institutes', 'grade','user:id,name,email,username,profile_image,gender','division', 'district', 'upazila', 'area']);
+        $query->with(['medium', 'subjects', 'kid', 'institutes', 'grade', 'user:id,name,email,username,profile_image,gender', 'division', 'district', 'upazila', 'area']);
         $query->select([
             'tutor_jobs.*',
             'tutor_jobs.id as tutor_job_id',
@@ -54,7 +73,21 @@ class JobApplicationService
         $query->where('aj.is_linked_up', 1);
         $query->where('status', 'accepted');
 
+        // This week filter
+        if ($request->this_week==true) {
+            $query->whereBetween('tutor_jobs.created_at', [
+                now()->startOfWeek(),
+                now()->endOfWeek()
+            ]);
+        }
 
+        // This month filter
+        if ($request->this_month==true) {
+            $query->whereBetween('tutor_jobs.created_at', [
+                now()->startOfMonth(),
+                now()->endOfMonth()
+            ]);
+        }
 
         // Add bookmark flag
         $query->selectRaw('CASE WHEN EXISTS (
