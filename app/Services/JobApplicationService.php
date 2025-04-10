@@ -20,7 +20,7 @@ class JobApplicationService
             ->with('tutorJobs', 'tutorJobs.user:id,name,email,username,profile_image,gender');
 
         // This week filter
-        if ($request && $request->this_week == true) {
+        if ($request && $request->this_week == 1) {
             $query->whereBetween('applied_jobs.created_at', [
                 now()->startOfWeek(),
                 now()->endOfWeek()
@@ -28,7 +28,7 @@ class JobApplicationService
         }
 
         // This month filter
-        if ($request && $request->this_month == true) {
+        if ($request && $request->this_month == 1) {
             $query->whereBetween('applied_jobs.created_at', [
                 now()->startOfMonth(),
                 now()->endOfMonth()
@@ -74,7 +74,7 @@ class JobApplicationService
         $query->where('status', 'accepted');
 
         // This week filter
-        if ($request->this_week==true) {
+        if ($request->this_week==1) {
             $query->whereBetween('tutor_jobs.created_at', [
                 now()->startOfWeek(),
                 now()->endOfWeek()
@@ -82,7 +82,7 @@ class JobApplicationService
         }
 
         // This month filter
-        if ($request->this_month==true) {
+        if ($request->this_month==1) {
             $query->whereBetween('tutor_jobs.created_at', [
                 now()->startOfMonth(),
                 now()->endOfMonth()
