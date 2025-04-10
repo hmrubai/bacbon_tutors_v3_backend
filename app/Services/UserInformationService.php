@@ -37,14 +37,30 @@ class UserInformationService
         // Add the review attribute without modifying the model structure
         $user->review = rand(10, 50) / 10;
 
-        //  1.⁠ ⁠Basic information - 10%
-        //  2.⁠ ⁠Documents - 10%
-        //  3.⁠ ⁠Education - 15%
-        //  4.⁠ ⁠Tutoring subjects - 25%
-        //  5.⁠ ⁠Location/Area - 10%
-        //  6.⁠ ⁠Competency Test - 15%
-        //  7.⁠ ⁠Schedule -15%
-        $user->profile_progress = 72;
+        // Calculate profile completion percentage
+        $completionScore = 0;
+
+        if ($user->id) {
+            $completionScore += 10;
+        }
+
+        if ($user->documents && $user->documents->count() > 0) {
+            $completionScore += 10;
+        }
+
+        if ($user->educationHistory && $user->educationHistory->count() > 0) {
+            $completionScore += 15;
+        }
+        if ($user->subjectExpertise && $user->subjectExpertise->count() > 0) {
+            $completionScore += 25;
+        }
+        if ($user->tutionAreas && $user->tutionAreas->count() > 0) {
+            $completionScore += 10;
+        }
+        if ($user->tutorSchedules && $user->tutorSchedules->count() > 0) {
+            $completionScore += 15;
+        }
+        $user->profile_progress = $completionScore;
         return $user;
     }
 
