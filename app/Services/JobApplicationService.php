@@ -39,11 +39,21 @@ class JobApplicationService
 
         $query = TutorJob::query();
         $query->with(['medium', 'subjects', 'kid', 'institutes', 'grade','user:id,name,email,username,profile_image,gender']);
-        $query->select(['*']);
+        $query->select([
+            'tutor_jobs.*',
+            'tutor_jobs.id as job_id',
+            'aj.id as applied_job_id',
+            'aj.status as applied_job_status',
+            'aj.is_linked_up',
+            'aj.linked_up_with_id',
+            'aj.linked_up_start_at',
+            'aj.linked_up_end_at'
+        ]);
         $query->leftJoin('applied_jobs as aj', 'tutor_jobs.id', '=', 'aj.job_id');
         $query->where('aj.tutor_id', auth()->id());
         $query->where('aj.is_linked_up', 1);
         $query->where('status', 'accepted');
+
 
 
         // Add bookmark flag

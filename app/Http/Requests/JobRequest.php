@@ -21,7 +21,7 @@ class JobRequest extends FormRequest
             'slot_days'     => 'required|integer',
             'slot_type'     => 'required|in:Month,Week',
             'salary_amount' => 'required|numeric',
-            'gender'        => 'required|in:Male,Female,Others',
+            'gender'        => 'required|in:Male,Female,Others,Both',
             'salary_type'   => 'required|in:Hour,Week,Month',
             // Validate tutoring_time as a time format (e.g., "14:30:00")
             'tutoring_time' => 'required|date_format:H:i:s',

@@ -190,6 +190,7 @@ class TutorInformationService
             'is_linked_up' => 1,
             'linked_up_with_id' => $studentId->user_id,
             'status' => "accepted",
+            'linked_up_start_at' => Carbon::now()
         ]);
         return $tutor;
     }
