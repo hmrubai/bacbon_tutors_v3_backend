@@ -18,6 +18,8 @@ class AppliedJob extends Model
         'applied_at',
         'is_linked_up',
         'linked_up_with_id',
+        'linked_up_start_at',
+        'linked_up_end_at'
     ];
 
     public function tutor()

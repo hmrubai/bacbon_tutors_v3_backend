@@ -28,7 +28,7 @@ class JobApplicationController extends Controller
     {
         try {
             $tutorId = Auth::id();
-            $data = $this->jobApplicationService->getByTutorId($tutorId);
+            $data = $this->jobApplicationService->getByTutorId($request,$tutorId);
             return $this->successResponse($data, 'Applied jobs retrieved successfully!', Response::HTTP_OK);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage(), 'Failed to retrieve applied jobs', Response::HTTP_INTERNAL_SERVER_ERROR);
