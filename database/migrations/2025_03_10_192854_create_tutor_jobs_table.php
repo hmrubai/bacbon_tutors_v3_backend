@@ -18,7 +18,7 @@ class CreateTutorJobsTable extends Migration
             $table->integer('slot_days');
             $table->enum('slot_type', ['Month', 'Week'])->default('Month');
             $table->decimal('salary_amount', 10, 2);
-            $table->enum('gender', ['Male', 'Female', 'Others'])->default('Male');
+            $table->enum('gender', ['Male', 'Female', 'Others','Both'])->default('Male');
             $table->enum('salary_type', ['Hour', 'Week', 'Month'])->default('Month');
             $table->time('tutoring_time');
             $table->unsignedBigInteger('medium_id');

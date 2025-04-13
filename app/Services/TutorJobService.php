@@ -122,7 +122,7 @@ class TutorJobService
                 now()->endOfMonth()
             ]);
         }
-
+ 
         // Multi-value filters
         $multiValueFilters = [
             'area_ids' => 'area_id',
