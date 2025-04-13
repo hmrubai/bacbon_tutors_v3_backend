@@ -69,7 +69,17 @@ class UserInformationService
     public function showStudent($user)
     {
 
-        return User::with('educationHistory')->findOrFail($user->id);
+        return User::with([
+            'educationHistory',
+            'presentDivision',
+            'presentDistrict',
+            'presentArea',
+            'permanentDivision',
+            'permanentDistrict',
+            'presentUpazila',
+            'permanentUpazila',
+            'permanentArea'
+        ])->findOrFail($user->id);
     }
     public function showGuardian($user)
     {
