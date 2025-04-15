@@ -85,9 +85,6 @@ class HomePageService
         return $data;
     }
 
-
-
-
     // public function index(Request $request): Collection|LengthAwarePaginator|array
     // {
     //     $query = HomePage::query();
@@ -225,5 +222,35 @@ class HomePageService
 
 
         return $data;
+    }
+
+    public function getAllCarousel()
+    {
+        return HomeCarousel::orderBy('sorting_order')->get();
+    }
+
+    public function getCarouselById($id)
+    {
+        return HomeCarousel::findOrFail($id);
+    }
+
+    public function createCarousel(array $data)
+    {
+        $data['thumbnail'] = $this->ftpFileUpload($data, 'thumbnail', 'carousel');
+        $home_carousel = HomeCarousel::create($data);
+        return $home_carousel;
+    }
+
+    public function updateCarousel($id, array $data)
+    {
+        $carousel = HomeCarousel::findOrFail($id);
+        $carousel->update($data);
+        return $carousel;
+    }
+
+    public function deleteCarousel($id)
+    {
+        $carousel = HomeCarousel::findOrFail($id);
+        return $carousel->delete();
     }
 }
