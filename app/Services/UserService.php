@@ -85,7 +85,7 @@ class UserService
         }
 
         return $data;
-    }
+    }   
 
     public function show(int $id): User
     {
