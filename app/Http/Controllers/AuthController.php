@@ -165,6 +165,9 @@ class AuthController extends Controller
             $data = $this->authService->verifyOtpForLogin($request);
             return $this->successResponse($data, 'User logged in successfully', Response::HTTP_OK, true);
         } catch (\Throwable $th) {
+            return $this->errorResponse([], $th->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY, false);
+        }
+        catch (\Throwable $th) {
             return $this->errorResponse([], $th->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR, false);
         }
     }

@@ -27,19 +27,19 @@ class AuthService
         $user_type = $request->user_type ? $request->user_type : "Student";
 
         $user = User::where(function ($query) use ($request) {
-                $query->where('email', $request->email_or_username)
+            $query->where('email', $request->email_or_username)
                 ->orWhere('username', $request->email_or_username);
-            })
+        })
             ->where('user_type', $user_type)
             ->first();
 
-        $request_type = $this->identifyInputType($request->email_or_username); 
+        $request_type = $this->identifyInputType($request->email_or_username);
         $otp = mt_rand(1000, 9999);
 
         $message = "Your verification code is: " . $otp;
 
         if (!$user) {
-            if($request_type == 'email'){
+            if ($request_type == 'email') {
                 $user = User::create([
                     'email' => $request->email_or_username,
                     'user_type' => $user_type ?? "Student",
@@ -47,7 +47,7 @@ class AuthService
                 ]);
                 $mail_body = ['name' => $user->name ?? "Concern", 'subject' => "Verification Code", 'title' => "Verification Code", 'body' => $message];
                 $this->sendEmail($mail_body, $request->email_or_username);
-            }elseif($request_type == 'phone'){  
+            } elseif ($request_type == 'phone') {
                 $user = User::create([
                     'username' => $request->email_or_username,
                     'primary_number' => $request->email_or_username,
@@ -55,22 +55,21 @@ class AuthService
                     'is_active' => 1,
                 ]);
                 $this->sendSms($request->email_or_username, $message);
-            }else{
+            } else {
                 throw new \Exception('Enter Valid Phone/Email!');
             }
-        }
-        else{
-            if($request_type == 'email'){
-                if($user->email!= $request->email_or_username){
+        } else {
+            if ($request_type == 'email') {
+                if ($user->email != $request->email_or_username) {
                     throw new \Exception('Invalid Email!');
-                }else{
+                } else {
                     $mail_body = ['name' => $user->name ?? "Concern", 'subject' => "Verification Code", 'title' => "Verification Code", 'body' => $message];
                     $this->sendEmail($mail_body, $request->email_or_username);
                 }
-            }elseif($request_type == 'phone'){  
-                if($user->username!= $request->email_or_username){
+            } elseif ($request_type == 'phone') {
+                if ($user->username != $request->email_or_username) {
                     throw new \Exception('Invalid Phone!');
-                }else{
+                } else {
                     $this->sendSms($request->email_or_username, $message);
                 }
             }
@@ -91,16 +90,16 @@ class AuthService
         $user_type = $request->user_type ? $request->user_type : "Student";
 
         $user = User::where(function ($query) use ($request) {
-                $query->where('email', $request->email_or_username)
+            $query->where('email', $request->email_or_username)
                 ->orWhere('username', $request->email_or_username);
-            })
+        })
             ->where('user_type', $user_type)
             ->first();
 
         if ($user) {
-            if($user->is_password_set){
+            if ($user->is_password_set) {
                 return response()->json([
-                    'data' =>[
+                    'data' => [
                         'is_password_set' => true,
                     ],
                     'message' => 'Enter Password to login!',
@@ -108,13 +107,13 @@ class AuthService
             }
         }
 
-        $request_type = $this->identifyInputType($request->email_or_username); 
+        $request_type = $this->identifyInputType($request->email_or_username);
         $otp = mt_rand(1000, 9999);
 
         $message = "Your verification code is: " . $otp;
 
         if (!$user) {
-            if($request_type == 'email'){
+            if ($request_type == 'email') {
                 $user = User::create([
                     'email' => $request->email_or_username,
                     'user_type' => $user_type ?? "Student",
@@ -122,7 +121,7 @@ class AuthService
                 ]);
                 $mail_body = ['name' => $user->name ?? "Concern", 'subject' => "Verification Code", 'title' => "Verification Code", 'body' => $message];
                 $this->sendEmail($mail_body, $request->email_or_username);
-            }elseif($request_type == 'phone'){  
+            } elseif ($request_type == 'phone') {
                 $user = User::create([
                     'username' => $request->email_or_username,
                     'primary_number' => $request->email_or_username,
@@ -130,22 +129,21 @@ class AuthService
                     'is_active' => 1,
                 ]);
                 $this->sendSms($request->email_or_username, $message);
-            }else{
+            } else {
                 throw new \Exception('Enter Valid Phone/Email!');
             }
-        }
-        else{
-            if($request_type == 'email'){
-                if($user->email!= $request->email_or_username){
+        } else {
+            if ($request_type == 'email') {
+                if ($user->email != $request->email_or_username) {
                     throw new \Exception('Invalid Email!');
-                }else{
+                } else {
                     $mail_body = ['name' => $user->name ?? "Concern", 'subject' => "Verification Code", 'title' => "Verification Code", 'body' => $message];
                     $this->sendEmail($mail_body, $request->email_or_username);
                 }
-            }elseif($request_type == 'phone'){  
-                if($user->username!= $request->email_or_username){
+            } elseif ($request_type == 'phone') {
+                if ($user->username != $request->email_or_username) {
                     throw new \Exception('Invalid Phone!');
-                }else{
+                } else {
                     $this->sendSms($request->email_or_username, $message);
                 }
             }
@@ -161,54 +159,58 @@ class AuthService
         return true;
     }
 
-    public function verifyOtpForLogin($request){
-        $user = User::where(function ($query) use ($request) {
-            $query->where('email', $request->email_or_username)
-            ->orWhere('username', $request->email_or_username);
-        })
-        ->where('user_type', $request->user_type)
-        ->first();
-        
-        if (!$user) {
-            throw new \Exception('User not found.');
+    public function verifyOtpForLogin($request)
+    {
+        try {
+            $user = User::where(function ($query) use ($request) {
+                $query->where('email', $request->email_or_username)
+                    ->orWhere('username', $request->email_or_username);
+            })
+                ->where('user_type', $request->user_type)
+                ->first();
+
+            if (!$user) {
+                throw new \Exception('User not found.');
+            }
+
+            // Ensure user_type matches
+            if ($user->user_type !== $request->user_type) {
+                throw new \Exception('Invalid user type.', 401);
+            }
+
+            $otpRecord = OtpCodeVerification::where('otp_code', $request->verification_code)->where('user_id', $user->id)
+                ->where('expired_at', '>', Carbon::now()->utc())
+                ->latest()->first();
+
+            if (!$otpRecord) {
+                throw new \Exception('Invalid OTP.', 401);
+            }
+
+            // Generate JWT token
+            $token = Auth::guard('api')->login($user);
+            // Delete OTP after successful login
+            $otpRecord->delete();
+
+            $user = User::where('id', $user->id)->first();
+            $role = $user->roles()->first()->name ?? null;
+            $permissions = $user->getAllPermissions()->pluck('name');
+            $extraPermissions = $user->getDirectPermissions()->pluck('name');
+            $rolePermissions = $user->getPermissionsViaRoles()->pluck('name');
+            $expiresIn = auth()->factory()->getTTL() * 60;
+
+            return [
+                'token_type' => 'bearer',
+                'token' => $token,
+                'expires_in' => $expiresIn,
+                'role' => $role,
+                'permissions' => $permissions,
+                'role_permissions' => $rolePermissions,
+                'extra_permissions' => $extraPermissions,
+                'user' => auth()->user(),
+            ];
+        } catch (\Throwable $th) {
+            throw $th;
         }
-
-        // Ensure user_type matches
-        if ($user->user_type !== $request->user_type) {
-            return response()->json(['message' => 'User type mismatch'], 400);
-        }
-
-        $otpRecord = OtpCodeVerification::where('otp_code', $request->verification_code)->where('user_id', $user->id)
-            ->where('expired_at', '>', Carbon::now()->utc())
-            ->latest()->first();
-
-        if (!$otpRecord) {
-            return response()->json(['message' => 'Invalid or expired OTP'], 400);
-        }
-
-        // Generate JWT token
-        $token = Auth::guard('api')->login($user);
-        // Delete OTP after successful login
-        $otpRecord->delete();
-
-        $user = User::where('id', $user->id)->first();
-        $role = $user->roles()->first()->name ?? null;
-        $permissions = $user->getAllPermissions()->pluck('name');
-        $extraPermissions = $user->getDirectPermissions()->pluck('name');
-        $rolePermissions = $user->getPermissionsViaRoles()->pluck('name');
-        $expiresIn = auth()->factory()->getTTL() * 60;
-
-        return [
-            'token_type' => 'bearer',
-            'token' => $token,
-            'expires_in' => $expiresIn,
-            'role' => $role,
-            'permissions' => $permissions,
-            'role_permissions' => $rolePermissions,
-            'extra_permissions' => $extraPermissions,
-            'user' => auth()->user(),
-        ];
-
     }
 
     public function identifyInputType($email_or_phone)
@@ -265,8 +267,7 @@ class AuthService
 
     public function login($request)
     {
-        try 
-        {
+        try {
             $credentials = ['email' => $request->email_or_username, 'password' => $request->password, 'user_type' => $request->user_type];
             $token = Auth::guard('api')->attempt($credentials);
 
@@ -277,7 +278,7 @@ class AuthService
             }
 
             // Throw an exception if both attempts fail
-            if (! $token) {          
+            if (! $token) {
                 throw new \Exception('Invalid credentials');
             }
 
@@ -395,30 +396,28 @@ class AuthService
             $user->is_password_set = true;
             $user->save();
 
-        // Generate JWT token
-        $token = Auth::guard('api')->login($user);
+            // Generate JWT token
+            $token = Auth::guard('api')->login($user);
 
-        $user = User::where('id', $user->id)->first();
-        $role = $user->roles()->first()->name ?? null;
-        $permissions = $user->getAllPermissions()->pluck('name');
-        $extraPermissions = $user->getDirectPermissions()->pluck('name');
-        $rolePermissions = $user->getPermissionsViaRoles()->pluck('name');
-        $expiresIn = auth()->factory()->getTTL() * 60;
+            $user = User::where('id', $user->id)->first();
+            $role = $user->roles()->first()->name ?? null;
+            $permissions = $user->getAllPermissions()->pluck('name');
+            $extraPermissions = $user->getDirectPermissions()->pluck('name');
+            $rolePermissions = $user->getPermissionsViaRoles()->pluck('name');
+            $expiresIn = auth()->factory()->getTTL() * 60;
 
-        return [
-            'token_type' => 'bearer',
-            'token' => $token,
-            'expires_in' => $expiresIn,
-            'role' => $role,
-            'permissions' => $permissions,
-            'role_permissions' => $rolePermissions,
-            'extra_permissions' => $extraPermissions,
-            'user' => $user,
-        ];
-
-        }catch (\Throwable $th) {
+            return [
+                'token_type' => 'bearer',
+                'token' => $token,
+                'expires_in' => $expiresIn,
+                'role' => $role,
+                'permissions' => $permissions,
+                'role_permissions' => $rolePermissions,
+                'extra_permissions' => $extraPermissions,
+                'user' => $user,
+            ];
+        } catch (\Throwable $th) {
             throw $th;
         }
     }
-
 }

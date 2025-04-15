@@ -199,6 +199,12 @@ class TutorJobService
             WHERE tutor_job_id = tutor_jobs.id 
             AND user_id = ?
         ) THEN 1 ELSE 0 END AS is_bookmark', [auth()->id()??1])
+         ->selectRaw('CASE WHEN EXISTS (
+            SELECT 1 
+            FROM applied_jobs 
+            WHERE job_id = tutor_jobs.id 
+            AND tutor_id = ?
+        ) THEN 1 ELSE 0 END AS is_applied', [auth()->id()??1])
             ->with(['medium', 'subjects', 'kid', 'institutes', 'grade'])->get();
 
         return $jobs;
