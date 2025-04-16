@@ -102,7 +102,7 @@ class AuthController extends Controller
             $data = $this->authService->checkUser($request);
             return response()->json([
                 'data' => [
-                    'is_password_set' => false,
+                    'is_password_set' => $user->is_password_set,
                 ],
                 'message' => 'OTP sent successfully!',
                 'status' => true
