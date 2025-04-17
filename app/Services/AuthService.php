@@ -268,43 +268,55 @@ class AuthService
     public function login($request)
     {
         try {
-            $credentials = ['email' => $request->email_or_username, 'password' => $request->password, 'user_type' => $request->user_type];
+            $credentials = [
+                'email'     => $request->email_or_username,
+                'password'  => $request->password,
+                'user_type' => $request->user_type,
+            ];
+    
             $token = Auth::guard('api')->attempt($credentials);
-            // Attempt with username if email fails
+    
+            // Retry with username if email failed
             if (!$token) {
-                $credentials = ['username' => $request->email_or_username, 'password' => $request->password];
+                $credentials = [
+                    'username' => $request->email_or_username,
+                    'password' => $request->password,
+                ];
                 $token = Auth::guard('api')->attempt($credentials);
             }
-
-            // Throw an exception if both attempts fail
-            if (! $token) {
+    
+            if (!$token) {
                 throw new \Exception('Invalid credentials');
             }
-            
-            
-            $user = User::where('id', auth()->id())
-            ->where('user_type', $request->user_type)
-            ->first();
-            $role = $user->roles()->first()->name ?? null;
-            $permissions = $user->getAllPermissions()->pluck('name');
+    
+            $user = auth()->user();
+    
+            // Ensure user_type matches
+            if ($user->user_type !== $request->user_type) {
+                throw new \Exception('User type mismatch');
+            }
+    
+            $role             = $user->roles()->first()->name ?? null;
+            $permissions      = $user->getAllPermissions()->pluck('name');
             $extraPermissions = $user->getDirectPermissions()->pluck('name');
-            $rolePermissions = $user->getPermissionsViaRoles()->pluck('name');
-            $expiresIn = auth()->factory()->getTTL() * 30 * 24 * 60;
-
+            $rolePermissions  = $user->getPermissionsViaRoles()->pluck('name');
+            $expiresIn        = auth()->factory()->getTTL() * 30 * 24 * 60; // e.g. 30 days in minutes
+    
             return [
-                'token_type' => 'bearer',
-                'token' => $token,
-                'expires_in' => $expiresIn,
-                'role' => $role,
-                'permissions' => $permissions,
-                'role_permissions' => $rolePermissions,
+                'token_type'        => 'bearer',
+                'token'             => $token,
+                'expires_in'        => $expiresIn,
+                'role'              => $role,
+                'permissions'       => $permissions,
+                'role_permissions'  => $rolePermissions,
                 'extra_permissions' => $extraPermissions,
-                'user' => auth()->user()->where('user_type', $request->user_type)->first()??null,
+                'user'              => $user,
             ];
         } catch (\Throwable $th) {
-            throw $th;
+            throw $th; // You could log this or customize error responses
         }
     }
+    
 
     public function profile()
     {
