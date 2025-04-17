@@ -24,9 +24,11 @@ class UpdateUserInformationRequest extends FormRequest
             'religion'         => 'nullable|string|max:255',
             'fathers_name'     => 'nullable|string|max:255',
             'mothers_name'     => 'nullable|string|max:255',
+            'father_number'    => 'nullable|string|max:50',
+            'mother_number'    => 'nullable|string|max:50',
             'gender'           => 'required|in:Male,Female,Other',
             'blood_group'      => 'nullable|string|max:10',
-            'bio'              => 'nullable|string',
+            'bio'              => 'nullable|string|max:500',
             'department'       => 'nullable|string|max:255',
             'subject'          => 'nullable|string|max:255',
         ];
