@@ -270,7 +270,6 @@ class AuthService
         try {
             $credentials = ['email' => $request->email_or_username, 'password' => $request->password, 'user_type' => $request->user_type];
             $token = Auth::guard('api')->attempt($credentials);
-
             // Attempt with username if email fails
             if (!$token) {
                 $credentials = ['username' => $request->email_or_username, 'password' => $request->password];
@@ -281,8 +280,11 @@ class AuthService
             if (! $token) {
                 throw new \Exception('Invalid credentials');
             }
-
-            $user = User::where('id', auth()->id())->first();
+            
+            
+            $user = User::where('id', auth()->id())
+            ->where('user_type', $request->user_type)
+            ->first();
             $role = $user->roles()->first()->name ?? null;
             $permissions = $user->getAllPermissions()->pluck('name');
             $extraPermissions = $user->getDirectPermissions()->pluck('name');
@@ -297,7 +299,7 @@ class AuthService
                 'permissions' => $permissions,
                 'role_permissions' => $rolePermissions,
                 'extra_permissions' => $extraPermissions,
-                'user' => auth()->user(),
+                'user' => auth()->user()->where('user_type', $request->user_type)->first()??null,
             ];
         } catch (\Throwable $th) {
             throw $th;
